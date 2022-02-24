@@ -14,6 +14,7 @@ jobs:
         os:
           - 'ubuntu-18.04'
           - 'windows-2019'
+          - 'macos-10.15'
         python-version:
           - '3.6'
           - '3.7'
@@ -34,6 +35,12 @@ jobs:
         run: |
           echo "OS_NAME=Windows" >> $GITHUB_ENV
           echo "IS_WIN=1" >> $GITHUB_ENV
+      - name: Get system version for macos
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -50,6 +57,10 @@ jobs:
         shell: bash
         run: |
           choco install tree cloc wget curl make zip
+      - name: Set up system dependences on macos
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          brew install tree cloc wget curl make zip
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -96,7 +107,6 @@ jobs:
       matrix:
         os:
           - 'ubuntu-18.04'
-          - 'windows-2019'
         python-version:
           - '3.6'
           - '3.7'
@@ -117,6 +127,12 @@ jobs:
         run: |
           echo "OS_NAME=Windows" >> $GITHUB_ENV
           echo "IS_WIN=1" >> $GITHUB_ENV
+      - name: Get system version for macos
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
       - name: Get python type for pypy
         if: ${{ contains(matrix, 'pypy') }}
         shell: bash
@@ -143,6 +159,10 @@ jobs:
         shell: bash
         run: |
           choco install tree cloc wget curl make zip
+      - name: Set up system dependences on macos
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          brew install tree cloc wget curl make zip
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:

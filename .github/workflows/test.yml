@@ -21,22 +21,40 @@ jobs:
           - '3.10'
 
     steps:
+      - name: Get system version for linux
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+      - name: Get system version for windows
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
       - name: Set up system dependences on linux
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ env.OS_NAME == 'Linux' }}
+        shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y tree cloc wget curl make graphviz
+          sudo apt-get install -y tree cloc wget curl make zip
           sudo apt-get install -y libxml2-dev libxslt-dev python-dev  # need by pypy3
-          dot -V
+      - name: Set up system dependences on windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
+        shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
@@ -44,6 +62,7 @@ jobs:
           pip install -r requirements-build.txt
           pip install -r requirements-test.txt
       - name: Test the basic environment
+        shell: bash
         run: |
           python -V
           pip --version
@@ -55,6 +74,7 @@ jobs:
         env:
           CI: 'true'
           LINETRACE: 1
+        shell: bash
         run: |
           make clean build unittest
       - name: Upload coverage to Codecov
@@ -95,12 +115,6 @@ jobs:
         run: |
           echo "OS_NAME=Windows" >> $GITHUB_ENV
           echo "IS_WIN=1" >> $GITHUB_ENV
-      - name: Get system version for macos
-        if: ${{ contains(matrix.os, 'macos') }}
-        shell: bash
-        run: |
-          echo "OS_NAME=MacOS" >> $GITHUB_ENV
-          echo "IS_WIN=" >> $GITHUB_ENV
       - name: Get python type for pypy
         if: ${{ contains(matrix, 'pypy') }}
         shell: bash
@@ -115,11 +129,24 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
+      - name: Set up system dependences on linux
+        if: ${{ env.OS_NAME == 'Linux' }}
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tree cloc wget curl make zip
+          sudo apt-get install -y libxml2-dev libxslt-dev python-dev  # need by pypy3
+      - name: Set up system dependences on windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up python dependences
+        shell: bash
         run: |
           pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
@@ -141,6 +168,7 @@ jobs:
           echo "PYTHON_VERSION=${{ env.PYTYPE }}$(python -V | xargs -n 1 | tail -1)" >> $GITHUB_ENV
           echo "CPU_ARCH=$(uname -m)" >> $GITHUB_ENV
       - name: Build packages
+        shell: bash
         run: |
           make package
           ls -al dist

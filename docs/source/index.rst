@@ -1,10 +1,10 @@
-Welcome to Chainloader's Documentation
+Welcome to Argsloader's Documentation
 =========================================================
 
 Overview
 -------------
 
-``Chainloader`` is a module which can parse and manage the \
+``Argsloader`` is a module which can parse and manage the \
 configuration file's structure and their versions.
 
 .. toctree::

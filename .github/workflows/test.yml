@@ -83,6 +83,34 @@ jobs:
           - '3.10'
 
     steps:
+      - name: Get system version for linux
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+      - name: Get system version for windows
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
+      - name: Get system version for macos
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+      - name: Get python type for pypy
+        if: ${{ contains(matrix, 'pypy') }}
+        shell: bash
+        run: |
+          echo "PYTYPE=pypy" >> $GITHUB_ENV
+      - name: Get python type for cpython
+        if: ${{ !contains(matrix, 'pypy') }}
+        shell: bash
+        run: |
+          echo "PYTYPE=cp" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
@@ -99,7 +127,27 @@ jobs:
           if [ -f requirements-build.txt ]; then pip install -r requirements-build.txt; fi
           if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
           pip install --upgrade build
+      - name: Build cython part
+        shell: bash
+        run: |
+          make build IS_WIN=${{ env.IS_WIN }}
+      - name: Get package version
+        shell: bash
+        run: |
+          python -c 'from argsloader.config.meta import __VERSION__;print(__VERSION__)'
+          echo "PACKAGE_VERSION=$(python -c 'from argsloader.config.meta import __VERSION__;print(__VERSION__)')" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$(python -c 'from argsloader.config.meta import __TITLE__;print(__TITLE__)')" >> $GITHUB_ENV
+          echo "GIT_COMMIT_ID=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
+          echo "PYTHON_VERSION=${{ env.PYTYPE }}$(python -V | xargs -n 1 | tail -1)" >> $GITHUB_ENV
+          echo "CPU_ARCH=$(uname -m)" >> $GITHUB_ENV
       - name: Build packages
         run: |
           make package
           ls -al dist
+      - name: Upload executable files to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.PACKAGE_NAME }}-v${{ env.PACKAGE_VERSION }}-${{ env.PYTHON_VERSION }}-${{ env.OS_NAME }}-${{ env.CPU_ARCH }}-${{ env.GIT_COMMIT_ID }}
+          path: |
+            dist/*.tar.gz
+            dist/*.whl

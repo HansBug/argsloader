@@ -1,7 +1,7 @@
 Installation
 ===================
 
-Chainloader is currently hosted on PyPI. It required python >= 3.6.
+Argsloader is currently hosted on PyPI. It required python >= 3.6.
 
 You can simply install argsloader from PyPI with the following command:
 
@@ -29,5 +29,5 @@ is successful.
     :language: text
     :linenos:
 
-Chainloader is still under development, you can also check out the \
+Argsloader is still under development, you can also check out the \
 documents in stable version through `https://HansBug.github.io/argsloader/ <https://HansBug.github.io/argsloader/>`_.

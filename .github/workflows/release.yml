@@ -13,32 +13,84 @@ jobs:
       matrix:
         os:
           - 'ubuntu-18.04'
+          - 'macos-10.15'
         python-version:
           - '3.6'
           - '3.7'
           - '3.8'
           - '3.9'
+          - '3.10'
 
     steps:
+      - name: Get system version for linux
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for windows
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for macos
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=1" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
+      - name: Set up system dependences on linux
+        if: ${{ env.OS_NAME == 'Linux' }}
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tree cloc wget curl make zip
+          sudo apt-get install patchelf
+          sudo apt-get install -y libxml2-dev libxslt-dev python-dev  # need by pypy3
+      - name: Set up system dependences on windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip
+      - name: Set up system dependences on macos
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          brew install tree cloc wget curl make zip
+          brew install patchelf
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Set up python dependences
+        shell: bash
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f requirements-build.txt ]; then pip install -r requirements-build.txt; fi
-          if [ -f requirements-test.txt ]; then pip install -r requirements-test.txt; fi
+          pip install -r requirements.txt
+          pip install -r requirements-build.txt
+          pip install -r requirements-test.txt
           pip install --upgrade build
       - name: Build packages
+        shell: bash
         run: |
-          make package
+          make package IS_WIN=${{ env.IS_WIN }} IS_MAC=${{ env.IS_MAC }}
+          ls -al dist
+      - name: Upload executable files to artifacts
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
       - name: Publish distribution 📦 to real PyPI
         uses: pypa/gh-action-pypi-publish@master
         with:

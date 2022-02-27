@@ -179,6 +179,7 @@ jobs:
           pip install --upgrade flake8 setuptools wheel twine
           pip install -r requirements.txt
           pip install -r requirements-test.txt
+          pip install -U build
       - name: Get package version
         shell: bash
         run: |

@@ -1,4 +1,0 @@
-cython>=0.29
-build>=0.7.0
-auditwheel>=4
-delocate>=0.10.2

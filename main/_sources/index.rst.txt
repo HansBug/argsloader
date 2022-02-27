@@ -23,8 +23,8 @@ configuration file's structure and their versions.
     :maxdepth: 2
     :caption: API Documentation
 
+    api_doc/base/index
     api_doc/config/index
-    api_doc/units/index
 
 .. toctree::
     :maxdepth: 2

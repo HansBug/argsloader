@@ -4,10 +4,10 @@ argsloader.base.exception
 .. py:currentmodule:: argsloader.base
 
 
-ParseException
+ParseError
 ------------------------
 
-.. autoclass:: ParseException
+.. autoclass:: ParseError
     :members: message, unit, value, info
 
 

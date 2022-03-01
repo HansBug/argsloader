@@ -1,1 +1,2 @@
-hbutils>=0.0.1,<1
+hbutils>=0.4.4,<1
+cachetools>=4.2.4

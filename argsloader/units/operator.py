@@ -1,27 +1,28 @@
 from typing import Tuple
 
-from .base import BaseUnit
-from ..base import PathPosition, ParseResult
+from .base import BaseUnit, _UnitProcessProxy, _to_unit
+from ..base import ParseResult, PValue
 
 
 class PipeUnit(BaseUnit):
     def __init__(self, unit: BaseUnit, *units: BaseUnit):
-        self._units = (unit, *units)
+        self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
 
-    def _process(self, v, pos: PathPosition) -> Tuple[ParseResult, PathPosition]:
+    def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
         curv, rs, valid = v, [], True
         for i, unit in enumerate(self._units):
-            result, _ = unit._process(curv, pos)
-            rs.append(result)
-            if result.valid:
-                curv = result.result
+            if valid:
+                curv = unit._process(curv)
+                rs.append(curv)
+                if not curv.status.valid:
+                    valid = False
             else:
-                valid = False
-                break
+                rs.append(unit._skip(v))
+
         if valid:
-            return ParseResult(v, pos, self, True, curv, None, rs), pos
+            return proxy.success(curv, rs)
         else:
-            return ParseResult(v, pos, self, False, None, None, rs), pos
+            return proxy.error(None, rs)
 
     @classmethod
     def pipe(cls, *units):

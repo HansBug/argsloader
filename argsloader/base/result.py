@@ -1,15 +1,11 @@
-from typing import Optional, Union
+from enum import IntEnum, unique
+from typing import Optional, Union, Iterator, Tuple
 
 from hbutils.collection import nested_walk
-from hbutils.model import get_repr_info, raw_support
+from hbutils.model import get_repr_info, int_enum_loads
 
-from .exception import ParseError, MultipleParseError
-from .position import PathPosition
-
-raw_result, unraw_result, _ = raw_support(
-    lambda x: isinstance(x, (dict, list, tuple)),
-    'raw_result', 'unraw_result', '_ResultRawProxy'
-)
+from .exception import ParseError, MultipleParseError, SkippedParseError
+from .value import PValue
 
 
 class _BaseChildProxy:
@@ -24,7 +20,7 @@ class _BaseChildProxy:
             if isinstance(child, (dict, list, tuple)):
                 return ParseResultChildProxy(child)
             else:
-                return unraw_result(child)
+                return child
         else:
             raise KeyError(f'Key {repr(item)} not found.')
 
@@ -50,13 +46,13 @@ class _BaseChildProxy:
                 if isinstance(value, (dict, list, tuple)):
                     yield key, ParseResultChildProxy(value)
                 else:
-                    yield key, unraw_result(value)
+                    yield key, value
         elif isinstance(self._children, (tuple, list)):
             for i, value in enumerate(self._children):
                 if isinstance(value, (dict, list, tuple)):
                     yield i, ParseResultChildProxy(value)
                 else:
-                    yield i, unraw_result(value)
+                    yield i, value
         else:
             return iter([])
 
@@ -65,66 +61,81 @@ class ParseResultChildProxy(_BaseChildProxy):
     pass
 
 
+@int_enum_loads(name_preprocess=str.upper)
+@unique
+class ResultStatus(IntEnum):
+    SKIPPED = 0
+    SUCCESS = 1
+    ERROR = 2
+
+    @property
+    def valid(self):
+        return self == self.SUCCESS
+
+    @property
+    def processed(self):
+        return self != self.SKIPPED
+
+
 class ParseResult(_BaseChildProxy):
-    def __init__(self, input_, position: PathPosition, unit,
-                 valid: bool, result, error: Optional[ParseError], children=None):
+    def __init__(self, input_: Optional[PValue], unit,
+                 status: ResultStatus, result: Optional[PValue],
+                 error: Optional[ParseError], children=None):
         _BaseChildProxy.__init__(self, children or {})
 
         self.__input = input_
-        self.__position = position
-
         self.__unit = unit
-        self.__valid = not not valid
-        self.__result = result if self.__valid else None
-        self.__error = error
+
+        self.__status: ResultStatus = ResultStatus.loads(status)
+        self.__result = result if self.__status.valid else None
+        self.__error = error if self.__status.processed else None
 
     def __repr__(self):
         return get_repr_info(self.__class__, [
-            ('position', lambda: self.position),
-            ('input', lambda: self.input),
-            ('result', lambda: self.result, lambda: self.__valid),
+            ('input', lambda: self.input, lambda: self.__status.processed),
+            ('status', lambda: self.__status.name),
+            ('result', lambda: self.result, lambda: self.__status.valid),
             (
                 'error',
                 lambda: self.error.message if self.__error is not None else '<caused by prerequisites>',
-                lambda: not self.__valid
+                lambda: self.__status.processed and not self.__status.valid,
             ),
         ])
 
     @property
-    def input(self):
+    def input(self) -> Optional[PValue]:
         return self.__input
-
-    @property
-    def position(self) -> PathPosition:
-        return self.__position
 
     @property
     def unit(self):
         return self.__unit
 
     @property
-    def valid(self) -> bool:
-        return self.__valid
+    def status(self) -> ResultStatus:
+        return self.__status
 
     @property
-    def result(self):
+    def result(self) -> Optional[PValue]:
         return self.__result
 
     @property
     def error(self) -> Optional[ParseError]:
         return self.__error
 
-    def _iter_errors(self):
-        if not self.valid:
+    def _iter_errors(self) -> Iterator[Tuple[PValue, ParseError]]:
+        if self.__status.processed and not self.__status.valid:
             if self.error is not None:
-                yield self.position, self.error
+                yield self.input, self.error
 
             for _, v in nested_walk(self._children):
                 if isinstance(v, ParseResult):
                     yield from v._iter_errors()
 
     def act(self):
-        if self.valid:
-            return self.result
+        if self.__status.processed:
+            if self.__status.valid:
+                return self.result.value
+            else:
+                raise MultipleParseError(list(self._iter_errors()))
         else:
-            raise MultipleParseError(list(self._iter_errors()))
+            raise SkippedParseError(self)

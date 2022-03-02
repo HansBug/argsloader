@@ -17,6 +17,6 @@ class TestUnitsType:
         err = ei.value
         eitems = err.items
         assert len(eitems) == 1
-        assert eitems[0][0].represent() == ()
+        assert eitems[0][0].position == ()
         assert isinstance(eitems[0][1], TypeError)
         assert isinstance(eitems[0][1], ParseError)

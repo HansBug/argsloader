@@ -1,21 +1,47 @@
-from typing import Tuple
-
 from hbutils.string import plural_word
 
-from ..base import PathPosition, ParseResult, wrap_exception, raw_result, ParseError
+from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
+
+
+class _UnitProcessProxy:
+    def __init__(self, unit: 'BaseUnit', v: PValue):
+        self.__unit = unit
+        self.__v = v
+
+    def success(self, res: PValue, children=None) -> ParseResult:
+        return ParseResult(
+            self.__v, self.__unit,
+            ResultStatus.SUCCESS, res, None, children
+        )
+
+    def error(self, err, children=None) -> ParseResult:
+        return ParseResult(
+            self.__v, self.__unit,
+            ResultStatus.ERROR, None, err, children
+        )
+
+    def skipped(self) -> ParseResult:
+        return ParseResult(
+            None, self.__unit,
+            ResultStatus.SKIPPED, None, None, None
+        )
 
 
 class BaseUnit:
-    def _process(self, v, pos: PathPosition) -> Tuple[ParseResult, PathPosition]:
+    def _process(self, v: PValue) -> ParseResult:
+        return self._easy_process(v, _UnitProcessProxy(self, v))
+
+    def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
         raise NotImplementedError  # pragma: no cover
 
+    def _skip(self, v: PValue) -> ParseResult:
+        return _UnitProcessProxy(self, v).skipped()
+
     def __call__(self, v):
-        result, _ = self._process(v, PathPosition())
-        return result.act()
+        return self._process(PValue(v, ())).act()
 
     def log(self, v):
-        result, _ = self._process(v, PathPosition())
-        return result
+        return self._process(PValue(v, ()))
 
     def __rshift__(self, other: 'BaseUnit'):
         if isinstance(other, BaseUnit):
@@ -23,6 +49,25 @@ class BaseUnit:
             return pipe(self, other)
         else:
             raise TypeError(f'Type {repr(type(other))} is not supported for pipe operation.')
+
+
+class ValueUnit(BaseUnit):
+    def __init__(self, value):
+        self._value = value
+
+    def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
+        return proxy.success(v.val(self._value))
+
+
+def raw(v):
+    return ValueUnit(v)
+
+
+def _to_unit(v):
+    if isinstance(v, BaseUnit):
+        return v
+    else:
+        return raw(v)
 
 
 class _ValueBasedUnit(BaseUnit):
@@ -34,38 +79,37 @@ class _ValueBasedUnit(BaseUnit):
             raise ValueError(f'{plural_word(len(self.__names__), "value")} expected '
                              f'in {type(self).__name__}.__init__, '
                              f'but {plural_word(len(values), "value")} found actually!')
-        self._values = values
+        self._values = tuple(map(_to_unit, values))
 
     def _validate(self, v, pres) -> object:
         raise NotImplementedError
 
-    def _process(self, v, pos: PathPosition) -> Tuple[ParseResult, PathPosition]:
+    def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
         rvalues, pvalues, valid = {}, {}, True
         for name, value in zip(self.__names__, self._values):
-            if isinstance(value, BaseUnit):
-                if valid:
-                    ritem, _ = value._process(value, pos)
-                    if ritem.valid:
-                        rvalues[name] = ritem
-                        pvalues[name] = ritem.result
-                    else:
-                        valid = False
-                        break
+            if valid:
+                curres = value._process(v)
+                rvalues[name] = curres
+                if curres.status.valid:
+                    pvalues[name] = curres.result.value
                 else:
-                    continue
+                    valid = False
             else:
-                rvalues[name] = raw_result(value)
-                pvalues[name] = value
+                curres = value._skip(v)
+                rvalues[name] = curres
 
         if valid:
             result, error = None, None
             try:
-                result = self._validate(v, pvalues)
+                result = self._validate(v.value, pvalues)
             except ParseError as err:
                 error = err
             except self.__errors__ as err:
                 error = wrap_exception(err, self, v)
 
-            return ParseResult(v, pos, self, error is None, result, error, rvalues), pos
+            if error is None:
+                return proxy.success(v.val(result), rvalues)
+            else:
+                return proxy.error(error, rvalues)
         else:
-            return ParseResult(v, pos, self, False, None, None, rvalues), pos
+            return proxy.error(None, rvalues)

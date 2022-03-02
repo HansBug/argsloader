@@ -157,19 +157,84 @@
     
     
   <h1>Source code for argsloader.base.exception</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">hbutils.model</span> <span class="kn">import</span> <span class="n">asitems</span><span class="p">,</span> <span class="n">accessor</span><span class="p">,</span> <span class="n">visual</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+
+<span class="kn">from</span> <span class="nn">cachetools</span> <span class="kn">import</span> <span class="n">cached</span>
+<span class="kn">from</span> <span class="nn">hbutils.model</span> <span class="kn">import</span> <span class="n">asitems</span><span class="p">,</span> <span class="n">accessor</span><span class="p">,</span> <span class="n">visual</span>
+<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">class_wraps</span>
+<span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">plural_word</span>
 
 
-<div class="viewcode-block" id="ParseException"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.ParseException">[docs]</a><span class="nd">@visual</span><span class="p">(</span><span class="n">show_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">BaseParseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="ParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.ParseError">[docs]</a><span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@visual</span><span class="p">(</span><span class="n">show_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@asitems</span><span class="p">([</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">])</span>
-<span class="k">class</span> <span class="nc">ParseException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="ne">Exception</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">info</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__message</span> <span class="o">=</span> <span class="n">message</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span> <span class="o">=</span> <span class="n">unit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__info</span> <span class="o">=</span> <span class="n">info</span></div>
+
+
+<span class="n">_EXCEPTION_NAME</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;^([a-zA-Z0-9_]*)(Error|Exception)$&#39;</span><span class="p">)</span>
+<span class="n">_EXCEPTION_CLASSES</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="nd">@cached</span><span class="p">(</span><span class="n">_EXCEPTION_CLASSES</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">wrap_exception_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">ParseError</span><span class="p">]:</span>
+    <span class="n">matching</span> <span class="o">=</span> <span class="n">_EXCEPTION_NAME</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">matching</span><span class="p">:</span>
+        <span class="nd">@class_wraps</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">class</span> <span class="nc">_ParseError</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">):</span>
+            <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="k">else</span> <span class="p">(</span><span class="n">exc</span><span class="o">.</span><span class="n">args</span><span class="p">,)</span>
+                <span class="n">ParseError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+
+        <span class="n">_ParseError</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">matching</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">Parse</span><span class="si">{</span><span class="n">matching</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">_ParseError</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unrecognizable exception name - </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">wrap_exception</span><span class="p">(</span><span class="n">ex</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseError</span><span class="p">:</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">ex</span><span class="o">.</span><span class="vm">__class__</span>
+    <span class="c1"># noinspection PyCallingNonCallable</span>
+    <span class="k">return</span> <span class="n">wrap_exception_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)(</span><span class="n">ex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MultipleParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+        <span class="n">BaseParseError</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__items</span> <span class="o">=</span> <span class="n">items</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__items</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_display_item</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">position</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="n">rep_str</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;&lt;root&gt;&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">position</span><span class="o">.</span><span class="n">represent</span><span class="p">()))</span>
+        <span class="n">error_str</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">message</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rep_str</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">error_str</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">),</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&#39;</span> \
+               <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indent</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">)),</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span> \
+               <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">),</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&#39;</span> \
+               <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indent</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">)),</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
 </pre></div>
 
 

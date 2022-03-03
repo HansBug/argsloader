@@ -12,10 +12,12 @@ class PipeUnit(BaseUnit):
         curv, rs, valid = v, [], True
         for i, unit in enumerate(self._units):
             if valid:
-                curv = unit._process(curv)
-                rs.append(curv)
-                if not curv.status.valid:
+                curres = unit._process(curv)
+                rs.append(curres)
+                if not curres.status.valid:
                     valid = False
+                else:
+                    curv = curres.result
             else:
                 rs.append(unit._skip(v))
 

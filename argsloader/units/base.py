@@ -1,3 +1,5 @@
+from typing import Mapping, Any
+
 from hbutils.string import plural_word
 
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
@@ -70,7 +72,7 @@ def _to_unit(v):
         return raw(v)
 
 
-class _ValueBasedUnit(BaseUnit):
+class _TransformUnit(BaseUnit):
     __errors__ = ()
     __names__ = ()
 
@@ -81,7 +83,7 @@ class _ValueBasedUnit(BaseUnit):
                              f'but {plural_word(len(values), "value")} found actually!')
         self._values = tuple(map(_to_unit, values))
 
-    def _validate(self, v, pres) -> object:
+    def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
         raise NotImplementedError
 
     def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
@@ -99,17 +101,25 @@ class _ValueBasedUnit(BaseUnit):
                 rvalues[name] = curres
 
         if valid:
-            result, error = None, None
+            pres, error = None, None
             try:
-                result = self._validate(v.value, pvalues)
+                pres = self._transform(v, pvalues)
             except ParseError as err:
                 error = err
             except self.__errors__ as err:
                 error = wrap_exception(err, self, v)
 
             if error is None:
-                return proxy.success(v.val(result), rvalues)
+                return proxy.success(pres, rvalues)
             else:
                 return proxy.error(error, rvalues)
         else:
             return proxy.error(None, rvalues)
+
+
+class _CalculateUnit(_TransformUnit):
+    def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
+        return v.val(self._calculate(v.value, pres))
+
+    def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
+        raise NotImplementedError

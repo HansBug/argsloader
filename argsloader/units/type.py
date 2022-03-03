@@ -1,4 +1,4 @@
-from .base import _ValueBasedUnit
+from .base import _CalculateUnit
 
 
 def _type_full_name(type_: type) -> str:
@@ -20,15 +20,16 @@ def _tname(type_) -> str:
         return '(' + ', '.join(map(_type_full_name, type_)) + ')'
 
 
-class IsTypeUnit(_ValueBasedUnit):
+class IsTypeUnit(_CalculateUnit):
     __names__ = ('type',)
     __errors__ = (TypeError,)
 
     def __init__(self, type_):
-        _ValueBasedUnit.__init__(self, type_)
+        _CalculateUnit.__init__(self, type_)
 
-    def _validate(self, v, pres):
-        type_: type = pres['type']
+    def _calculate(self, v, pres):
+        type_ = pres['type']
+        # noinspection PyTypeHints
         if isinstance(v, type_):
             return v
         else:
@@ -39,14 +40,14 @@ def is_type(type_) -> IsTypeUnit:
     return IsTypeUnit(type_)
 
 
-class ToTypeUnit(_ValueBasedUnit):
+class ToTypeUnit(_CalculateUnit):
     __names__ = ('type',)
     __errors__ = (TypeError, ValueError)
 
     def __init__(self, type_):
-        _ValueBasedUnit.__init__(self, type_)
+        _CalculateUnit.__init__(self, type_)
 
-    def _validate(self, v, pres) -> object:
+    def _calculate(self, v, pres) -> object:
         type_: type = pres['type']
         return type_(v)
 

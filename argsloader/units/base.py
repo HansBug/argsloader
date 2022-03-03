@@ -30,8 +30,8 @@ class _UnitProcessProxy:
 
 @lru_cache()
 def _get_ops():
-    from .operator import pipe, and_
-    return pipe, and_, None
+    from .operator import pipe, and_, or_
+    return pipe, and_, or_
 
 
 class BaseUnit:
@@ -53,7 +53,7 @@ class BaseUnit:
     def log(self, v):
         return self._process(PValue(v, ()))
 
-    def __rshift__(self, other: 'BaseUnit'):
+    def __rshift__(self, other):
         if isinstance(other, BaseUnit):
             pipe, _, _ = _get_ops()
             return pipe(self, other)
@@ -72,6 +72,16 @@ class BaseUnit:
 
     def __rand__(self, other):
         return _to_unit(other) & self
+
+    def __or__(self, other):
+        if isinstance(other, BaseUnit):
+            _, _, or_ = _get_ops()
+            return or_(self, other)
+        else:
+            return self.__or__(_to_unit(other))
+
+    def __ror__(self, other):
+        return _to_unit(other) | self
 
 
 class ValueUnit(BaseUnit):

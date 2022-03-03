@@ -80,3 +80,41 @@ class AndUnit(BaseUnit):
 
 def and_(*units) -> AndUnit:
     return AndUnit.and_(*units)
+
+
+class OrUnit(BaseUnit):
+    def __init__(self, unit: BaseUnit, *units: BaseUnit):
+        self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
+
+    def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
+        firstv, rs, invalid = None, [], True
+        for unit in self._units:
+            if invalid:
+                curres = unit._process(v)
+                rs.append(curres)
+                if curres.status.valid:
+                    invalid = False
+                    firstv = curres.result
+            else:
+                rs.append(unit._skip(v))
+
+        if not invalid:
+            return proxy.success(firstv, rs)
+        else:
+            return proxy.error(None, rs)
+
+    @classmethod
+    def or_(cls, *units) -> 'OrUnit':
+        actual_units = []
+        for unit in units:
+            if isinstance(unit, OrUnit):
+                for iu in unit._units:
+                    actual_units.append(iu)
+            else:
+                actual_units.append(unit)
+
+        return cls(*actual_units)
+
+
+def or_(*units) -> OrUnit:
+    return OrUnit.or_(*units)

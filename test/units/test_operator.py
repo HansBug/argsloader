@@ -98,3 +98,40 @@ class TestUnitsOperator:
         assert it(3) == 3
         with pytest.raises(TypeError):
             _ = it(3.94835)
+
+    def test_or_(self):
+        it = is_type(int) | is_type(float)
+        assert it(1) == 1
+        assert it(1.5) == 1.5
+        with pytest.raises(ParseError) as ei:
+            _ = it('-1.5')
+
+        err = ei.value
+        assert isinstance(err, TypeError)
+        assert isinstance(err, ParseError)
+
+    def test_or_chain(self):
+        it = is_type(int) | is_type(float)
+        assert len(it._units) == 2
+
+        assert len((it | it | it)._units) == 6
+        assert len((it | (it & it) | it)._units) == 5
+        assert len((it | (it >> it) | it)._units) == 5
+        assert len((it | (it | it) | it)._units) == 8
+
+    def test_or_extra(self):
+        it = is_type(int) | 2
+        assert it(3) == 3
+        assert it(1) == 1
+        assert it(1.2) == 2
+
+        it = 2 | is_type(int)
+        assert it(3) == 2
+        assert it(1) == 2
+        assert it(1.2) == 2
+        assert it(None) == 2
+
+        it = (is_type(int) >> 'this is int') | (is_type(float) >> 'this is float') | 'fxxk'
+        assert it(1) == 'this is int'
+        assert it(1.5) == 'this is float'
+        assert it('sdklfj') == 'fxxk'

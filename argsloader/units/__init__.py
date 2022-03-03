@@ -1,2 +1,2 @@
-from .operator import pipe, and_
+from .operator import pipe, and_, or_
 from .type import is_type, to_type

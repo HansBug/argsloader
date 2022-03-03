@@ -1,6 +1,6 @@
 import pytest
 
-from argsloader.base import MultipleParseError, ParseError
+from argsloader.base import ParseError, PValue
 from argsloader.units import is_type, to_type
 
 
@@ -11,16 +11,16 @@ class TestUnitsType:
         assert it(1) == 1
         assert it(2) == 2
 
-        with pytest.raises(MultipleParseError) as ei:
+        with pytest.raises(ParseError) as ei:
             _ = it(2.0)
 
         err = ei.value
-        eitems = err.items
-        assert len(eitems) == 1
-        assert eitems[0][0].value == 2.0
-        assert eitems[0][0].position == ()
-        assert isinstance(eitems[0][1], TypeError)
-        assert isinstance(eitems[0][1], ParseError)
+        assert isinstance(err, TypeError)
+        assert isinstance(err, ParseError)
+        assert err.message == 'Value type not match - int expected but float found.'
+        assert err.unit is it
+        assert err.value == PValue(2.0, ())
+        assert err.info == ()
 
     def test_is_type_with_tuple(self):
         it = is_type((int, float))
@@ -28,16 +28,16 @@ class TestUnitsType:
         assert it(2) == 2
         assert it(2.0) == 2.0
 
-        with pytest.raises(MultipleParseError) as ei:
+        with pytest.raises(ParseError) as ei:
             _ = it('2.0')
 
         err = ei.value
-        eitems = err.items
-        assert len(eitems) == 1
-        assert eitems[0][0].value == '2.0'
-        assert eitems[0][0].position == ()
-        assert isinstance(eitems[0][1], TypeError)
-        assert isinstance(eitems[0][1], ParseError)
+        assert isinstance(err, TypeError)
+        assert isinstance(err, ParseError)
+        assert err.message == 'Value type not match - (int, float) expected but str found.'
+        assert err.unit is it
+        assert err.value == PValue('2.0', ())
+        assert err.info == ()
 
     def test_to_type(self):
         ot = to_type(int)
@@ -45,13 +45,13 @@ class TestUnitsType:
         assert ot('1') == 1
         assert ot(1.5) == int(1.5)
 
-        with pytest.raises(MultipleParseError) as ei:
+        with pytest.raises(ParseError) as ei:
             _ = ot('1.5')
 
         err = ei.value
-        eitems = err.items
-        assert len(eitems) == 1
-        assert eitems[0][0].value == '1.5'
-        assert eitems[0][0].position == ()
-        assert isinstance(eitems[0][1], ValueError)
-        assert isinstance(eitems[0][1], ParseError)
+        assert isinstance(err, ValueError)
+        assert isinstance(err, ParseError)
+        assert 'invalid literal' in err.message
+        assert err.unit is ot
+        assert err.value == PValue('1.5', ())
+        assert err.info == ()

@@ -40,7 +40,10 @@ class BaseUnit:
         return _UnitProcessProxy(self, v).skipped()
 
     def __call__(self, v):
-        return self._process(PValue(v, ())).act()
+        return self.call(v)
+
+    def call(self, v, err_mode='first'):
+        return self._process(PValue(v, ())).act(err_mode)
 
     def log(self, v):
         return self._process(PValue(v, ()))

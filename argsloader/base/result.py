@@ -83,6 +83,14 @@ class ResultStatus(IntEnum):
         return self != self.SKIPPED
 
 
+@int_enum_loads(name_preprocess=str.upper)
+@unique
+class ErrMode(IntEnum):
+    FIRST = 1
+    TRY_ALL = 2
+    ALL = 3
+
+
 class ParseResult(_BaseChildProxy):
     def __init__(self, input_: Optional[PValue], unit,
                  status: ResultStatus, result: Optional[PValue],
@@ -137,11 +145,41 @@ class ParseResult(_BaseChildProxy):
                 if isinstance(v, ParseResult):
                     yield from v._iter_errors()
 
-    def act(self):
+    def _first_error(self):
+        try:
+            pval, error = next(self._iter_errors())
+            return error
+        except StopIteration:
+            return None
+
+    def _try_full_error(self):
+        all_errors = list(self._iter_errors())
+        if len(all_errors) > 1:
+            return MultipleParseError(all_errors)
+        elif len(all_errors) == 1:
+            pval, error = all_errors[0]
+            return error
+        else:
+            return None
+
+    def _full_error(self):
+        all_errors = list(self._iter_errors())
+        if all_errors:
+            return MultipleParseError(all_errors)
+        else:
+            return None
+
+    def act(self, err_mode):
+        err_mode = ErrMode.loads(err_mode)
         if self.__status.processed:
             if self.__status.valid:
                 return self.result.value
             else:
-                raise MultipleParseError(list(self._iter_errors()))
+                if err_mode == ErrMode.FIRST:
+                    raise self._first_error()
+                elif err_mode == ErrMode.TRY_ALL:
+                    raise self._try_full_error()
+                elif err_mode == ErrMode.ALL:
+                    raise self._full_error()
         else:
             raise SkippedParseError(self)

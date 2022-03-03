@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import Mapping, Any
 
 from hbutils.string import plural_word
@@ -29,6 +30,12 @@ class _UnitProcessProxy:
         )
 
 
+@lru_cache()
+def _get_ops():
+    from .operator import pipe, and_
+    return pipe, and_, None
+
+
 class BaseUnit:
     def _process(self, v: PValue) -> ParseResult:
         return self._easy_process(v, _UnitProcessProxy(self, v))
@@ -50,10 +57,23 @@ class BaseUnit:
 
     def __rshift__(self, other: 'BaseUnit'):
         if isinstance(other, BaseUnit):
-            from .operator import pipe
+            pipe, _, _ = _get_ops()
             return pipe(self, other)
         else:
-            raise TypeError(f'Type {repr(type(other))} is not supported for pipe operation.')
+            return self.__rshift__(_to_unit(other))
+
+    def __rrshift__(self, other):
+        return _to_unit(other) >> self
+
+    def __and__(self, other):
+        if isinstance(other, BaseUnit):
+            _, and_, _ = _get_ops()
+            return and_(self, other)
+        else:
+            return self.__and__(_to_unit(other))
+
+    def __rand__(self, other):
+        return _to_unit(other) & self
 
 
 class ValueUnit(BaseUnit):

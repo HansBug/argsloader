@@ -2,7 +2,7 @@ from enum import IntEnum, unique
 from typing import Optional, Union, Iterator, Tuple
 
 from hbutils.collection import nested_walk
-from hbutils.model import get_repr_info, int_enum_loads, raw_support
+from hbutils.model import get_repr_info, int_enum_loads, raw_support, asitems, hasheq
 
 from .exception import ParseError, MultipleParseError, SkippedParseError
 from .value import PValue
@@ -63,6 +63,8 @@ class _BaseChildProxy:
             return iter([])
 
 
+@hasheq()
+@asitems(['_children'])
 class ParseResultChildProxy(_BaseChildProxy):
     pass
 

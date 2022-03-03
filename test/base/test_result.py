@@ -1,7 +1,7 @@
 import pytest
 
 from argsloader.base import ResultStatus, ParseResult, PValue, wrap_exception, raw_res, SkippedParseError, ParseError, \
-    MultipleParseError
+    MultipleParseError, ParseResultChildProxy
 
 
 @pytest.mark.unittest
@@ -44,7 +44,7 @@ class TestBaseResult:
         val_, unit_ = PValue(233, ()), 'this is unit'
 
         r = ParseResult(val_, unit_, 'success', PValue(234, ()), None, [
-            {'a': 1, 'b': raw_res([3, 4])},
+            {'a': 1, 'b': raw_res([3, 4]), 'c': {'x': 1}},
             raw_res({'a': 1, 'b': 3}),
             [3, 5, 7, raw_res({'a': 11})]
         ])
@@ -55,9 +55,14 @@ class TestBaseResult:
         assert 0 in r
         assert 20 not in r
         assert 'a' in r[0]
-        assert 'c' not in r[0]
+        assert 'z' not in r[0]
         assert set(r.keys()) == {0, 1, 2}
-        assert set(r[0].keys()) == {'a', 'b'}
+        assert set(r[0].keys()) == {'a', 'b', 'c'}
+        assert sorted(r.items()) == [
+            (0, ParseResultChildProxy({'a': 1, 'b': raw_res([3, 4]), 'c': {'x': 1}})),
+            (1, {'a': 1, 'b': 3}),
+            (2, ParseResultChildProxy([3, 5, 7, raw_res({'a': 11})])),
+        ]
         assert sorted(r[2].items()) == [
             (0, 3),
             (1, 5),
@@ -67,6 +72,7 @@ class TestBaseResult:
         assert sorted(r[0].items()) == [
             ('a', 1),
             ('b', [3, 4]),
+            ('c', ParseResultChildProxy({'x': 1})),
         ]
 
         with pytest.raises(ValueError):

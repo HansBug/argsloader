@@ -24,12 +24,15 @@ class IsTypeUnit(_ValueBasedUnit):
     __names__ = ('type',)
     __errors__ = (TypeError,)
 
+    def __init__(self, type_):
+        _ValueBasedUnit.__init__(self, type_)
+
     def _validate(self, v, pres):
         type_: type = pres['type']
         if isinstance(v, type_):
             return v
         else:
-            raise TypeError(f'Type not match - {_tname(type_)} expected but {_tname(type(v))} found.')
+            raise TypeError(f'Value type not match - {_tname(type_)} expected but {_tname(type(v))} found.')
 
 
 def is_type(type_) -> IsTypeUnit:
@@ -38,7 +41,10 @@ def is_type(type_) -> IsTypeUnit:
 
 class ToTypeUnit(_ValueBasedUnit):
     __names__ = ('type',)
-    __errors__ = (TypeError,)
+    __errors__ = (TypeError, ValueError)
+
+    def __init__(self, type_):
+        _ValueBasedUnit.__init__(self, type_)
 
     def _validate(self, v, pres) -> object:
         type_: type = pres['type']

@@ -50,6 +50,16 @@ class TestUnitsOperator:
             it2(None)
         assert isinstance(ei.value, TypeError)
 
+    def test_pipe_extra(self):
+        it = is_type(int) >> 2
+        assert it(3) == 2
+        with pytest.raises(TypeError):
+            _ = it(4.39284)
+
+        it = 2 >> is_type(int)
+        assert it(3) == 2
+        assert it(4.39284) == 2
+
     def test_and_(self):
         it = is_type(A) & is_type(B)
 
@@ -77,3 +87,14 @@ class TestUnitsOperator:
         assert len(it._units) == 2
 
         assert len((it & (it >> it) & it)._units) == 5
+
+    def test_and_extra(self):
+        it = is_type(int) & 2
+        assert it(3) == 2
+        with pytest.raises(TypeError):
+            _ = it(3.94835)
+
+        it = 2 & is_type(int)
+        assert it(3) == 3
+        with pytest.raises(TypeError):
+            _ = it(3.94835)

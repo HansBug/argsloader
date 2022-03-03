@@ -1,8 +1,6 @@
 from functools import lru_cache
 from typing import Mapping, Any
 
-from hbutils.string import plural_word
-
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
 
 
@@ -100,14 +98,10 @@ class _TransformUnit(BaseUnit):
     __names__ = ()
 
     def __init__(self, *values):
-        if len(values) != len(self.__names__):
-            raise ValueError(f'{plural_word(len(self.__names__), "value")} expected '
-                             f'in {type(self).__name__}.__init__, '
-                             f'but {plural_word(len(values), "value")} found actually!')
-        self._values = tuple(map(_to_unit, values))
+        self._values = tuple(map(lambda x: _to_unit(x[1]), zip(self.__names__, values)))
 
     def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
         rvalues, pvalues, valid = {}, {}, True
@@ -145,4 +139,4 @@ class _CalculateUnit(_TransformUnit):
         return v.val(self._calculate(v.value, pres))
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover

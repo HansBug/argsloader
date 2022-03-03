@@ -1,6 +1,7 @@
 import pytest
 
-from argsloader.base import ResultStatus, ParseResult, PValue, wrap_exception, raw_res
+from argsloader.base import ResultStatus, ParseResult, PValue, wrap_exception, raw_res, SkippedParseError, ParseError, \
+    MultipleParseError
 
 
 @pytest.mark.unittest
@@ -79,3 +80,48 @@ class TestBaseResult:
         assert 'a' not in r
         assert set(r.keys()) == set()
         assert sorted(r.items()) == []
+
+    def test_parse_result_act_1(self):
+        val_, unit_ = PValue(233, ()), 'this is unit'
+
+        r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
+        assert r.act('all') == 234
+
+        r = ParseResult(val_, unit_, 'skipped', None, None)
+        with pytest.raises(SkippedParseError):
+            r.act('all')
+
+        r = ParseResult(val_, unit_, 'error', None, wrap_exception(ValueError('errmsg'), unit_, val_))
+        with pytest.raises(ParseError) as ei:
+            r.act('first')
+        assert isinstance(ei.value, ValueError)
+        assert ei.value.message == 'errmsg'
+
+        with pytest.raises(ParseError) as ei:
+            r.act('try_all')
+        assert isinstance(ei.value, ValueError)
+        assert ei.value.message == 'errmsg'
+
+        with pytest.raises(MultipleParseError) as ei:
+            r.act('all')
+        err: MultipleParseError = ei.value
+        assert len(err.items) == 1
+
+        r2 = ParseResult(val_, unit_, 'error', None, None, {
+            'a': r,
+            'c': [{'b': r, }]
+        })
+        with pytest.raises(ParseError) as ei:
+            r2.act('first')
+        assert isinstance(ei.value, ValueError)
+        assert ei.value.message == 'errmsg'
+
+        with pytest.raises(MultipleParseError) as ei:
+            r2.act('try_all')
+        err: MultipleParseError = ei.value
+        assert len(err.items) == 2
+
+        with pytest.raises(MultipleParseError) as ei:
+            r2.act('all')
+        err: MultipleParseError = ei.value
+        assert len(err.items) == 2

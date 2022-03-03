@@ -93,7 +93,7 @@ class ErrMode(IntEnum):
 
 class ParseResult(_BaseChildProxy):
     def __init__(self, input_: Optional[PValue], unit,
-                 status: ResultStatus, result: Optional[PValue],
+                 status, result: Optional[PValue],
                  error: Optional[ParseError], children=None):
         _BaseChildProxy.__init__(self, children)
 
@@ -149,8 +149,8 @@ class ParseResult(_BaseChildProxy):
         try:
             pval, error = next(self._iter_errors())
             return error
-        except StopIteration:
-            return None
+        except StopIteration:  # pragma: no cover
+            return None  # pragma: no cover
 
     def _try_full_error(self):
         all_errors = list(self._iter_errors())
@@ -160,14 +160,14 @@ class ParseResult(_BaseChildProxy):
             pval, error = all_errors[0]
             return error
         else:
-            return None
+            return None  # pragma: no cover
 
     def _full_error(self):
         all_errors = list(self._iter_errors())
         if all_errors:
             return MultipleParseError(all_errors)
         else:
-            return None
+            return None  # pragma: no cover
 
     def act(self, err_mode):
         err_mode = ErrMode.loads(err_mode)

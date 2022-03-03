@@ -2,16 +2,22 @@ from enum import IntEnum, unique
 from typing import Optional, Union, Iterator, Tuple
 
 from hbutils.collection import nested_walk
-from hbutils.model import get_repr_info, int_enum_loads
+from hbutils.model import get_repr_info, int_enum_loads, raw_support
 
 from .exception import ParseError, MultipleParseError, SkippedParseError
 from .value import PValue
+
+raw_res, unraw_res, _RawResProxy = raw_support(
+    lambda x: isinstance(x, (dict, list, tuple)),
+    'raw_res', 'unraw_res', '_RawResProxy',
+)
+_NoneType = type(None)
 
 
 class _BaseChildProxy:
     def __init__(self, children):
         self._children = children
-        if not isinstance(self._children, (dict, list, tuple)):
+        if not isinstance(self._children, (dict, list, tuple, _NoneType)):
             raise ValueError(f'Invalid type of children - {repr(type(children))}.')
 
     def __getitem__(self, item) -> Union['ParseResultChildProxy', object]:
@@ -20,7 +26,7 @@ class _BaseChildProxy:
             if isinstance(child, (dict, list, tuple)):
                 return ParseResultChildProxy(child)
             else:
-                return child
+                return unraw_res(child)
         else:
             raise KeyError(f'Key {repr(item)} not found.')
 
@@ -46,13 +52,13 @@ class _BaseChildProxy:
                 if isinstance(value, (dict, list, tuple)):
                     yield key, ParseResultChildProxy(value)
                 else:
-                    yield key, value
+                    yield key, unraw_res(value)
         elif isinstance(self._children, (tuple, list)):
             for i, value in enumerate(self._children):
                 if isinstance(value, (dict, list, tuple)):
                     yield i, ParseResultChildProxy(value)
                 else:
-                    yield i, value
+                    yield i, unraw_res(value)
         else:
             return iter([])
 
@@ -81,7 +87,7 @@ class ParseResult(_BaseChildProxy):
     def __init__(self, input_: Optional[PValue], unit,
                  status: ResultStatus, result: Optional[PValue],
                  error: Optional[ParseError], children=None):
-        _BaseChildProxy.__init__(self, children or {})
+        _BaseChildProxy.__init__(self, children)
 
         self.__input = input_
         self.__unit = unit

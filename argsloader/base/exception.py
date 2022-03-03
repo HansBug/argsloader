@@ -20,7 +20,7 @@ class BaseParseError(Exception):
 @asitems(['message', 'unit', 'value', 'info'])
 class ParseError(BaseParseError):
     def __init__(self, message, unit, value, info=None):
-        BaseParseError.__init__(self, (message, unit, value, info))
+        BaseParseError.__init__(self, message)
         self.__message = message
         self.__unit = unit
         self.__value = value

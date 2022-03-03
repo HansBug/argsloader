@@ -1,0 +1,81 @@
+import pytest
+
+from argsloader.base import ResultStatus, ParseResult, PValue, wrap_exception, raw_res
+
+
+@pytest.mark.unittest
+class TestBaseResult:
+    def test_result_status(self):
+        assert ResultStatus.loads('skipped') == ResultStatus.SKIPPED
+        assert ResultStatus.loads('success') == ResultStatus.SUCCESS
+        assert ResultStatus.loads('error') == ResultStatus.ERROR
+
+        assert not ResultStatus.SKIPPED.processed
+        assert not ResultStatus.SKIPPED.valid
+        assert ResultStatus.SUCCESS.processed
+        assert ResultStatus.SUCCESS.valid
+        assert ResultStatus.ERROR.processed
+        assert not ResultStatus.ERROR.valid
+
+    def test_parse_result_common(self):
+        r = ParseResult(PValue(233, ()), 'this is unit', 'success', PValue(234, ()), None)
+        assert r.input == PValue(233, ())
+        assert r.unit == 'this is unit'
+        assert r.status == ResultStatus.SUCCESS
+        assert r.result == PValue(234, ())
+        assert r.error is None
+
+    def test_parse_result_repr(self):
+        val_, unit_ = PValue(233, ()), 'this is unit'
+
+        r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
+        assert repr(r) == '<ParseResult input: <PValue value: 233, position: ()>, ' \
+                          'status: SUCCESS, result: <PValue value: 234, position: ()>>'
+
+        r = ParseResult(val_, unit_, 'error', None,
+                        wrap_exception(ValueError('errmsg', 1, None, [3, 4]), unit_, val_))
+        assert repr(r) == '<ParseResult input: <PValue value: 233, position: ()>, status: ERROR, error: errmsg>'
+
+        r = ParseResult(None, unit_, 'skipped', None, None)
+        assert repr(r) == '<ParseResult status: SKIPPED>'
+
+    def test_parse_result_children(self):
+        val_, unit_ = PValue(233, ()), 'this is unit'
+
+        r = ParseResult(val_, unit_, 'success', PValue(234, ()), None, [
+            {'a': 1, 'b': raw_res([3, 4])},
+            raw_res({'a': 1, 'b': 3}),
+            [3, 5, 7, raw_res({'a': 11})]
+        ])
+        assert r[0]['a'] == 1
+        assert r[0]['b'] == [3, 4]
+        assert r[1] == {'a': 1, 'b': 3}
+        assert r[2][3] == {'a': 11}
+        assert 0 in r
+        assert 20 not in r
+        assert 'a' in r[0]
+        assert 'c' not in r[0]
+        assert set(r.keys()) == {0, 1, 2}
+        assert set(r[0].keys()) == {'a', 'b'}
+        assert sorted(r[2].items()) == [
+            (0, 3),
+            (1, 5),
+            (2, 7),
+            (3, {'a': 11}),
+        ]
+        assert sorted(r[0].items()) == [
+            ('a', 1),
+            ('b', [3, 4]),
+        ]
+
+        with pytest.raises(ValueError):
+            _ = ParseResult(val_, unit_, 'success', PValue(234, ()), None, 'dsfj')
+
+    def test_parse_result_no_children(self):
+        val_, unit_ = PValue(233, ()), 'this is unit'
+        r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
+        with pytest.raises(KeyError):
+            _ = r[0]
+        assert 'a' not in r
+        assert set(r.keys()) == set()
+        assert sorted(r.items()) == []

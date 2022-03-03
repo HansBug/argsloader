@@ -4,6 +4,10 @@ from argsloader.base import ParseError, PValue
 from argsloader.units import is_type, to_type
 
 
+class _DemoType:
+    pass
+
+
 @pytest.mark.unittest
 class TestUnitsType:
     def test_is_type(self):
@@ -37,6 +41,18 @@ class TestUnitsType:
         assert err.message == 'Value type not match - (int, float) expected but str found.'
         assert err.unit is it
         assert err.value == PValue('2.0', ())
+        assert err.info == ()
+
+        itx = is_type(_DemoType)
+        with pytest.raises(ParseError) as ei:
+            _ = itx(None)
+
+        err = ei.value
+        assert isinstance(err, TypeError)
+        assert isinstance(err, ParseError)
+        assert err.message == 'Value type not match - test.units.test_type._DemoType expected but NoneType found.'
+        assert err.unit is itx
+        assert err.value == PValue(None, ())
         assert err.info == ()
 
     def test_to_type(self):

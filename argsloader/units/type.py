@@ -2,15 +2,11 @@ from .base import _CalculateUnit
 
 
 def _type_full_name(type_: type) -> str:
-    try:
-        module_name = type_.__module__
-    except AttributeError:
-        module_name = None
-
-    if module_name is not None:
-        return type_.__name__
+    module_name = type_.__module__
+    if module_name and module_name != 'builtins':
+        return f'{module_name}.{type_.__qualname__}'
     else:
-        return f'{module_name}.{type_.__name__}'
+        return type_.__qualname__
 
 
 def _tname(type_) -> str:

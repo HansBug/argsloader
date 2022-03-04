@@ -78,14 +78,14 @@ def _create_binary_op(op, name_, funcname=None):
     _BinaryOpUnit.__module__ = _nonsense.__module__
 
     @fassign(
-        __name__=f'{inflection.underscore(funcname)}_from',
+        __name__=f'{funcname.rstrip("_")}_from',
         __module__=_nonsense.__module__
     )
     def _op_func_from(v1) -> '_BinaryOpUnit':
         return _BinaryOpUnit(v1, S_)
 
     @fassign(
-        __name__=f'{inflection.underscore(funcname)}_by',
+        __name__=f'{funcname.rstrip("_")}_by',
         __module__=_nonsense.__module__
     )
     def _op_func_by(v2) -> '_BinaryOpUnit':
@@ -94,11 +94,12 @@ def _create_binary_op(op, name_, funcname=None):
     @fassign(
         __name__=funcname,
         __module__=_nonsense.__module__,
-        from_=_op_func_from,
-        by=_op_func_by,
     )
     def _op_func(v1, v2) -> '_BinaryOpUnit':
         return _BinaryOpUnit(v1, v2)
+
+    _op_func.from_ = _op_func_from
+    _op_func.by = _op_func_by
 
     return _op_func
 

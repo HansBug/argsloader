@@ -1,3 +1,4 @@
+from types import MethodType
 from typing import Mapping, Any
 
 import inflection
@@ -12,7 +13,8 @@ __all__ = [
     'abs_', 'inv', 'invert', 'pos', 'neg', 'not_',
     'add', 'plus', 'sub', 'minus', 'mul', 'matmul', 'truediv', 'floordiv', 'mod',
     'pow_', 'lshift', 'rshift', 'and_', 'or_', 'band', 'bor', 'bxor',
-    'eq', 'ne', 'ge', 'gt', 'le', 'lt', 'in_',
+    'eq', 'ne', 'ge', 'gt', 'le', 'lt',
+    'in_', 'isin', 'contains',
 ]
 
 
@@ -58,7 +60,6 @@ pos = _create_unary_op(lambda x: +x, 'pos')
 neg = _create_unary_op(lambda x: -x, 'neg')
 
 # logic unary operation
-# TODO: add support for logical unary operation
 not_ = _create_unary_op(lambda x: not x, 'not', 'not_')
 
 
@@ -87,15 +88,15 @@ def _create_binary_op(op, name_, funcname=None, reduce=False):
         __name__=f'{funcname.rstrip("_")}_from',
         __module__=_nonsense.__module__
     )
-    def _op_func_from(v1) -> '_BinaryOpUnit':
-        return _BinaryOpUnit(v1, S_)
+    def _op_func_from(self, v1) -> '_BinaryOpUnit':
+        return self(v1, keep())
 
     @fassign(
         __name__=f'{funcname.rstrip("_")}_by',
         __module__=_nonsense.__module__
     )
-    def _op_func_by(v2) -> '_BinaryOpUnit':
-        return _BinaryOpUnit(S_, v2)
+    def _op_func_by(self, v2) -> '_BinaryOpUnit':
+        return self(keep(), v2)
 
     @fassign(
         __name__=funcname,
@@ -110,8 +111,8 @@ def _create_binary_op(op, name_, funcname=None, reduce=False):
         else:
             return _BinaryOpUnit(v1, *vs)
 
-    _op_func.from_ = _op_func_from
-    _op_func.by = _op_func_by
+    _op_func.from_ = MethodType(_op_func_from, _op_func)
+    _op_func.by = MethodType(_op_func_by, _op_func)
 
     return _op_func
 
@@ -134,7 +135,6 @@ bor = _create_binary_op(lambda x, y: x | y, 'bor', reduce=True)
 bxor = _create_binary_op(lambda x, y: x ^ y, 'bxor', reduce=True)
 
 # logic binary operation
-# TODO: add support for logical binary operation
 eq = _create_binary_op(lambda x, y: x == y, 'eq')
 ne = _create_binary_op(lambda x, y: x != y, 'ne')
 le = _create_binary_op(lambda x, y: x <= y, 'le')
@@ -144,3 +144,5 @@ gt = _create_binary_op(lambda x, y: x > y, 'gt')
 and_ = _create_binary_op(lambda x, y: x and y, 'and', 'and_', reduce=True)
 or_ = _create_binary_op(lambda x, y: x or y, 'or', 'or_', reduce=True)
 in_ = _create_binary_op(lambda x, y: x in y, 'in', 'in_')
+isin = in_.by
+contains = in_.from_

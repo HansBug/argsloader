@@ -2,7 +2,8 @@ import pytest
 from hbutils.model import asitems, hasheq, visual, accessor
 
 from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, matmul, \
-    truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, valid, is_type, band, bor, bxor, eq, ne
+    truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, validity, is_type, band, bor, bxor, eq, ne, ge, gt, \
+    le, lt, in_, isin, contains
 
 
 @pytest.mark.unittest
@@ -330,7 +331,7 @@ class TestUtilsMathop:
         class AB(A, B):
             pass
 
-        u = and_(valid(is_type(A)), valid(is_type(B)))
+        u = and_(validity(is_type(A)), validity(is_type(B)))
         assert not u(A())
         assert not u(B())
         assert u(AB())
@@ -368,27 +369,27 @@ class TestUtilsMathop:
             and_()
 
     def test_or_(self):
-        u = or_(valid(is_type(int)), valid(is_type(str)))
+        u = or_(validity(is_type(int)), validity(is_type(str)))
         assert u(1)
         assert not u(1.0)
         assert u('1')
 
-        u = valid(is_type(int)) >> or_.by(valid(is_type(str)))
+        u = validity(is_type(int)) >> or_.by(validity(is_type(str)))
         assert u(1)
         assert not u(1.0)
         assert not u('1')
 
-        u = valid(is_type(int)) >> or_.from_(valid(is_type(str)))
+        u = validity(is_type(int)) >> or_.from_(validity(is_type(str)))
         assert u(1)
         assert not u(1.0)
         assert not u('1')
 
-        u = or_(valid(is_type(int)), valid(is_type(str)), True)
+        u = or_(validity(is_type(int)), validity(is_type(str)), True)
         assert u(1)
         assert u(1.0)
         assert u('1')
 
-        u = or_(valid(is_type(int)))
+        u = or_(validity(is_type(int)))
         assert u(1)
         assert not u(1.0)
         assert not u('1')
@@ -513,3 +514,109 @@ class TestUtilsMathop:
             ne(to_type(float))
         with pytest.raises(TypeError):
             ne()
+
+    def test_ge(self):
+        u = ge(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
+        assert u(-0.5)
+        assert u(0.0)
+        assert not u(0.5)
+
+        u = add.by(2) >> mul.by(1.5) >> ge.by(0)
+        assert not u(-2.5)
+        assert u(-2.0)
+        assert u(-1.5)
+
+        u = add.by(2) >> mul.by(1.5) >> ge.from_(0)
+        assert u(-2.5)
+        assert u(-2.0)
+        assert not u(-1.5)
+
+        with pytest.raises(TypeError):
+            ge(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
+        with pytest.raises(TypeError):
+            ge(add.by(2) >> mul.by(1.5))
+        with pytest.raises(TypeError):
+            ge(add.by(2))
+
+    def test_gt(self):
+        u = gt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
+        assert u(-0.5)
+        assert not u(0.0)
+        assert not u(0.5)
+
+        u = add.by(2) >> mul.by(1.5) >> gt.by(0)
+        assert not u(-2.5)
+        assert not u(-2.0)
+        assert u(-1.5)
+
+        u = add.by(2) >> mul.by(1.5) >> gt.from_(0)
+        assert u(-2.5)
+        assert not u(-2.0)
+        assert not u(-1.5)
+
+        with pytest.raises(TypeError):
+            gt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
+        with pytest.raises(TypeError):
+            gt(add.by(2) >> mul.by(1.5))
+        with pytest.raises(TypeError):
+            gt(add.by(2))
+
+    def test_le(self):
+        u = le(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
+        assert not u(-0.5)
+        assert u(0.0)
+        assert u(0.5)
+
+        u = add.by(2) >> mul.by(1.5) >> le.by(0)
+        assert u(-2.5)
+        assert u(-2.0)
+        assert not u(-1.5)
+
+        u = add.by(2) >> mul.by(1.5) >> le.from_(0)
+        assert not u(-2.5)
+        assert u(-2.0)
+        assert u(-1.5)
+
+        with pytest.raises(TypeError):
+            le(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
+        with pytest.raises(TypeError):
+            le(add.by(2) >> mul.by(1.5))
+        with pytest.raises(TypeError):
+            le(add.by(2))
+
+    def test_lt(self):
+        u = lt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
+        assert not u(-0.5)
+        assert not u(0.0)
+        assert u(0.5)
+
+        u = add.by(2) >> mul.by(1.5) >> lt.by(0)
+        assert u(-2.5)
+        assert not u(-2.0)
+        assert not u(-1.5)
+
+        u = add.by(2) >> mul.by(1.5) >> lt.from_(0)
+        assert not u(-2.5)
+        assert not u(-2.0)
+        assert u(-1.5)
+
+        with pytest.raises(TypeError):
+            lt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
+        with pytest.raises(TypeError):
+            lt(add.by(2) >> mul.by(1.5))
+        with pytest.raises(TypeError):
+            lt(add.by(2))
+
+    def test_in_(self):
+        assert isin is in_.by
+        assert contains is in_.from_
+
+        u = in_(add.by(2), [3, 4, 5, 6])
+        assert u(1)
+        assert not u(-1)
+        assert not u(5)
+
+        u = add.by(2) >> isin([3, 4, 5, 6])
+        assert u(1)
+        assert not u(-1)
+        assert not u(5)

@@ -96,7 +96,7 @@ def raw(v):
     return ValueUnit(v)
 
 
-def _to_unit(v):
+def _to_unit(v) -> BaseUnit:
     if isinstance(v, BaseUnit):
         return v
     else:
@@ -108,25 +108,46 @@ class _TransformUnit(BaseUnit):
     __names__ = ()
 
     def __init__(self, *values):
-        self._values = tuple(map(lambda x: _to_unit(x[1]), zip(self.__names__, values)))
+        self._values = tuple(map(lambda x: x[1], zip(self.__names__, values)))
 
     def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
         raise NotImplementedError  # pragma: no cover
 
     def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
-        rvalues, pvalues, valid = {}, {}, True
-        for name, value in zip(self.__names__, self._values):
-            if valid:
-                curres = value._process(v)
-                rvalues[name] = curres
-                if curres.status.valid:
-                    pvalues[name] = curres.result.value
-                else:
-                    valid = False
-            else:
-                curres = value._skip(v)
-                rvalues[name] = curres
+        ovalues, valid = dict(zip(self.__names__, self._values)), True
 
+        def _recursion(ov):
+            nonlocal valid
+
+            if isinstance(ov, dict):
+                vs, rs = {}, {}
+                for name_, iv in ov.items():
+                    v_, res = _recursion(iv)
+                    vs[name_] = v_
+                    rs[name_] = res
+                tp = type(ov)
+                return tp(vs), tp(rs)
+            elif isinstance(ov, (list, tuple)):
+                vs, rs = [], []
+                for iv in ov:
+                    v_, res = _recursion(iv)
+                    vs.append(v_)
+                    rs.append(res)
+                tp = type(ov)
+                return tp(vs), tp(rs)
+            else:
+                _curu = _to_unit(ov)
+                if valid:
+                    res = _curu._process(v)
+                    if res.status.valid:
+                        return res.result.value, res
+                    else:
+                        valid = False
+                        return None, res
+                else:
+                    return None, _curu._skip(v)
+
+        pvalues, rvalues = _recursion(ovalues)
         if valid:
             pres, error = None, None
             try:

@@ -1,10 +1,8 @@
-import warnings
-
 import pytest
 from hbutils.model import asitems, hasheq, visual, accessor
 
-from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, truediv, \
-    floordiv, mod, pow_, lshift, rshift
+from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, matmul, \
+    truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, valid, is_type, band, bor, bxor
 
 
 @pytest.mark.unittest
@@ -168,7 +166,39 @@ class TestUtilsMathop:
         assert u(-2.5) == 15
 
     def test_matmul(self):
-        warnings.warn('Matmul(@) is not tested.')
+        @visual()
+        @hasheq()
+        @accessor(readonly=True)
+        @asitems(['v'])
+        class A:
+            def __init__(self, v):
+                self.__v = v
+
+            def __matmul__(self, other):
+                return A(self.v * other.v + 2)
+
+        u = matmul(to_type(A), add.by(3) >> to_type(A))
+        assert u(2) == A(12)
+        assert u(5) == A(42)
+
+        u = add.by(3) >> to_type(A) >> matmul.by(A(4))
+        assert u(2) == A(22)
+        assert u(5) == A(34)
+
+        u = add.by(3) >> to_type(A) >> matmul.from_(A(4))
+        assert u(2) == A(22)
+        assert u(5) == A(34)
+
+        u = matmul(to_type(A), A(4), add.by(3) >> to_type(A))
+        assert u(2) == A(52)
+        assert u(5) == A(178)
+
+        u = matmul(to_type(A))
+        assert u(2) == A(2)
+        assert u(5) == A(5)
+
+        with pytest.raises(TypeError):
+            matmul()
 
     def test_truediv(self):
         u = truediv(to_type(float), to_type(int))
@@ -289,3 +319,151 @@ class TestUtilsMathop:
             rshift(to_type(int), 2, 3)
         with pytest.raises(TypeError):
             rshift()
+
+    def test_and_(self):
+        class A:
+            pass
+
+        class B:
+            pass
+
+        class AB(A, B):
+            pass
+
+        u = and_(valid(is_type(A)), valid(is_type(B)))
+        assert not u(A())
+        assert not u(B())
+        assert u(AB())
+
+        u = and_(add.by(3), sub.by(4))
+        assert u(5) == 1
+        assert u(-3) == 0
+        assert u(4) == 0
+
+        u = add.by(3) >> and_.by(4)
+        assert u(5) == 4
+        assert u(-3) == 0
+        assert u(4) == 4
+
+        u = add.by(3) >> and_.from_(4)
+        assert u(5) == 8
+        assert u(-3) == 0
+        assert u(4) == 7
+
+        u = and_(add.by(3), sub.by(2), sub.by(4))
+        assert u(5) == 1
+        assert u(7) == 3
+        assert u(-3) == 0
+        assert u(4) == 0
+        assert u(2) == 0
+
+        u = and_(add.by(3))
+        assert u(5) == 8
+        assert u(7) == 10
+        assert u(-3) == 0
+        assert u(4) == 7
+        assert u(2) == 5
+
+        with pytest.raises(TypeError):
+            and_()
+
+    def test_or_(self):
+        u = or_(valid(is_type(int)), valid(is_type(str)))
+        assert u(1)
+        assert not u(1.0)
+        assert u('1')
+
+        u = valid(is_type(int)) >> or_.by(valid(is_type(str)))
+        assert u(1)
+        assert not u(1.0)
+        assert not u('1')
+
+        u = valid(is_type(int)) >> or_.from_(valid(is_type(str)))
+        assert u(1)
+        assert not u(1.0)
+        assert not u('1')
+
+        u = or_(valid(is_type(int)), valid(is_type(str)), True)
+        assert u(1)
+        assert u(1.0)
+        assert u('1')
+
+        u = or_(valid(is_type(int)))
+        assert u(1)
+        assert not u(1.0)
+        assert not u('1')
+
+        with pytest.raises(TypeError):
+            or_()
+
+    def test_band(self):
+        u = band(add.by(6), sub.by(3))
+        assert u(51) == 48
+        assert u(64) == 4
+
+        u = add.by(6) >> band.by(0x55)
+        assert u(51) == 17
+        assert u(64) == 68
+
+        u = add.by(6) >> band.from_(0x55)
+        assert u(51) == 17
+        assert u(64) == 68
+
+        u = band(add.by(6), sub.by(3), 0x55)
+        assert u(51) == 16
+        assert u(64) == 4
+
+        u = band(add.by(6))
+        assert u(51) == 57
+        assert u(64) == 70
+
+        with pytest.raises(TypeError):
+            band()
+
+    def test_bor(self):
+        u = bor(add.by(6), sub.by(3))
+        assert u(51) == 57
+        assert u(64) == 127
+
+        u = add.by(6) >> bor.by(0x55)
+        assert u(51) == 125
+        assert u(64) == 87
+
+        u = add.by(6) >> bor.from_(0x55)
+        assert u(51) == 125
+        assert u(64) == 87
+
+        u = bor(add.by(6), sub.by(3), 0x55)
+        assert u(51) == 125
+        assert u(64) == 127
+
+        u = bor(add.by(6))
+        assert u(51) == 57
+        assert u(64) == 70
+
+        with pytest.raises(TypeError):
+            bor()
+
+    def test_bxor(self):
+        u = bxor(add.by(6), sub.by(3))
+        assert u(51) == 9
+        assert u(64) == 123
+
+        u = add.by(6) >> bxor.by(0x55)
+        assert u(51) == 108
+        assert u(64) == 19
+
+        u = add.by(6) >> bxor.from_(0x55)
+        assert u(51) == 108
+        assert u(64) == 19
+
+        u = bxor(add.by(6), sub.by(3), 0x55)
+        assert u(51) == 92
+        assert u(64) == 46
+
+        u = bxor(add.by(6))
+        assert u(51) == 57
+        assert u(64) == 70
+
+        with pytest.raises(TypeError):
+            bxor()

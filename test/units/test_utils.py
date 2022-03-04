@@ -1,7 +1,7 @@
 import pytest
 
 from argsloader.base import ParseError
-from argsloader.units import keep, check, is_type, to_type
+from argsloader.units import keep, check, is_type, to_type, valid
 
 
 @pytest.mark.unittest
@@ -28,3 +28,9 @@ class TestUnitsUtils:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, TypeError)
+
+    def test_valid(self):
+        u = valid(is_type(int) | is_type(str))
+        assert u(1)
+        assert not u(1.0)
+        assert u('sdkjf')

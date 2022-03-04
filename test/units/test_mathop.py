@@ -2,7 +2,7 @@ import pytest
 from hbutils.model import asitems, hasheq, visual, accessor
 
 from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, matmul, \
-    truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, valid, is_type, band, bor, bxor
+    truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, valid, is_type, band, bor, bxor, eq, ne
 
 
 @pytest.mark.unittest
@@ -467,3 +467,49 @@ class TestUtilsMathop:
 
         with pytest.raises(TypeError):
             bxor()
+
+    def test_eq(self):
+        u = eq(to_type(float), to_type(int))
+        assert u(1)
+        assert not u(1.5)
+        assert u(-2.0)
+
+        u = to_type(int) >> eq.by(2)
+        assert u(2)
+        assert u(2.0)
+        assert not u(1.5)
+
+        u = to_type(int) >> eq.from_(2)
+        assert u(2)
+        assert u(2.0)
+        assert not u(1.5)
+
+        with pytest.raises(TypeError):
+            eq(to_type(float), to_type(int), 2)
+        with pytest.raises(TypeError):
+            eq(to_type(float))
+        with pytest.raises(TypeError):
+            eq()
+
+    def test_ne(self):
+        u = ne(to_type(float), to_type(int))
+        assert not u(1)
+        assert u(1.5)
+        assert not u(-2.0)
+
+        u = to_type(int) >> ne.by(2)
+        assert not u(2)
+        assert not u(2.0)
+        assert u(1.5)
+
+        u = to_type(int) >> ne.from_(2)
+        assert not u(2)
+        assert not u(2.0)
+        assert u(1.5)
+
+        with pytest.raises(TypeError):
+            ne(to_type(float), to_type(int), 2)
+        with pytest.raises(TypeError):
+            ne(to_type(float))
+        with pytest.raises(TypeError):
+            ne()

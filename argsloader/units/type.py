@@ -1,3 +1,5 @@
+from typing import Mapping, Any
+
 from .base import _CalculateUnit
 
 
@@ -50,3 +52,23 @@ class ToTypeUnit(_CalculateUnit):
 
 def to_type(type_) -> ToTypeUnit:
     return ToTypeUnit(type_)
+
+
+class IsSubclassUnit(_CalculateUnit):
+    __names__ = ('type',)
+    __errors__ = (TypeError,)
+
+    def __init__(self, type_):
+        _CalculateUnit.__init__(self, type_)
+
+    def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
+        type_: type = pres['type']
+        # noinspection PyTypeHints,PyTypeChecker
+        if issubclass(v, type_):
+            return v
+        else:
+            raise TypeError(f'Value type not match - {_tname(type_)}\'s subclass expected but {_tname(type(v))} found.')
+
+
+def is_subclass(type_) -> IsSubclassUnit:
+    return is_type(type) >> IsSubclassUnit(type_)

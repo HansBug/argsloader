@@ -1,7 +1,7 @@
 import pytest
 
 from argsloader.base import ParseError, PValue
-from argsloader.units import is_type, to_type
+from argsloader.units import is_type, to_type, is_subclass
 
 
 class _DemoType:
@@ -71,3 +71,25 @@ class TestUnitsType:
         assert err.unit is ot
         assert err.value == PValue('1.5', ())
         assert err.info == ()
+
+    def test_is_subclass(self):
+        class A(_DemoType):
+            pass
+
+        u = is_subclass(_DemoType)
+        assert u(A) is A
+        assert u(_DemoType) is _DemoType
+
+        with pytest.raises(ParseError) as ei:
+            u(str)
+
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(1)
+
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)

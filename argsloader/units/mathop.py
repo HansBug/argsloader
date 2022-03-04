@@ -12,6 +12,7 @@ __all__ = [
     'abs_', 'inv', 'invert', 'pos', 'neg', 'not_',
     'add', 'plus', 'sub', 'minus', 'mul', 'matmul', 'truediv', 'floordiv', 'mod',
     'pow_', 'lshift', 'rshift', 'and_', 'or_', 'band', 'bor', 'bxor',
+    'eq', 'ne', 'ge', 'gt', 'le', 'lt', 'in_',
 ]
 
 
@@ -49,11 +50,15 @@ def _create_unary_op(op, name_=None, funcname=None):
     return _op_func
 
 
+# math unary operation
 abs_ = _create_unary_op(lambda x: abs(x), 'abs', 'abs_')
 invert = _create_unary_op(lambda x: ~x, 'invert')
 inv = invert
 pos = _create_unary_op(lambda x: +x, 'pos')
 neg = _create_unary_op(lambda x: -x, 'neg')
+
+# logic unary operation
+# TODO: add support for logical unary operation
 not_ = _create_unary_op(lambda x: not x, 'not', 'not_')
 
 
@@ -111,6 +116,7 @@ def _create_binary_op(op, name_, funcname=None, reduce=False):
     return _op_func
 
 
+# math binary operation
 add = _create_binary_op(lambda x, y: x + y, 'add', reduce=True)
 plus = add
 sub = _create_binary_op(lambda x, y: x - y, 'sub')
@@ -123,8 +129,18 @@ mod = _create_binary_op(lambda x, y: x % y, 'mod')
 pow_ = _create_binary_op(lambda x, y: x ** y, 'pow', 'pow_')
 lshift = _create_binary_op(lambda x, y: x << y, 'lshift')
 rshift = _create_binary_op(lambda x, y: x >> y, 'rshift')
-and_ = _create_binary_op(lambda x, y: x and y, 'and', 'and_', reduce=True)
-or_ = _create_binary_op(lambda x, y: x or y, 'or', 'or_', reduce=True)
 band = _create_binary_op(lambda x, y: x & y, 'band', reduce=True)
 bor = _create_binary_op(lambda x, y: x | y, 'bor', reduce=True)
 bxor = _create_binary_op(lambda x, y: x ^ y, 'bxor', reduce=True)
+
+# logic binary operation
+# TODO: add support for logical binary operation
+eq = _create_binary_op(lambda x, y: x == y, 'eq')
+ne = _create_binary_op(lambda x, y: x != y, 'ne')
+le = _create_binary_op(lambda x, y: x <= y, 'le')
+lt = _create_binary_op(lambda x, y: x < y, 'lt')
+ge = _create_binary_op(lambda x, y: x >= y, 'ge')
+gt = _create_binary_op(lambda x, y: x > y, 'gt')
+and_ = _create_binary_op(lambda x, y: x and y, 'and', 'and_', reduce=True)
+or_ = _create_binary_op(lambda x, y: x or y, 'or', 'or_', reduce=True)
+in_ = _create_binary_op(lambda x, y: x in y, 'in', 'in_')

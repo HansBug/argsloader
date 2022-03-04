@@ -9,9 +9,9 @@ from .base import _CalculateUnit
 from .utils import keep
 
 __all__ = [
-    'abs_', 'inv', 'invert', 'pos', 'neg',
+    'abs_', 'inv', 'invert', 'pos', 'neg', 'lnot',
     'add', 'plus', 'sub', 'minus', 'mul', 'matmul', 'truediv', 'floordiv', 'mod',
-    'pow_', 'lshift', 'rshift', 'and_', 'or_', 'xor',
+    'pow_', 'lshift', 'rshift', 'land', 'lor', 'and_', 'or_', 'xor',
 ]
 
 
@@ -54,6 +54,7 @@ invert = _create_unary_op(lambda x: ~x, 'invert')
 inv = invert
 pos = _create_unary_op(lambda x: +x, 'pos')
 neg = _create_unary_op(lambda x: -x, 'neg')
+lnot = _create_unary_op(lambda x: not x, 'lnot')
 
 
 def _create_binary_op(op, name_, funcname=None):
@@ -116,6 +117,8 @@ mod = _create_binary_op(lambda x, y: x % y, 'mod')
 pow_ = _create_binary_op(lambda x, y: x ** y, 'pow', 'pow_')
 lshift = _create_binary_op(lambda x, y: x << y, 'lshift')
 rshift = _create_binary_op(lambda x, y: x >> y, 'rshift')
+land = _create_binary_op(lambda x, y: x and y, 'land')
+lor = _create_binary_op(lambda x, y: x or y, 'lor')
 and_ = _create_binary_op(lambda x, y: x & y, 'and', 'and_')
 or_ = _create_binary_op(lambda x, y: x | y, 'or', 'or_')
 xor = _create_binary_op(lambda x, y: x ^ y, 'xor', 'xor_')

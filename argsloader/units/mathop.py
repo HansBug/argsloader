@@ -9,9 +9,9 @@ from .base import _CalculateUnit
 from .utils import keep
 
 __all__ = [
-    'abs_', 'inv', 'invert', 'pos', 'neg', 'lnot',
+    'abs_', 'inv', 'invert', 'pos', 'neg', 'not_',
     'add', 'plus', 'sub', 'minus', 'mul', 'matmul', 'truediv', 'floordiv', 'mod',
-    'pow_', 'lshift', 'rshift', 'land', 'lor', 'and_', 'or_', 'xor',
+    'pow_', 'lshift', 'rshift', 'and_', 'or_', 'band', 'bor', 'bxor',
 ]
 
 
@@ -54,10 +54,10 @@ invert = _create_unary_op(lambda x: ~x, 'invert')
 inv = invert
 pos = _create_unary_op(lambda x: +x, 'pos')
 neg = _create_unary_op(lambda x: -x, 'neg')
-lnot = _create_unary_op(lambda x: not x, 'lnot')
+not_ = _create_unary_op(lambda x: not x, 'not', 'not_')
 
 
-def _create_binary_op(op, name_, funcname=None):
+def _create_binary_op(op, name_, funcname=None, reduce=False):
     short_name = name_.strip().strip('_')
     funcname = short_name or funcname
 
@@ -96,8 +96,14 @@ def _create_binary_op(op, name_, funcname=None):
         __name__=funcname,
         __module__=_nonsense.__module__,
     )
-    def _op_func(v1, v2) -> '_BinaryOpUnit':
-        return _BinaryOpUnit(v1, v2)
+    def _op_func(v1, *vs) -> '_BinaryOpUnit':
+        if reduce:
+            cur = v1
+            for iv in vs:
+                cur = _BinaryOpUnit(cur, iv)
+            return cur
+        else:
+            return _BinaryOpUnit(v1, *vs)
 
     _op_func.from_ = _op_func_from
     _op_func.by = _op_func_by
@@ -105,20 +111,20 @@ def _create_binary_op(op, name_, funcname=None):
     return _op_func
 
 
-add = _create_binary_op(lambda x, y: x + y, 'add')
+add = _create_binary_op(lambda x, y: x + y, 'add', reduce=True)
 plus = add
 sub = _create_binary_op(lambda x, y: x - y, 'sub')
 minus = sub
-mul = _create_binary_op(lambda x, y: x * y, 'mul')
-matmul = _create_binary_op(lambda x, y: x @ y, 'matmul')
+mul = _create_binary_op(lambda x, y: x * y, 'mul', reduce=True)
+matmul = _create_binary_op(lambda x, y: x @ y, 'matmul', reduce=True)
 truediv = _create_binary_op(lambda x, y: x / y, 'truediv')
 floordiv = _create_binary_op(lambda x, y: x // y, 'floordiv')
 mod = _create_binary_op(lambda x, y: x % y, 'mod')
 pow_ = _create_binary_op(lambda x, y: x ** y, 'pow', 'pow_')
 lshift = _create_binary_op(lambda x, y: x << y, 'lshift')
 rshift = _create_binary_op(lambda x, y: x >> y, 'rshift')
-land = _create_binary_op(lambda x, y: x and y, 'land')
-lor = _create_binary_op(lambda x, y: x or y, 'lor')
-and_ = _create_binary_op(lambda x, y: x & y, 'and', 'and_')
-or_ = _create_binary_op(lambda x, y: x | y, 'or', 'or_')
-xor = _create_binary_op(lambda x, y: x ^ y, 'xor', 'xor_')
+and_ = _create_binary_op(lambda x, y: x and y, 'and', 'and_', reduce=True)
+or_ = _create_binary_op(lambda x, y: x or y, 'or', 'or_', reduce=True)
+band = _create_binary_op(lambda x, y: x & y, 'band', reduce=True)
+bor = _create_binary_op(lambda x, y: x | y, 'bor', reduce=True)
+bxor = _create_binary_op(lambda x, y: x ^ y, 'bxor', reduce=True)

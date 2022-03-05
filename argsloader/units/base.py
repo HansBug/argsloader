@@ -49,6 +49,8 @@ class _UnitProcessProxy:
         )
 
     def error(self, err, children=None) -> ParseResult:
+        if err is not None and not isinstance(err, ParseError):
+            err = wrap_exception(err, self.__unit, self.__v)
         return ParseResult(
             self.__v, self.__unit,
             ResultStatus.ERROR, None, err, children
@@ -92,31 +94,22 @@ class BaseUnit(_UnitModel):
         return validity(self)
 
     def __rshift__(self, other) -> 'BaseUnit':
-        if isinstance(other, BaseUnit):
-            pipe, _, _ = _get_ops()
-            return pipe(self, other)
-        else:
-            return self.__rshift__(_to_unit(other))
+        pipe, _, _ = _get_ops()
+        return pipe(self, _to_unit(other))
 
     def __rrshift__(self, other) -> 'BaseUnit':
         return _to_unit(other) >> self
 
     def __and__(self, other) -> 'BaseUnit':
-        if isinstance(other, BaseUnit):
-            _, and_, _ = _get_ops()
-            return and_(self, other)
-        else:
-            return self.__and__(_to_unit(other))
+        _, and_, _ = _get_ops()
+        return and_(self, _to_unit(other))
 
     def __rand__(self, other) -> 'BaseUnit':
         return _to_unit(other) & self
 
     def __or__(self, other) -> 'BaseUnit':
-        if isinstance(other, BaseUnit):
-            _, _, or_ = _get_ops()
-            return or_(self, other)
-        else:
-            return self.__or__(_to_unit(other))
+        _, _, or_ = _get_ops()
+        return or_(self, _to_unit(other))
 
     def __ror__(self, other) -> 'BaseUnit':
         return _to_unit(other) | self
@@ -195,7 +188,7 @@ class _TransformUnit(BaseUnit):
             except ParseError as err:
                 error = err
             except self.__errors__ as err:
-                error = wrap_exception(err, self, v)
+                error = err
 
             if error is None:
                 return proxy.success(pres, rvalues)

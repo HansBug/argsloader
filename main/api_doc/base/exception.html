@@ -94,7 +94,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.base</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.base.exception</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#baseparseerror">BaseParseError</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#parseerror">ParseError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multipleparseerror">MultipleParseError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#skippedparseerror">SkippedParseError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrap-exception-class">wrap_exception_class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrap-exception">wrap_exception</a></li>
 </ul>
 </li>
 </ul>
@@ -170,67 +175,240 @@
     
   <div class="section" id="argsloader-base-exception">
 <h1>argsloader.base.exception<a class="headerlink" href="#argsloader-base-exception" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="baseparseerror">
+<h2>BaseParseError<a class="headerlink" href="#baseparseerror" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.base.BaseParseError">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">BaseParseError</code><a class="reference internal" href="../../_modules/argsloader/base/exception.html#BaseParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.BaseParseError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Base class of all the parse errors.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This class is only used as base class of <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>,         <a class="reference internal" href="#argsloader.base.MultipleParseError" title="argsloader.base.MultipleParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.MultipleParseError</span></code></a> and <a class="reference internal" href="#argsloader.base.SkippedParseError" title="argsloader.base.SkippedParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.SkippedParseError</span></code></a>.</p>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="parseerror">
 <h2>ParseError<a class="headerlink" href="#parseerror" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="argsloader.base.ParseError">
-<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">ParseError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">info</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#ParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.ParseError" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="argsloader.base.ParseError.info">
-<em class="property">property </em><code class="sig-name descname">info</code><a class="headerlink" href="#argsloader.base.ParseError.info" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>Overview:</dt><dd><p>Property info.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.4.</p>
-<p>Only reading is permitted with the accessor <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
-</div>
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">ParseError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">argsloader.base.value.PValue</span></em>, <em class="sig-param"><span class="n">info</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>object<span class="p">, </span><span class="p">…</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#ParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.ParseError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Error when parse one piece of data.</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt id="argsloader.base.ParseError.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">/</em><span class="sig-paren">)</span><a class="headerlink" href="#argsloader.base.ParseError.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.ParseError.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#argsloader.base.ParseError.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.ParseError.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">argsloader.base.value.PValue</span></em>, <em class="sig-param"><span class="n">info</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>object<span class="p">, </span><span class="p">…</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#ParseError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.ParseError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> – String message.</p></li>
+<li><p><strong>unit</strong> – Unit which cause this error.</p></li>
+<li><p><strong>value</strong> – Value passed in.</p></li>
+<li><p><strong>info</strong> – Extra information.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.ParseError.info">
+<em class="property">property </em><code class="sig-name descname">info</code><a class="headerlink" href="#argsloader.base.ParseError.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Property info.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.5.</p>
+<p>Only reading is permitted with the accessor <code class="docutils literal notranslate"><span class="pre">info</span></code>.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt id="argsloader.base.ParseError.message">
 <em class="property">property </em><code class="sig-name descname">message</code><a class="headerlink" href="#argsloader.base.ParseError.message" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>Overview:</dt><dd><p>Property message.</p>
+<dd><p>Property message.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.4.</p>
+<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.5.</p>
 <p>Only reading is permitted with the accessor <code class="docutils literal notranslate"><span class="pre">message</span></code>.</p>
 </div>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="argsloader.base.ParseError.unit">
 <em class="property">property </em><code class="sig-name descname">unit</code><a class="headerlink" href="#argsloader.base.ParseError.unit" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>Overview:</dt><dd><p>Property unit.</p>
+<dd><p>Property unit.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.4.</p>
+<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.5.</p>
 <p>Only reading is permitted with the accessor <code class="docutils literal notranslate"><span class="pre">unit</span></code>.</p>
 </div>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="argsloader.base.ParseError.value">
 <em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#argsloader.base.ParseError.value" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>Overview:</dt><dd><p>Property value.</p>
+<dd><p>Property value.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.4.</p>
+<p>Created by <a class="reference external" href="https://hansbug.github.io/hbutils/main/api_doc/model/index.html">hbutils.model</a>, v0.4.5.</p>
 <p>Only reading is permitted with the accessor <code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="multipleparseerror">
+<h2>MultipleParseError<a class="headerlink" href="#multipleparseerror" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.base.MultipleParseError">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">MultipleParseError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Tuple<span class="p">[</span>argsloader.base.value.PValue<span class="p">, </span>argsloader.base.exception.ParseError<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#MultipleParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.MultipleParseError" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Full result of one parsing process.</p>
+<p>Can be seen as collection of <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.base.MultipleParseError.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">items</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Tuple<span class="p">[</span>argsloader.base.value.PValue<span class="p">, </span>argsloader.base.exception.ParseError<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#MultipleParseError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.MultipleParseError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.base.MultipleParseError" title="argsloader.base.MultipleParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.MultipleParseError</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> – Parse error items.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.MultipleParseError.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#MultipleParseError.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.MultipleParseError.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.MultipleParseError.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#MultipleParseError.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.MultipleParseError.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.MultipleParseError.items">
+<em class="property">property </em><code class="sig-name descname">items</code><a class="headerlink" href="#argsloader.base.MultipleParseError.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse error items.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="skippedparseerror">
+<h2>SkippedParseError<a class="headerlink" href="#skippedparseerror" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.base.SkippedParseError">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">SkippedParseError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unit</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#SkippedParseError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.SkippedParseError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Error used when parsing process is skipped due to the forwarded error.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.base.SkippedParseError.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unit</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#SkippedParseError.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.SkippedParseError.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.base.SkippedParseError" title="argsloader.base.SkippedParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.SkippedParseError</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>unit</strong> – Unit which should do this parsing process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="wrap-exception-class">
+<h2>wrap_exception_class<a class="headerlink" href="#wrap-exception-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.base.wrap_exception_class">
+<code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">wrap_exception_class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">Type<span class="p">[</span>Exception<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Type<span class="p">[</span>argsloader.base.exception.ParseError<span class="p">]</span><a class="reference internal" href="../../_modules/argsloader/base/exception.html#wrap_exception_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.wrap_exception_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap exception class to inherit <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cls</strong> – Class to be wrapped.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Wrapped exception class, which should be subclass of both         <code class="docutils literal notranslate"><span class="pre">cls</span></code> and <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.base</span> <span class="kn">import</span> <span class="n">wrap_exception_class</span><span class="p">,</span> <span class="n">ParseError</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span> <span class="o">=</span> <span class="n">wrap_exception_class</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span>
+<span class="go">&lt;class &#39;ValueParseError&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">issubclass</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
 </div>
 </dd>
 </dl>
 </dd></dl>
 
+</div>
+<div class="section" id="wrap-exception">
+<h2>wrap_exception<a class="headerlink" href="#wrap-exception" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.base.wrap_exception">
+<code class="sig-prename descclassname">argsloader.base.</code><code class="sig-name descname">wrap_exception</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ex</span><span class="p">:</span> <span class="n">Exception</span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span> &#x2192; argsloader.base.exception.ParseError<a class="reference internal" href="../../_modules/argsloader/base/exception.html#wrap_exception"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.wrap_exception" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap exception object to new exception object with wrapped class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ex</strong> – Original exception.</p></li>
+<li><p><strong>unit</strong> – Unit which cause this exception.</p></li>
+<li><p><strong>value</strong> – Value passed in.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Wrapped exception object, which should be an instance of         <code class="docutils literal notranslate"><span class="pre">type(ex)</span></code> and <a class="reference internal" href="#argsloader.base.ParseError" title="argsloader.base.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.ParseError</span></code></a>.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.base</span> <span class="kn">import</span> <span class="n">wrap_exception</span><span class="p">,</span> <span class="n">ParseError</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span> <span class="o">=</span> <span class="n">wrap_exception</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;this is message&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;unit&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span>
+<span class="go">&lt;ValueParseError 0x7f13877146a8 message: &#39;this is message&#39;, unit: &#39;unit&#39;, value: &#39;value&#39;, info: (2, 3, 4)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span><span class="o">.</span><span class="n">message</span>
+<span class="go">&#39;this is message&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span><span class="o">.</span><span class="n">unit</span>
+<span class="go">&#39;unit&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span><span class="o">.</span><span class="n">value</span>
+<span class="go">&#39;value&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">err</span><span class="o">.</span><span class="n">info</span>
+<span class="go">(2, 3, 4)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 </div>

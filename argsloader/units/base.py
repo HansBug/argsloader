@@ -4,6 +4,11 @@ from typing import Mapping, Any
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
 
 
+class _UncompletedUnit:
+    def _fail(self):
+        raise NotImplementedError  # pragma: no cover
+
+
 class _UnitProcessProxy:
     def __init__(self, unit: 'BaseUnit', v: PValue):
         self.__unit = unit
@@ -97,6 +102,8 @@ def raw(v):
 
 
 def _to_unit(v) -> BaseUnit:
+    if isinstance(v, _UncompletedUnit):
+        getattr(v, '_fail')()
     if isinstance(v, BaseUnit):
         return v
     else:

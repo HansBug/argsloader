@@ -4,9 +4,37 @@ from typing import Mapping, Any
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
 
 
-class _UncompletedUnit:
+class _UnitModel:
+    def __call__(self, v):
+        raise NotImplementedError  # pragma: no cover
+
+    def call(self, v, err_mode='first'):
+        raise NotImplementedError  # pragma: no cover
+
+    def log(self, v) -> ParseResult:
+        raise NotImplementedError  # pragma: no cover
+
+    @property
+    def validity(self) -> 'BaseUnit':
+        raise NotImplementedError  # pragma: no cover
+
+
+class _UncompletedUnit(_UnitModel):
     def _fail(self):
         raise NotImplementedError  # pragma: no cover
+
+    def __call__(self, v):
+        return self._fail()
+
+    def call(self, v, err_mode='first'):
+        return self._fail()
+
+    def log(self, v) -> ParseResult:
+        return self._fail()
+
+    @property
+    def validity(self) -> 'BaseUnit':
+        return self._fail()
 
 
 class _UnitProcessProxy:
@@ -39,7 +67,7 @@ def _get_ops():
     return pipe, and_, or_
 
 
-class BaseUnit:
+class BaseUnit(_UnitModel):
     def _process(self, v: PValue) -> ParseResult:
         return self._easy_process(v, _UnitProcessProxy(self, v))
 

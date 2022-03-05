@@ -143,6 +143,8 @@ class TestUnitsUtils:
             if_(validity(is_type(int)), 233) >> add.by(2)
         with pytest.raises(SyntaxError):
             if_(validity(is_type(int)), 233).elif_(validity(to_type(int)), to_type(int)) >> add.by(2)
+        with pytest.raises(SyntaxError):
+            if_(validity(is_type(int)), 233)(1)
 
         u = if_(is_type(int), keep()).else_(fail(ValueError, 'fxxk'))
         assert u(1) == 1

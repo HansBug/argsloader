@@ -94,3 +94,39 @@ class IntervalUnit(_CalculateUnit, _IntervalData):
 
 
 interval = _IntervalProxy([])
+
+
+class NumberUnit(_CalculateUnit):
+    __errors__ = (ValueError, TypeError)
+
+    def __init__(self):
+        _CalculateUnit.__init__(self)
+
+    def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
+        if isinstance(v, (int, float)):
+            return v
+        elif isinstance(v, str):
+            try:
+                if v.lower().startswith('0x'):
+                    return int(v, 16)
+                elif v.lower().startswith('0o'):
+                    return int(v, 8)
+                elif v.lower().startswith('0b'):
+                    return int(v, 2)
+                else:
+                    try:
+                        return int(v)
+                    except ValueError:
+                        return float(v)
+            except ValueError:
+                raise ValueError(f'Unrecognized value format - {repr(v)}.')
+
+        else:
+            raise TypeError(f'Value type not match - int, float or str expected but {type(v).__name__} found.')
+
+
+_NUMBER_UNIT = NumberUnit()
+
+
+def number() -> NumberUnit:
+    return _NUMBER_UNIT

@@ -3,7 +3,7 @@ import math
 import pytest
 
 from argsloader.base import ParseError
-from argsloader.units import interval, add
+from argsloader.units import interval, add, number
 
 
 # noinspection DuplicatedCode,PyPep8Naming,PyUnresolvedReferences
@@ -221,3 +221,30 @@ class TestUnitsNumeric:
         assert u(0.5) == 0.5
         assert u(+math.inf) == +math.inf
         assert u(-math.inf) == -math.inf
+
+    def test_number(self):
+        u = number()
+        assert u(1) == 1
+        assert u(1.5) == 1.5
+        assert u('1.5') == 1.5
+        assert u('92348') == 92348
+        assert u('0x92348F') == 0x92348f
+        assert u('0X92348f') == 0x92348f
+        assert u('0o236745') == 0o236745
+        assert u('0O236745') == 0o236745
+        assert u('0b010100110111') == 0b010100110111
+        assert u('0B010100110111') == 0b010100110111
+
+        with pytest.raises(ParseError) as ei:
+            u('abcdef')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Unrecognized value format - 'abcdef'.",)
+
+        with pytest.raises(ParseError) as ei:
+            u(None)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+        assert err.args == ('Value type not match - int, float or str expected but NoneType found.',)

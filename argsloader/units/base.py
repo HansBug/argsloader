@@ -55,37 +55,42 @@ class BaseUnit:
     def call(self, v, err_mode='first'):
         return self._process(PValue(v, ())).act(err_mode)
 
-    def log(self, v):
+    def log(self, v) -> ParseResult:
         return self._process(PValue(v, ()))
 
-    def __rshift__(self, other):
+    @property
+    def validity(self) -> 'BaseUnit':
+        from .utils import validity
+        return validity(self)
+
+    def __rshift__(self, other) -> 'BaseUnit':
         if isinstance(other, BaseUnit):
             pipe, _, _ = _get_ops()
             return pipe(self, other)
         else:
             return self.__rshift__(_to_unit(other))
 
-    def __rrshift__(self, other):
+    def __rrshift__(self, other) -> 'BaseUnit':
         return _to_unit(other) >> self
 
-    def __and__(self, other):
+    def __and__(self, other) -> 'BaseUnit':
         if isinstance(other, BaseUnit):
             _, and_, _ = _get_ops()
             return and_(self, other)
         else:
             return self.__and__(_to_unit(other))
 
-    def __rand__(self, other):
+    def __rand__(self, other) -> 'BaseUnit':
         return _to_unit(other) & self
 
-    def __or__(self, other):
+    def __or__(self, other) -> 'BaseUnit':
         if isinstance(other, BaseUnit):
             _, _, or_ = _get_ops()
             return or_(self, other)
         else:
             return self.__or__(_to_unit(other))
 
-    def __ror__(self, other):
+    def __ror__(self, other) -> 'BaseUnit':
         return _to_unit(other) | self
 
 

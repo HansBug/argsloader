@@ -87,7 +87,7 @@ class _IfProxy(_UncompletedUnit):
         return _IfProxy([*self._statements, (_to_unit(cond), _to_unit(val))])
 
     def else_(self, val) -> 'IfUnit':
-        return IfUnit([*self._statements, (_to_unit(True), _to_unit(val))])
+        return IfUnit([*self._statements, (_ELSE_STATEMENT, _to_unit(val))])
 
     def _fail(self):
         raise SyntaxError('Uncompleted if statement unit - else statement expected but not found.')
@@ -100,6 +100,7 @@ class IfUnit(BaseUnit):
     def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
         completed, valid, result, record = False, True, None, []
         for cond, val in self._statements:
+            cond = cond if cond is not _ELSE_STATEMENT else _to_unit(True)
             if not completed:
                 cres = cond._process(v)
                 if cres.status.valid:

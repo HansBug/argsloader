@@ -36,6 +36,16 @@ class TestUnitsUtils:
         assert not u(1.0)
         assert u('sdkjf')
 
+        u = is_type(int).validity
+        assert u(1)
+        assert not u(1.0)
+        assert not u('sdkjf')
+
+        u = (is_type(int) | is_type(str)).validity
+        assert u(1)
+        assert not u(1.0)
+        assert u('sdkjf')
+
     def test_error(self):
         class MyTypeError(TypeError):
             pass

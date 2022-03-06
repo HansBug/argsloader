@@ -170,19 +170,19 @@
 <span class="kn">from</span> <span class="nn">.value</span> <span class="kn">import</span> <span class="n">PValue</span>
 
 
-<div class="viewcode-block" id="BaseParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.BaseParseError">[docs]</a><span class="k">class</span> <span class="nc">BaseParseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.BaseParseError">[docs]</a><span class="k">class</span> <span class="nc">BaseParseError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Base class of all the parse errors.</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        This class is only used as base class of :class:`argsloader.base.ParseError`, \</span>
-<span class="sd">        :class:`argsloader.base.MultipleParseError` and :class:`argsloader.base.SkippedParseError`.</span>
+<span class="sd">        This class is only used as base class of :class:`argsloader.base.exception.ParseError`, \</span>
+<span class="sd">        :class:`argsloader.base.exception.MultipleParseError` and :class:`argsloader.base.exception.SkippedParseError`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.ParseError">[docs]</a><span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="ParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.ParseError">[docs]</a><span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@visual</span><span class="p">(</span><span class="n">show_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@asitems</span><span class="p">([</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;unit&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">])</span>
 <span class="k">class</span> <span class="nc">ParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
@@ -191,9 +191,9 @@
 <span class="sd">        Error when parse one piece of data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="ParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.ParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
+<div class="viewcode-block" id="ParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.ParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="o">...</span><span class="p">]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor of class :class:`argsloader.base.ParseError`.</span>
+<span class="sd">        Constructor of class :class:`argsloader.base.exception.ParseError`.</span>
 
 <span class="sd">        :param message: String message.</span>
 <span class="sd">        :param unit: Unit which cause this error.</span>
@@ -211,14 +211,14 @@
 <span class="n">_EXCEPTION_CLASSES</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<div class="viewcode-block" id="wrap_exception_class"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.wrap_exception_class">[docs]</a><span class="nd">@cached</span><span class="p">(</span><span class="n">_EXCEPTION_CLASSES</span><span class="p">)</span>
+<div class="viewcode-block" id="wrap_exception_class"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.wrap_exception_class">[docs]</a><span class="nd">@cached</span><span class="p">(</span><span class="n">_EXCEPTION_CLASSES</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">wrap_exception_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="ne">Exception</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">ParseError</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Wrap exception class to inherit :class:`argsloader.base.ParseError`.</span>
+<span class="sd">    Wrap exception class to inherit :class:`argsloader.base.exception.ParseError`.</span>
 
 <span class="sd">    :param cls: Class to be wrapped.</span>
 <span class="sd">    :return: Wrapped exception class, which should be subclass of both \</span>
-<span class="sd">        ``cls`` and :class:`argsloader.base.ParseError`.</span>
+<span class="sd">        ``cls`` and :class:`argsloader.base.exception.ParseError`.</span>
 
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; from argsloader.base import wrap_exception_class, ParseError</span>
@@ -245,7 +245,7 @@
         <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unrecognizable exception name - </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="wrap_exception"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.wrap_exception">[docs]</a><span class="k">def</span> <span class="nf">wrap_exception</span><span class="p">(</span><span class="n">ex</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseError</span><span class="p">:</span>
+<div class="viewcode-block" id="wrap_exception"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.wrap_exception">[docs]</a><span class="k">def</span> <span class="nf">wrap_exception</span><span class="p">(</span><span class="n">ex</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseError</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrap exception object to new exception object with wrapped class.</span>
 
@@ -253,7 +253,7 @@
 <span class="sd">    :param unit: Unit which cause this exception.</span>
 <span class="sd">    :param value: Value passed in.</span>
 <span class="sd">    :return: Wrapped exception object, which should be an instance of \</span>
-<span class="sd">        ``type(ex)`` and :class:`argsloader.base.ParseError`.</span>
+<span class="sd">        ``type(ex)`` and :class:`argsloader.base.exception.ParseError`.</span>
 
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; from argsloader.base import wrap_exception, ParseError</span>
@@ -277,17 +277,17 @@
     <span class="k">return</span> <span class="n">wrap_exception_class</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ex</span><span class="p">))(</span><span class="n">ex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MultipleParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.MultipleParseError">[docs]</a><span class="k">class</span> <span class="nc">MultipleParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
+<div class="viewcode-block" id="MultipleParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.MultipleParseError">[docs]</a><span class="k">class</span> <span class="nc">MultipleParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Full result of one parsing process.</span>
 
-<span class="sd">        Can be seen as collection of :class:`argsloader.base.ParseError`.</span>
+<span class="sd">        Can be seen as collection of :class:`argsloader.base.exception.ParseError`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="MultipleParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.MultipleParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PValue</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">]]):</span>
+<div class="viewcode-block" id="MultipleParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.MultipleParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PValue</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">]]):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor of class :class:`argsloader.base.MultipleParseError`.</span>
+<span class="sd">        Constructor of class :class:`argsloader.base.exception.MultipleParseError`.</span>
 
 <span class="sd">        :param items: Parse error items.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -307,17 +307,17 @@
         <span class="n">error_str</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="n">message</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rep_str</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">error_str</span><span class="si">}</span><span class="s1">&#39;</span>
 
-<div class="viewcode-block" id="MultipleParseError.__repr__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.MultipleParseError.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MultipleParseError.__repr__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.MultipleParseError.__repr__">[docs]</a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">),</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&#39;</span> \
                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indent</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">)),</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span> \
                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&gt;&#39;</span></div>
 
-<div class="viewcode-block" id="MultipleParseError.__str__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.MultipleParseError.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="MultipleParseError.__str__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.MultipleParseError.__str__">[docs]</a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">),</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">)</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="si">}</span><span class="s1">&#39;</span> \
                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indent</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_display_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__items</span><span class="p">)),</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;  &quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span></div></div>
 
 
-<div class="viewcode-block" id="SkippedParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.SkippedParseError">[docs]</a><span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="SkippedParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.SkippedParseError">[docs]</a><span class="nd">@accessor</span><span class="p">(</span><span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nd">@asitems</span><span class="p">([</span><span class="s1">&#39;unit&#39;</span><span class="p">])</span>
 <span class="k">class</span> <span class="nc">SkippedParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -325,9 +325,9 @@
 <span class="sd">        Error used when parsing process is skipped due to the forwarded error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="SkippedParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.SkippedParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+<div class="viewcode-block" id="SkippedParseError.__init__"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.SkippedParseError.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor of class :class:`argsloader.base.SkippedParseError`.</span>
+<span class="sd">        Constructor of class :class:`argsloader.base.exception.SkippedParseError`.</span>
 
 <span class="sd">        :param unit: Unit which should do this parsing process.</span>
 <span class="sd">        &quot;&quot;&quot;</span>

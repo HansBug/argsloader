@@ -1,10 +1,14 @@
 from functools import lru_cache
 from typing import Mapping, Any
 
+from hbutils.collection import nested_map
+from hbutils.string import plural_word
+
+from ._format import _ITreeFormat
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
 
 
-class _UnitModel:
+class _UnitModel(_ITreeFormat):
     def __call__(self, v):
         raise NotImplementedError  # pragma: no cover
 
@@ -82,6 +86,13 @@ class UncompletedUnit(_UnitModel):
             This will fail due to its incompleteness.
         """
         return self._fail()
+
+    @classmethod
+    def _cname(cls):
+        return f'(X){cls.__name__}'
+
+    def _rinfo(self):
+        raise NotImplementedError  # pragma: no cover
 
 
 class UnitProcessProxy:
@@ -282,6 +293,9 @@ class BaseUnit(_UnitModel):
         """
         return _to_unit(other) | self
 
+    def _rinfo(self):
+        raise NotImplementedError  # pragma: no cover
+
 
 class ValueUnit(BaseUnit):
     """
@@ -299,6 +313,9 @@ class ValueUnit(BaseUnit):
 
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         return proxy.success(v.val(self._value))
+
+    def _rinfo(self):
+        return [], [('val', self._value)]
 
 
 def raw(v) -> ValueUnit:
@@ -334,7 +351,11 @@ class TransformUnit(BaseUnit):
 
         :param values: Values need to be pre-processed, should be mapped one-to-one with ``__names__``.
         """
-        self._values = tuple(map(lambda x: x[1], zip(self.__names__, values)))
+        if len(self.__names__) != len(values):
+            raise TypeError(f'{type(self).__name__} should accept {plural_word(len(self.__names__), "word")}, '
+                            f'but {plural_word(len(values), "word")} found.')
+
+        self._values = nested_map(_to_unit, tuple(values))
 
     def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
         """
@@ -397,6 +418,9 @@ class TransformUnit(BaseUnit):
                 return proxy.error(error, rvalues)
         else:
             return proxy.error(None, rvalues)
+
+    def _rinfo(self):
+        return [], [(name, val) for name, val in zip(self.__names__, self._values)]
 
 
 class CalculateUnit(TransformUnit):

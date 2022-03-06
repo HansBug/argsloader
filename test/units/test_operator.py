@@ -37,7 +37,7 @@ class TestUnitsOperator:
         it = is_type((int, float, str)) >> to_type(float)
         it2 = it >> it >> it
         assert len(it._units) == 2
-        assert len(it2._units) == 6
+        assert len(it2._units) == 4
 
         assert isinstance(it2(1), float)
         assert it2(1) == 1.0
@@ -86,7 +86,7 @@ class TestUnitsOperator:
         it = is_type(A) & is_type(B)
         assert len(it._units) == 2
 
-        assert len((it & (it >> it) & it)._units) == 5
+        assert len((it & (it >> it) & it)._units) == 4
 
     def test_and_extra(self):
         it = is_type(int) & 2
@@ -114,10 +114,10 @@ class TestUnitsOperator:
         it = is_type(int) | is_type(float)
         assert len(it._units) == 2
 
-        assert len((it | it | it)._units) == 6
-        assert len((it | (it & it) | it)._units) == 5
-        assert len((it | (it >> it) | it)._units) == 5
-        assert len((it | (it | it) | it)._units) == 8
+        assert len((it | it | it)._units) == 4
+        assert len((it | (it & it) | it)._units) == 4
+        assert len((it | (it >> it) | it)._units) == 4
+        assert len((it | (it | it) | it)._units) == 4
 
     def test_or_extra(self):
         it = is_type(int) | 2

@@ -14,6 +14,9 @@ class TestUnitsBase:
             def _fail(self):
                 raise SyntaxError('this unit is uncompleted.')
 
+            def _rinfo(self):
+                return [], []
+
         with pytest.raises(SyntaxError):
             UUnit()(1)
         with pytest.raises(SyntaxError):
@@ -37,6 +40,9 @@ class TestUnitsBase:
                     return proxy.error(ValueError('verr', v.value), {'x': self._x})
                 else:
                     return proxy.success(v.val(v.value + self._x), {'x': self._x})
+
+            def _rinfo(self):
+                return [('x', self._x)], []
 
         u = MyUnit(2)
         assert u(3) == 5

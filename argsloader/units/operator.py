@@ -1,13 +1,32 @@
-from typing import Tuple
+from typing import Tuple, Iterator
 
 from .base import BaseUnit, UnitProcessProxy, _to_unit
 from ..base import ParseResult, PValue
 
 
-class PipeUnit(BaseUnit):
+class _ChainUnit(BaseUnit):
     def __init__(self, unit: BaseUnit, *units: BaseUnit):
         self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
 
+    def _rinfo(self):
+        return [('count', len(self._units))], [(i, u) for i, u in enumerate(self._units)]
+
+    def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
+        raise NotImplementedError  # pragma: no cover
+
+    @classmethod
+    def _chain_iter(cls, *units) -> Iterator[BaseUnit]:
+        if units:
+            if isinstance(units[0], cls):
+                yield from cls._chain_iter(*units[0]._units)
+            else:
+                yield units[0]
+
+            for unit in units[1:]:
+                yield unit
+
+
+class PipeUnit(_ChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         curv, rs, valid = v, [], True
         for i, unit in enumerate(self._units):
@@ -26,27 +45,13 @@ class PipeUnit(BaseUnit):
         else:
             return proxy.error(None, rs)
 
-    @classmethod
-    def pipe(cls, *units) -> 'PipeUnit':
-        actual_units = []
-        for unit in units:
-            if isinstance(unit, PipeUnit):
-                for iu in unit._units:
-                    actual_units.append(iu)
-            else:
-                actual_units.append(unit)
 
-        return cls(*actual_units)
-
-
+# noinspection PyProtectedMember
 def pipe(*units) -> PipeUnit:
-    return PipeUnit.pipe(*units)
+    return PipeUnit(*PipeUnit._chain_iter(*units))
 
 
-class AndUnit(BaseUnit):
-    def __init__(self, unit: BaseUnit, *units: BaseUnit):
-        self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
-
+class AndUnit(_ChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         lastv, rs, valid = None, [], True
         for unit in self._units:
@@ -65,27 +70,13 @@ class AndUnit(BaseUnit):
         else:
             return proxy.error(None, rs)
 
-    @classmethod
-    def and_(cls, *units) -> 'AndUnit':
-        actual_units = []
-        for unit in units:
-            if isinstance(unit, AndUnit):
-                for iu in unit._units:
-                    actual_units.append(iu)
-            else:
-                actual_units.append(unit)
 
-        return cls(*actual_units)
-
-
+# noinspection PyProtectedMember
 def and_(*units) -> AndUnit:
-    return AndUnit.and_(*units)
+    return AndUnit(*AndUnit._chain_iter(*units))
 
 
-class OrUnit(BaseUnit):
-    def __init__(self, unit: BaseUnit, *units: BaseUnit):
-        self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
-
+class OrUnit(_ChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         firstv, rs, invalid = None, [], True
         for unit in self._units:
@@ -103,18 +94,7 @@ class OrUnit(BaseUnit):
         else:
             return proxy.error(None, rs)
 
-    @classmethod
-    def or_(cls, *units) -> 'OrUnit':
-        actual_units = []
-        for unit in units:
-            if isinstance(unit, OrUnit):
-                for iu in unit._units:
-                    actual_units.append(iu)
-            else:
-                actual_units.append(unit)
 
-        return cls(*actual_units)
-
-
+# noinspection PyProtectedMember
 def or_(*units) -> OrUnit:
-    return OrUnit.or_(*units)
+    return OrUnit(*OrUnit._chain_iter(*units))

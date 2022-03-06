@@ -2,6 +2,7 @@ from typing import Mapping, Any, List, Tuple
 
 from hbutils.design import SingletonMark
 
+from ._format import _ITreeFormat
 from .base import CalculateUnit, BaseUnit, UnitProcessProxy, _to_unit, TransformUnit, UncompletedUnit
 from ..base import PValue, ParseResult, wrap_exception
 
@@ -43,6 +44,9 @@ class ValidUnit(BaseUnit):
         result: ParseResult = self._unit._process(v)
         return proxy.success(v.val(result.status.valid), {'unit': result})
 
+    def _rinfo(self):
+        return [], [('unit', self._unit)]
+
 
 def validity(unit) -> ValidUnit:
     return ValidUnit(unit)
@@ -79,10 +83,27 @@ def fail(errcls, *args) -> ErrorUnit:
 _ELSE_STATEMENT = SingletonMark('ELSE_STATEMENT')
 
 
-class _IfProxy(UncompletedUnit):
+class _IfStatementModel(_ITreeFormat):
     def __init__(self, statements):
         self._statements = statements
 
+    def _rinfo(self):
+        children = []
+        for i, (_if, _then) in enumerate(self._statements):
+            if _if is not _ELSE_STATEMENT:
+                if i == 0:
+                    children.append(('if', _if))
+                    children.append(('then', _then))
+                else:
+                    children.append((f'elif_{i}', _if))
+                    children.append(('then', _then))
+            else:
+                children.append(('else', _then))
+
+        return [], children
+
+
+class _IfProxy(_IfStatementModel, UncompletedUnit):
     def elif_(self, cond, val) -> '_IfProxy':
         return _IfProxy([*self._statements, (_to_unit(cond), _to_unit(val))])
 
@@ -93,9 +114,9 @@ class _IfProxy(UncompletedUnit):
         raise SyntaxError('Uncompleted if statement unit - else statement expected but not found.')
 
 
-class IfUnit(BaseUnit):
+class IfUnit(_IfStatementModel, BaseUnit):
     def __init__(self, statements: List[Tuple[BaseUnit, BaseUnit]]):
-        self._statements = statements
+        _IfStatementModel.__init__(self, statements)
 
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         completed, valid, result, record = False, True, None, []

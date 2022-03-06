@@ -5,3 +5,4 @@ argsloader.base
     :maxdepth: 3
 
     exception
+    value

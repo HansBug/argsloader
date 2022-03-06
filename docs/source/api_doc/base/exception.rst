@@ -1,7 +1,9 @@
 argsloader.base.exception
 =================================
 
-.. py:currentmodule:: argsloader.base
+.. currentmodule:: argsloader.base.exception
+
+.. automodule:: argsloader.base.exception
 
 
 BaseParseError

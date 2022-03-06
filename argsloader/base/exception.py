@@ -17,8 +17,8 @@ class BaseParseError(Exception):
         Base class of all the parse errors.
 
     .. note::
-        This class is only used as base class of :class:`argsloader.base.ParseError`, \
-        :class:`argsloader.base.MultipleParseError` and :class:`argsloader.base.SkippedParseError`.
+        This class is only used as base class of :class:`argsloader.base.exception.ParseError`, \
+        :class:`argsloader.base.exception.MultipleParseError` and :class:`argsloader.base.exception.SkippedParseError`.
     """
     pass
 
@@ -34,7 +34,7 @@ class ParseError(BaseParseError):
 
     def __init__(self, message: str, unit, value: PValue, info: Tuple[object, ...]):
         """
-        Constructor of class :class:`argsloader.base.ParseError`.
+        Constructor of class :class:`argsloader.base.exception.ParseError`.
 
         :param message: String message.
         :param unit: Unit which cause this error.
@@ -55,11 +55,11 @@ _EXCEPTION_CLASSES = {}
 @cached(_EXCEPTION_CLASSES)
 def wrap_exception_class(cls: Type[Exception]) -> Type[ParseError]:
     """
-    Wrap exception class to inherit :class:`argsloader.base.ParseError`.
+    Wrap exception class to inherit :class:`argsloader.base.exception.ParseError`.
 
     :param cls: Class to be wrapped.
     :return: Wrapped exception class, which should be subclass of both \
-        ``cls`` and :class:`argsloader.base.ParseError`.
+        ``cls`` and :class:`argsloader.base.exception.ParseError`.
 
     Examples::
         >>> from argsloader.base import wrap_exception_class, ParseError
@@ -94,7 +94,7 @@ def wrap_exception(ex: Exception, unit, value) -> ParseError:
     :param unit: Unit which cause this exception.
     :param value: Value passed in.
     :return: Wrapped exception object, which should be an instance of \
-        ``type(ex)`` and :class:`argsloader.base.ParseError`.
+        ``type(ex)`` and :class:`argsloader.base.exception.ParseError`.
 
     Examples::
         >>> from argsloader.base import wrap_exception, ParseError
@@ -123,12 +123,12 @@ class MultipleParseError(BaseParseError):
     Overview:
         Full result of one parsing process.
 
-        Can be seen as collection of :class:`argsloader.base.ParseError`.
+        Can be seen as collection of :class:`argsloader.base.exception.ParseError`.
     """
 
     def __init__(self, items: List[Tuple[PValue, ParseError]]):
         """
-        Constructor of class :class:`argsloader.base.MultipleParseError`.
+        Constructor of class :class:`argsloader.base.exception.MultipleParseError`.
 
         :param items: Parse error items.
         """
@@ -168,7 +168,7 @@ class SkippedParseError(BaseParseError):
 
     def __init__(self, unit):
         """
-        Constructor of class :class:`argsloader.base.SkippedParseError`.
+        Constructor of class :class:`argsloader.base.exception.SkippedParseError`.
 
         :param unit: Unit which should do this parsing process.
         """

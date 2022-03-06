@@ -6,7 +6,7 @@ import wordninja
 from hbutils.design import SingletonMark
 from hbutils.reflection import fassign
 
-from .base import _CalculateUnit
+from .base import CalculateUnit
 from .utils import keep
 
 __all__ = [
@@ -29,12 +29,12 @@ def _create_unary_op(op, name_=None, funcname=None):
     short_name = (name_ or op.__name__).strip().strip('_')
     funcname = short_name or funcname
 
-    class _UnaryOpUnit(_CalculateUnit):
+    class _UnaryOpUnit(CalculateUnit):
         __names__ = ('v1',)
         __errors__ = (ValueError, TypeError)
 
         def __init__(self, v1):
-            _CalculateUnit.__init__(self, v1)
+            CalculateUnit.__init__(self, v1)
 
         def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
             return op(pres['v1'])
@@ -67,12 +67,12 @@ def _create_binary_op(op, name_, funcname=None, reduce=False):
     short_name = name_.strip().strip('_')
     funcname = short_name or funcname
 
-    class _BinaryOpUnit(_CalculateUnit):
+    class _BinaryOpUnit(CalculateUnit):
         __names__ = ('v1', 'v2',)
         __errors__ = (ValueError, TypeError)
 
         def __init__(self, v1, v2):
-            _CalculateUnit.__init__(
+            CalculateUnit.__init__(
                 self,
                 keep() if v1 is S_ else v1,
                 keep() if v2 is S_ else v2,

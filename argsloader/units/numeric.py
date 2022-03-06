@@ -1,7 +1,7 @@
 import math
 from typing import List, Tuple, Union, Mapping, Any
 
-from .base import _UncompletedUnit, _CalculateUnit
+from .base import UncompletedUnit, CalculateUnit
 from .mathop import le, lt, ge, gt
 from .utils import validate, keep
 
@@ -36,7 +36,7 @@ class _IntervalData:
         return IntervalUnit([*self._intervals, (left, right, True, True)])
 
 
-class _IntervalProxy(_UncompletedUnit, _IntervalData):
+class _IntervalProxy(UncompletedUnit, _IntervalData):
     def _fail(self):
         raise SyntaxError('Uncompleted interval unit - as least one interval should be provided.')
 
@@ -77,12 +77,12 @@ def _build_interval_exp(v):
     return runit.validity
 
 
-class IntervalUnit(_CalculateUnit, _IntervalData):
+class IntervalUnit(CalculateUnit, _IntervalData):
     __names__ = ('condition',)
     __errors__ = (ValueError,)
 
     def __init__(self, intervals):
-        _CalculateUnit.__init__(self, _build_interval_exp(intervals))
+        CalculateUnit.__init__(self, _build_interval_exp(intervals))
         _IntervalData.__init__(self, intervals)
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
@@ -96,11 +96,11 @@ class IntervalUnit(_CalculateUnit, _IntervalData):
 interval = _IntervalProxy([])
 
 
-class NumberUnit(_CalculateUnit):
+class NumberUnit(CalculateUnit):
     __errors__ = (ValueError, TypeError)
 
     def __init__(self):
-        _CalculateUnit.__init__(self)
+        CalculateUnit.__init__(self)
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
         if isinstance(v, (int, float)):

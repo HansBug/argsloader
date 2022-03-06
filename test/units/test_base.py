@@ -4,13 +4,13 @@ import pytest
 
 from argsloader.base import PValue, ParseResult, ParseError
 from argsloader.units import raw, to_type, is_type
-from argsloader.units.base import BaseUnit, _UnitProcessProxy, _UncompletedUnit, _TransformUnit, _CalculateUnit
+from argsloader.units.base import BaseUnit, UnitProcessProxy, UncompletedUnit, TransformUnit, CalculateUnit
 
 
 @pytest.mark.unittest
 class TestUnitsBase:
     def test_uncompleted_unit(self):
-        class UUnit(_UncompletedUnit):
+        class UUnit(UncompletedUnit):
             def _fail(self):
                 raise SyntaxError('this unit is uncompleted.')
 
@@ -32,7 +32,7 @@ class TestUnitsBase:
             def __init__(self, x):
                 self._x = x
 
-            def _easy_process(self, v: PValue, proxy: _UnitProcessProxy) -> ParseResult:
+            def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
                 if v.value + self._x < 0:
                     return proxy.error(ValueError('verr', v.value), {'x': self._x})
                 else:
@@ -117,12 +117,12 @@ class TestUnitsBase:
         assert u(pytest) == 1
 
     def test_transform_unit(self):
-        class MyUnit(_TransformUnit):
+        class MyUnit(TransformUnit):
             __names__ = ('x1', 'x2')
             __errors__ = (ValueError,)
 
             def __init__(self, x1, x2):
-                _TransformUnit.__init__(self, x1, x2)
+                TransformUnit.__init__(self, x1, x2)
 
             def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
                 if v.value >= 0:
@@ -148,12 +148,12 @@ class TestUnitsBase:
         assert err.args == ('verr', [-3, 2, -3, -3], 2)
 
     def test_calculate_unit(self):
-        class MyUnit(_CalculateUnit):
+        class MyUnit(CalculateUnit):
             __names__ = ('x1', 'x2')
             __errors__ = (ValueError,)
 
             def __init__(self, x1, x2):
-                _TransformUnit.__init__(self, x1, x2)
+                TransformUnit.__init__(self, x1, x2)
 
             def _calculate(self, v, pres: Mapping[str, Any]) -> object:
                 if v >= 0:

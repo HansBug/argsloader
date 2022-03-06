@@ -1,6 +1,6 @@
 from typing import Mapping, Any
 
-from .base import _CalculateUnit
+from .base import CalculateUnit
 
 
 def _type_full_name(type_: type) -> str:
@@ -18,12 +18,12 @@ def _tname(type_) -> str:
         return '(' + ', '.join(map(_type_full_name, type_)) + ')'
 
 
-class IsTypeUnit(_CalculateUnit):
+class IsTypeUnit(CalculateUnit):
     __names__ = ('type',)
     __errors__ = (TypeError,)
 
     def __init__(self, type_):
-        _CalculateUnit.__init__(self, type_)
+        CalculateUnit.__init__(self, type_)
 
     def _calculate(self, v, pres):
         type_ = pres['type']
@@ -38,12 +38,12 @@ def is_type(type_) -> IsTypeUnit:
     return IsTypeUnit(type_)
 
 
-class ToTypeUnit(_CalculateUnit):
+class ToTypeUnit(CalculateUnit):
     __names__ = ('type',)
     __errors__ = (TypeError, ValueError)
 
     def __init__(self, type_):
-        _CalculateUnit.__init__(self, type_)
+        CalculateUnit.__init__(self, type_)
 
     def _calculate(self, v, pres) -> object:
         type_: type = pres['type']
@@ -54,12 +54,12 @@ def to_type(type_) -> ToTypeUnit:
     return ToTypeUnit(type_)
 
 
-class IsSubclassUnit(_CalculateUnit):
+class IsSubclassUnit(CalculateUnit):
     __names__ = ('type',)
     __errors__ = (TypeError,)
 
     def __init__(self, type_):
-        _CalculateUnit.__init__(self, type_)
+        CalculateUnit.__init__(self, type_)
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
         type_: type = pres['type']

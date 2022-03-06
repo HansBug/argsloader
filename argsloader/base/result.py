@@ -1,6 +1,7 @@
 from enum import IntEnum, unique
 from typing import Optional, Union, Iterator, Tuple
 
+import enum_tools
 from hbutils.collection import nested_walk
 from hbutils.model import get_repr_info, int_enum_loads, raw_support, asitems, hasheq
 
@@ -21,6 +22,12 @@ class _BaseChildProxy:
             raise ValueError(f'Invalid type of children - {repr(type(children))}.')
 
     def __getitem__(self, item) -> Union['ParseResultChildProxy', object]:
+        """
+        Get item from children.
+
+        :param item: Name of item, can be a string or an integer.
+        :return: Item got, can be a :class:`argsloader.base.result.ParseResultChildProxy` or an object.
+        """
         if self._children is not None:
             child = self._children[item]
             if isinstance(child, (dict, list, tuple)):
@@ -31,6 +38,12 @@ class _BaseChildProxy:
             raise KeyError(f'Key {repr(item)} not found.')
 
     def __contains__(self, item) -> bool:
+        """
+        Check if this children collection contain the given ``item``.
+
+        :param item: Item to be checked.
+        :return: Item is contained or not.
+        """
         if isinstance(self._children, dict):
             return item in self._children
         elif isinstance(self._children, (list, tuple)):
@@ -39,6 +52,11 @@ class _BaseChildProxy:
             return False
 
     def keys(self):
+        """
+        Get collection of keys, can be a collection of string or integer.
+
+        :return: Collection of keys.
+        """
         if isinstance(self._children, dict):
             return self._children.keys()
         elif isinstance(self._children, (tuple, list)):
@@ -46,7 +64,12 @@ class _BaseChildProxy:
         else:
             return []
 
-    def items(self):
+    def items(self) -> Iterator[Tuple[Union[int, str], Union['ParseResultChildProxy', object]]]:
+        """
+        Get collection of pairs.
+
+        :return: Collection of pairs
+        """
         if isinstance(self._children, dict):
             for key, value in self._children.items():
                 if isinstance(value, (dict, list, tuple)):
@@ -66,37 +89,72 @@ class _BaseChildProxy:
 @hasheq()
 @asitems(['_children'])
 class ParseResultChildProxy(_BaseChildProxy):
-    pass
+    """
+    Overview:
+        Proxy class of children, only used for accessing.
+    """
+
+    def __init__(self, children):
+        """
+        Constructor of class :class:`argsloader.base.result.ParseResultChildProxy`.
+
+        :param children: Child structure.
+        """
+        _BaseChildProxy.__init__(self, children)
 
 
+@enum_tools.documentation.document_enum
 @int_enum_loads(name_preprocess=str.upper)
 @unique
 class ResultStatus(IntEnum):
-    SKIPPED = 0
-    SUCCESS = 1
-    ERROR = 2
+    SKIPPED = 0  # doc: Unit processing is skipped.
+    SUCCESS = 1  # doc: Unit processing is not skipped and succeed.
+    ERROR = 2  # doc: Unit processing is not skipped and error occurred.
 
     @property
     def valid(self):
+        """
+        Validity, which means it is processed and succeed.
+        """
         return self == self.SUCCESS
 
     @property
     def processed(self):
+        """
+        Processed or not, which means this process is not skipped.
+        """
         return self != self.SKIPPED
 
 
+@enum_tools.documentation.document_enum
 @int_enum_loads(name_preprocess=str.upper)
 @unique
 class ErrMode(IntEnum):
-    FIRST = 1
-    TRY_ALL = 2
-    ALL = 3
+    FIRST = 1  # doc: Raise first error.
+    TRY_ALL = 2  # doc: Try raise all errors, if only one error is found, raise it.
+    ALL = 3  # doc: Raise all errors, with :class:`argsloader.base.exception.MultipleParseError`.
 
 
 class ParseResult(_BaseChildProxy):
+    """
+    Overview:
+        Result of one parsing process.
+    """
+
     def __init__(self, input_: Optional[PValue], unit,
                  status, result: Optional[PValue],
                  error: Optional[ParseError], children=None):
+        """
+        Constructor of class :class:`argsloader.base.result.ParseResult`.
+
+        :param input\\_: Input value object.
+        :param unit: Unit to do parsing process.
+        :param status: Status of result.
+        :param result: Result object of parsing process, should be ``None`` when ``status`` is not valid.
+        :param error: Error object of parsing process, should be ``None`` when no error, skipped or \
+            the error is caused by child leveled unit.
+        :param children: Children information, should be structure like ``dict``, ``list`` or ``tuple``.
+        """
         _BaseChildProxy.__init__(self, children)
 
         self.__input = input_
@@ -120,22 +178,38 @@ class ParseResult(_BaseChildProxy):
 
     @property
     def input(self) -> Optional[PValue]:
+        """
+        Input value object.
+        """
         return self.__input
 
     @property
     def unit(self):
+        """
+        Unit to do parsing process.
+        """
         return self.__unit
 
     @property
     def status(self) -> ResultStatus:
+        """
+        Status of result.
+        """
         return self.__status
 
     @property
     def result(self) -> Optional[PValue]:
+        """
+        Result object of parsing process, should be ``None`` when ``status`` is not valid.
+        """
         return self.__result
 
     @property
     def error(self) -> Optional[ParseError]:
+        """
+        Error object of parsing process, should be ``None`` when no error, \
+            skipped or the error is caused by child leveled unit.
+        """
         return self.__error
 
     def _iter_errors(self) -> Iterator[Tuple[PValue, ParseError]]:
@@ -172,6 +246,15 @@ class ParseResult(_BaseChildProxy):
             return None  # pragma: no cover
 
     def act(self, err_mode):
+        """
+        Act this result:
+
+        - If success, return value as result.
+        - If error, raise the error as the ``err_mode`` saied.
+        - If skipped, raise :class:`argsloader.base.result.SkippedParseError`.
+
+        :param err_mode: Error mode.
+        """
         err_mode = ErrMode.loads(err_mode)
         if self.__status.processed:
             if self.__status.valid:

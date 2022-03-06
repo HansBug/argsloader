@@ -2,3 +2,4 @@ hbutils>=0.4.5,<1
 cachetools>=4.2.4
 inflection>=0.5.1
 wordninja>=2.0.0
+enum_tools>=0.8.0

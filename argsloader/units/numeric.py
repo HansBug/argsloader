@@ -3,7 +3,6 @@ from typing import List, Tuple, Union, Mapping, Any
 
 from .base import UncompletedUnit, CalculateUnit
 from .mathop import le, lt, ge, gt
-from .utils import validate, keep
 
 
 # noinspection PyPep8Naming
@@ -57,17 +56,13 @@ def _interval_repr(v):
     ])
 
 
-class _IntervalValueError(Exception):
-    pass
-
-
 def _build_interval_exp(v):
     runit = None
     for int_ in v:
         l, r, il, ir = int_
 
-        ul = validate(keep(), ge.by(l) if il else gt.by(l), _IntervalValueError, '')
-        ur = validate(keep(), le.by(r) if ir else lt.by(r), _IntervalValueError, '')
+        ul = ge.than(l) if il else gt.than(l)
+        ur = le.than(r) if ir else lt.than(r)
         u = ul & ur
         if runit is None:
             runit = u

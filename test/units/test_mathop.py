@@ -1,6 +1,7 @@
 import pytest
 from hbutils.model import asitems, hasheq, visual, accessor
 
+from argsloader.base import ParseError
 from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, matmul, \
     truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, validity, is_type, band, bor, bxor, eq, ne, ge, gt, \
     le, lt, in_, isin, contains
@@ -471,19 +472,24 @@ class TestUtilsMathop:
 
     def test_eq(self):
         u = eq(to_type(float), to_type(int))
-        assert u(1)
-        assert not u(1.5)
-        assert u(-2.0)
+        assert u(1) == 1
+        with pytest.raises(ParseError) as ei:
+            u(1.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 == v2, but 1.5 != 1 is found.',)
+        assert u(-2.0) == -2.0
 
-        u = to_type(int) >> eq.by(2)
-        assert u(2)
-        assert u(2.0)
-        assert not u(1.5)
-
-        u = to_type(int) >> eq.from_(2)
-        assert u(2)
-        assert u(2.0)
-        assert not u(1.5)
+        u = to_type(int) >> eq.to_(2)
+        assert u(2) == 2
+        assert u(2.0) == 2.0
+        with pytest.raises(ParseError) as ei:
+            u(1.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 == v2, but 1 != 2 is found.',)
 
         with pytest.raises(TypeError):
             eq(to_type(float), to_type(int), 2)
@@ -494,19 +500,38 @@ class TestUtilsMathop:
 
     def test_ne(self):
         u = ne(to_type(float), to_type(int))
-        assert not u(1)
-        assert u(1.5)
-        assert not u(-2.0)
+        with pytest.raises(ParseError) as ei:
+            u(1)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 != v2, but 1.0 == 1 is found.',)
 
-        u = to_type(int) >> ne.by(2)
-        assert not u(2)
-        assert not u(2.0)
-        assert u(1.5)
+        assert u(1.5) == 1.5
 
-        u = to_type(int) >> ne.from_(2)
-        assert not u(2)
-        assert not u(2.0)
-        assert u(1.5)
+        with pytest.raises(ParseError) as ei:
+            u(-2.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 != v2, but -2.0 == -2 is found.',)
+
+        u = to_type(int) >> ne.to_(2)
+        with pytest.raises(ParseError) as ei:
+            u(2)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 != v2, but 2 == 2 is found.',)
+
+        with pytest.raises(ParseError) as ei:
+            u(2.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 != v2, but 2 == 2 is found.',)
+
+        assert u(1.5) == 1
 
         with pytest.raises(TypeError):
             ne(to_type(float), to_type(int), 2)
@@ -517,19 +542,25 @@ class TestUtilsMathop:
 
     def test_ge(self):
         u = ge(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
-        assert u(-0.5)
-        assert u(0.0)
-        assert not u(0.5)
+        assert u(-0.5) == -0.5
+        assert u(0.0) == 0.0
+        with pytest.raises(ParseError) as ei:
+            u(0.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 >= v2, but 3.75 < 4.0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> ge.by(0)
-        assert not u(-2.5)
-        assert u(-2.0)
-        assert u(-1.5)
+        u = add.by(2) >> mul.by(1.5) >> ge.than(0)
+        with pytest.raises(ParseError) as ei:
+            u(-2.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 >= v2, but -0.75 < 0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> ge.from_(0)
-        assert u(-2.5)
-        assert u(-2.0)
-        assert not u(-1.5)
+        assert u(-2.0) == 0.0
+        assert u(-1.5) == 0.75
 
         with pytest.raises(TypeError):
             ge(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
@@ -540,19 +571,38 @@ class TestUtilsMathop:
 
     def test_gt(self):
         u = gt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
-        assert u(-0.5)
-        assert not u(0.0)
-        assert not u(0.5)
+        assert u(-0.5) == -0.5
 
-        u = add.by(2) >> mul.by(1.5) >> gt.by(0)
-        assert not u(-2.5)
-        assert not u(-2.0)
-        assert u(-1.5)
+        with pytest.raises(ParseError) as ei:
+            u(0.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 > v2, but 3.0 <= 3.0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> gt.from_(0)
-        assert u(-2.5)
-        assert not u(-2.0)
-        assert not u(-1.5)
+        with pytest.raises(ParseError) as ei:
+            u(0.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 > v2, but 3.75 <= 4.0 is found.',)
+
+        u = add.by(2) >> mul.by(1.5) >> gt.than(0)
+        with pytest.raises(ParseError) as ei:
+            u(-2.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 > v2, but -0.75 <= 0 is found.',)
+
+        with pytest.raises(ParseError) as ei:
+            u(-2.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 > v2, but 0.0 <= 0 is found.',)
+
+        assert u(-1.5) == 0.75
 
         with pytest.raises(TypeError):
             gt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
@@ -563,19 +613,25 @@ class TestUtilsMathop:
 
     def test_le(self):
         u = le(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
-        assert not u(-0.5)
-        assert u(0.0)
-        assert u(0.5)
+        with pytest.raises(ParseError) as ei:
+            u(-0.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 <= v2, but 2.25 > 2.0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> le.by(0)
-        assert u(-2.5)
-        assert u(-2.0)
-        assert not u(-1.5)
+        assert u(0.0) == 0.0
+        assert u(0.5) == 0.5
 
-        u = add.by(2) >> mul.by(1.5) >> le.from_(0)
-        assert not u(-2.5)
-        assert u(-2.0)
-        assert u(-1.5)
+        u = add.by(2) >> mul.by(1.5) >> le.than(0)
+        assert u(-2.5) == -0.75
+        assert u(-2.0) == 0.0
+        with pytest.raises(ParseError) as ei:
+            u(-1.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 <= v2, but 0.75 > 0 is found.',)
 
         with pytest.raises(TypeError):
             le(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)
@@ -586,19 +642,38 @@ class TestUtilsMathop:
 
     def test_lt(self):
         u = lt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2))
-        assert not u(-0.5)
-        assert not u(0.0)
-        assert u(0.5)
+        with pytest.raises(ParseError) as ei:
+            u(-0.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 < v2, but 2.25 >= 2.0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> lt.by(0)
-        assert u(-2.5)
-        assert not u(-2.0)
-        assert not u(-1.5)
+        with pytest.raises(ParseError) as ei:
+            u(0.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 < v2, but 3.0 >= 3.0 is found.',)
 
-        u = add.by(2) >> mul.by(1.5) >> lt.from_(0)
-        assert not u(-2.5)
-        assert not u(-2.0)
-        assert u(-1.5)
+        assert u(0.5) == 0.5
+
+        u = add.by(2) >> mul.by(1.5) >> lt.than(0)
+        assert u(-2.5) == -0.75
+
+        with pytest.raises(ParseError) as ei:
+            u(-2.0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 < v2, but 0.0 >= 0 is found.',)
+
+        with pytest.raises(ParseError) as ei:
+            u(-1.5)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Expected v1 < v2, but 0.75 >= 0 is found.',)
 
         with pytest.raises(TypeError):
             lt(add.by(2) >> mul.by(1.5), add.by(1.5) >> mul.by(2), 2)

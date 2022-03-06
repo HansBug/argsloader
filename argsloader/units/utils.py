@@ -2,8 +2,7 @@ from typing import Mapping, Any, List, Tuple
 
 from hbutils.design import SingletonMark
 
-from ._format import _ITreeFormat
-from .base import CalculateUnit, BaseUnit, UnitProcessProxy, _to_unit, TransformUnit, UncompletedUnit
+from .base import CalculateUnit, BaseUnit, UnitProcessProxy, _to_unit, TransformUnit, UncompletedUnit, _ITreeFormat
 from ..base import PValue, ParseResult, wrap_exception
 
 
@@ -36,7 +35,7 @@ def check(unit) -> CheckUnit:
     return CheckUnit(unit)
 
 
-class ValidUnit(BaseUnit):
+class ValidityUnit(BaseUnit):
     def __init__(self, unit: BaseUnit):
         self._unit = _to_unit(unit)
 
@@ -48,8 +47,8 @@ class ValidUnit(BaseUnit):
         return [], [('unit', self._unit)]
 
 
-def validity(unit) -> ValidUnit:
-    return ValidUnit(unit)
+def validity(unit) -> ValidityUnit:
+    return ValidityUnit(unit)
 
 
 class ErrorUnit(TransformUnit):

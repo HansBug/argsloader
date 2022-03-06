@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 import pytest
 
 from argsloader.base import ParseError
@@ -135,3 +137,16 @@ class TestUnitsOperator:
         assert it(1) == 'this is int'
         assert it(1.5) == 'this is float'
         assert it('sdklfj') == 'fxxk'
+
+        assert repr(it).strip() == dedent("""
+            <OrUnit count: 3>
+            ├── 0 --> <PipeUnit count: 2>
+            │   ├── 0 --> <IsTypeUnit>
+            │   │   └── type --> <class 'int'>
+            │   └── 1 --> 'this is int'
+            ├── 1 --> <PipeUnit count: 2>
+            │   ├── 0 --> <IsTypeUnit>
+            │   │   └── type --> <class 'float'>
+            │   └── 1 --> 'this is float'
+            └── 2 --> 'fxxk'
+        """).strip()

@@ -1,3 +1,5 @@
+from textwrap import dedent
+
 import pytest
 
 from argsloader.base import ParseError
@@ -45,6 +47,15 @@ class TestUnitsUtils:
         assert u(1)
         assert not u(1.0)
         assert u('sdkjf')
+
+        assert repr(u).strip() == dedent("""
+            <ValidityUnit>
+            └── unit --> <OrUnit count: 2>
+                ├── 0 --> <IsTypeUnit>
+                │   └── type --> <class 'int'>
+                └── 1 --> <IsTypeUnit>
+                    └── type --> <class 'str'>
+        """).strip()
 
     def test_error(self):
         class MyTypeError(TypeError):
@@ -133,6 +144,23 @@ class TestUnitsUtils:
         assert u(1.5) == 1
         with pytest.raises(ParseError) as ei:
             u('kzdjflds')
+        assert repr(u).strip() == dedent("""
+            <IfUnit>
+            ├── if --> <ValidityUnit>
+            │   └── unit --> <IsTypeUnit>
+            │       └── type --> <class 'int'>
+            ├── then --> <KeepUnit>
+            ├── elif_1 --> <ValidityUnit>
+            │   └── unit --> <ToTypeUnit>
+            │       └── type --> <class 'int'>
+            ├── then --> <ToTypeUnit>
+            │   └── type --> <class 'int'>
+            └── else --> <ErrorUnit>
+                ├── condition --> True
+                ├── errcls --> <class 'TypeError'>
+                └── args --> tuple(1)
+                    └── 0 --> 'fxxk'
+        """).strip()
 
         err = ei.value
         assert isinstance(err, ParseError)

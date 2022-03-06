@@ -1,3 +1,4 @@
+from textwrap import dedent
 from typing import Mapping, Any
 
 import pytest
@@ -10,12 +11,25 @@ from argsloader.units.base import BaseUnit, UnitProcessProxy, UncompletedUnit, T
 @pytest.mark.unittest
 class TestUnitsBase:
     def test_uncompleted_unit(self):
+        class _F:
+            def __init__(self, s):
+                self._s = s
+
+            def __repr__(self):
+                return str(self._s)
+
         class UUnit(UncompletedUnit):
             def _fail(self):
                 raise SyntaxError('this unit is uncompleted.')
 
             def _rinfo(self):
-                return [], []
+                return (
+                    [('x', 1)],
+                    [
+                        ('y', {'a': _F('1\n2\n3'), 'b': (4, 5, 6)}),
+                        ('z', [_F('ab\ncd\nefg'), 234]),
+                    ]
+                )
 
         with pytest.raises(SyntaxError):
             UUnit()(1)
@@ -28,6 +42,23 @@ class TestUnitsBase:
         with pytest.raises(SyntaxError):
             # noinspection PyUnresolvedReferences
             _ = UUnit() >> raw(2)
+
+        assert repr(UUnit()).strip() == dedent("""
+            <(X)UUnit x: 1>
+            ├── y --> dict(a, b)
+            │   ├── a --> 1
+            │   │         2
+            │   │         3
+            │   └── b --> tuple(3)
+            │       ├── 0 --> 4
+            │       ├── 1 --> 5
+            │       └── 2 --> 6
+            └── z --> list(2)
+                ├── 0 --> ab
+                │         cd
+                │         efg
+                └── 1 --> 234
+        """).strip()
 
     # noinspection DuplicatedCode
     def test_base_unit(self):
@@ -122,13 +153,35 @@ class TestUnitsBase:
         assert u('sdklfj') == 1
         assert u(pytest) == 1
 
+        assert repr(u).strip() == dedent("""
+            <ValueUnit>
+            └── value --> 1
+        """).strip()
+
+        class XUnit(BaseUnit):
+            def __init__(self, *vs):
+                self._vs = vs
+
+            def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
+                return proxy.success(v, )
+
+            def _rinfo(self):
+                return [], [(i, v) for i, v in enumerate(self._vs)]
+
+        assert repr(XUnit(raw(1), raw([4, 5]), raw({'x': 3, 'y': 7}))).strip() == dedent("""
+            <XUnit>
+            ├── 0 --> 1
+            ├── 1 --> [4, 5]
+            └── 2 --> {'x': 3, 'y': 7}
+        """).strip()
+
     def test_transform_unit(self):
         class MyUnit(TransformUnit):
             __names__ = ('x1', 'x2')
             __errors__ = (ValueError,)
 
-            def __init__(self, x1, x2):
-                TransformUnit.__init__(self, x1, x2)
+            def __init__(self, *xx):
+                TransformUnit.__init__(self, *xx)
 
             def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
                 if v.value >= 0:
@@ -138,6 +191,18 @@ class TestUnitsBase:
 
         u = MyUnit([to_type(int), 2, is_type(int), to_type(int)], 2)
         assert u(2) == 12
+        assert repr(u).strip() == dedent("""
+            <MyUnit>
+            ├── x1 --> list(4)
+            │   ├── 0 --> <ToTypeUnit>
+            │   │   └── type --> <class 'int'>
+            │   ├── 1 --> 2
+            │   ├── 2 --> <IsTypeUnit>
+            │   │   └── type --> <class 'int'>
+            │   └── 3 --> <ToTypeUnit>
+            │       └── type --> <class 'int'>
+            └── x2 --> 2
+        """).strip()
 
         with pytest.raises(ParseError) as ei:
             u(3.5)
@@ -152,6 +217,11 @@ class TestUnitsBase:
         assert isinstance(err, ParseError)
         assert isinstance(err, ValueError)
         assert err.args == ('verr', [-3, 2, -3, -3], 2)
+
+        with pytest.raises(TypeError):
+            MyUnit(2, 3, 4)
+        with pytest.raises(TypeError):
+            MyUnit(2)
 
     def test_calculate_unit(self):
         class MyUnit(CalculateUnit):

@@ -380,10 +380,15 @@ def raw(v) -> ValueUnit:
 def _to_unit(v) -> BaseUnit:
     if isinstance(v, UncompletedUnit):
         getattr(v, '_fail')()
-    if isinstance(v, BaseUnit):
+    elif isinstance(v, BaseUnit):
         return v
     else:
-        return raw(v)
+        from .func import _FUNC_TYPES
+        if isinstance(v, _FUNC_TYPES):
+            from .func import proc
+            return proc(v)
+        else:
+            return raw(v)
 
 
 class TransformUnit(BaseUnit):

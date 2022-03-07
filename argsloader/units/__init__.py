@@ -1,4 +1,5 @@
 from .base import raw
+from .func import proc
 from .mathop import *
 from .numeric import interval, number
 from .string import template

@@ -444,7 +444,7 @@ class TransformUnit(BaseUnit):
                 if valid:
                     res = _curu._process(v)
                     if res.status.valid:
-                        return res.result.value, res
+                        return res.result, res
                     else:
                         valid = False
                         return None, res
@@ -479,7 +479,9 @@ class CalculateUnit(TransformUnit):
     """
 
     def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
-        return v.val(self._calculate(v.value, pres))
+        return v.val(self._calculate(
+            v.value, nested_map(lambda x: x.value, pres)
+        ))
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
         """

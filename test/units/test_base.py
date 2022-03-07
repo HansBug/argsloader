@@ -2,6 +2,7 @@ from textwrap import dedent
 from typing import Mapping, Any
 
 import pytest
+from hbutils.collection import nested_map
 
 from argsloader.base import PValue, ParseResult, ParseError
 from argsloader.units import raw, to_type, is_type
@@ -184,10 +185,11 @@ class TestUnitsBase:
                 TransformUnit.__init__(self, *xx)
 
             def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
+                v1, v2 = nested_map(lambda x: x.value, pres['x1']), pres['x2'].value
                 if v.value >= 0:
-                    return v.val(v.value + sum(pres['x1']) + pres['x2'])
+                    return v.val(v.value + sum(v1) + v2)
                 else:
-                    raise ValueError('verr', pres['x1'], pres['x2'])
+                    raise ValueError('verr', v1, v2)
 
         u = MyUnit([to_type(int), 2, is_type(int), to_type(int)], 2)
         assert u(2) == 12

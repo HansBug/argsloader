@@ -1,5 +1,6 @@
 from typing import Mapping, Any, List, Tuple
 
+from hbutils.collection import nested_map
 from hbutils.design import SingletonMark
 
 from .base import CalculateUnit, BaseUnit, UnitProcessProxy, _to_unit, TransformUnit, UncompletedUnit, _ITreeFormat
@@ -58,11 +59,12 @@ class ErrorUnit(TransformUnit):
         TransformUnit.__init__(self, condition, errcls, args)
 
     def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
-        if not pres['condition']:
+        condition_ok = pres['condition'].value
+        if not condition_ok:
             return v
         else:
-            errcls = pres['errcls']
-            args = tuple(pres['args'])
+            errcls = pres['errcls'].value
+            args = tuple(nested_map(lambda x: x.value, pres['args']))
             raise wrap_exception(errcls(*args), self, v)
 
 

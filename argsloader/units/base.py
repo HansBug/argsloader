@@ -238,14 +238,14 @@ class BaseUnit(_UnitModel):
         :return: Output value.
         :raises ParseError: Parse error.
         """
-        return self.call(v)
+        return self.call(v, 'FIRST')
 
-    def call(self, v, err_mode='first'):
+    def call(self, v, err_mode='ALL'):
         """
         Calculate with given value, similar to :meth:`__call__`.
 
         :param v: Input value.
-        :param err_mode: Error mode, see :class:`argsloader.base.result.ErrMode`.
+        :param err_mode: Error mode, see :class:`argsloader.base.result.ErrMode`, default is ``ALL``.
         :return: Output value.
         :raises ParseError: Parse error.
         :raises MultipleParseError: Indexed parsed error, will be raised when ``ALL`` mode is used.

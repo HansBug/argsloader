@@ -4,7 +4,7 @@ import pytest
 from easydict import EasyDict
 
 from argsloader.base import ParseError, MultipleParseError
-from argsloader.units import getitem_, getattr_, struct, number, interval
+from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add
 
 
 @pytest.mark.unittest
@@ -158,3 +158,132 @@ class TestUnitsStructure:
         assert err.items[0][1].message == 'Value not in interval - (3, 10] expected but 11 found.'
         assert err.items[1][0].position == ('b',)
         assert err.items[1][1].message == 'Value not in interval - [-inf, 5] expected but 6 found.'
+
+    def test_mapping(self):
+        u = mapping(struct({
+            'a': (getitem_('a') | getitem_('first')) >> number(),
+            'b': (getitem_('b') | getitem_('second')) >> number(),
+        }) >> check(
+            (getitem_('a') >> interval.lR(3, 10)) &
+            (getitem_('b') >> interval.R(5).l(150)) &
+            (add(getitem_('a'), getitem_('b')) >> interval.LR(0, 12))
+        ))
+
+        assert repr(u).strip() == dedent("""
+            <MappingUnit>
+            └── func --> <PipeUnit count: 2>
+                ├── 0 --> <StructUnit>
+                │   └── struct --> dict(a, b)
+                │       ├── a --> <PipeUnit count: 2>
+                │       │   ├── 0 --> <OrUnit count: 2>
+                │       │   │   ├── 0 --> <PipeUnit count: 2>
+                │       │   │   │   ├── 0 --> <GetItemUnit>
+                │       │   │   │   │   └── item --> 'a'
+                │       │   │   │   └── 1 --> <ChildPositionUnit>
+                │       │   │   │       └── children --> tuple(1)
+                │       │   │   │           └── 0 --> 'a'
+                │       │   │   └── 1 --> <PipeUnit count: 2>
+                │       │   │       ├── 0 --> <GetItemUnit>
+                │       │   │       │   └── item --> 'first'
+                │       │   │       └── 1 --> <ChildPositionUnit>
+                │       │   │           └── children --> tuple(1)
+                │       │   │               └── 0 --> 'first'
+                │       │   └── 1 --> <NumberUnit>
+                │       └── b --> <PipeUnit count: 2>
+                │           ├── 0 --> <OrUnit count: 2>
+                │           │   ├── 0 --> <PipeUnit count: 2>
+                │           │   │   ├── 0 --> <GetItemUnit>
+                │           │   │   │   └── item --> 'b'
+                │           │   │   └── 1 --> <ChildPositionUnit>
+                │           │   │       └── children --> tuple(1)
+                │           │   │           └── 0 --> 'b'
+                │           │   └── 1 --> <PipeUnit count: 2>
+                │           │       ├── 0 --> <GetItemUnit>
+                │           │       │   └── item --> 'second'
+                │           │       └── 1 --> <ChildPositionUnit>
+                │           │           └── children --> tuple(1)
+                │           │               └── 0 --> 'second'
+                │           └── 1 --> <NumberUnit>
+                └── 1 --> <CheckUnit>
+                    └── unit --> <AndUnit count: 3>
+                        ├── 0 --> <PipeUnit count: 3>
+                        │   ├── 0 --> <GetItemUnit>
+                        │   │   └── item --> 'a'
+                        │   ├── 1 --> <ChildPositionUnit>
+                        │   │   └── children --> tuple(1)
+                        │   │       └── 0 --> 'a'
+                        │   └── 2 --> <IntervalUnit>
+                        │       └── condition --> <ValidityUnit>
+                        │           └── unit --> <AndUnit count: 2>
+                        │               ├── 0 --> <GtCheckUnit>
+                        │               │   ├── v1 --> <KeepUnit>
+                        │               │   └── v2 --> 3
+                        │               └── 1 --> <LeCheckUnit>
+                        │                   ├── v1 --> <KeepUnit>
+                        │                   └── v2 --> 10
+                        ├── 1 --> <PipeUnit count: 3>
+                        │   ├── 0 --> <GetItemUnit>
+                        │   │   └── item --> 'b'
+                        │   ├── 1 --> <ChildPositionUnit>
+                        │   │   └── children --> tuple(1)
+                        │   │       └── 0 --> 'b'
+                        │   └── 2 --> <IntervalUnit>
+                        │       └── condition --> <ValidityUnit>
+                        │           └── unit --> <OrUnit count: 2>
+                        │               ├── 0 --> <AndUnit count: 2>
+                        │               │   ├── 0 --> <GeCheckUnit>
+                        │               │   │   ├── v1 --> <KeepUnit>
+                        │               │   │   └── v2 --> -inf
+                        │               │   └── 1 --> <LeCheckUnit>
+                        │               │       ├── v1 --> <KeepUnit>
+                        │               │       └── v2 --> 5
+                        │               └── 1 --> <AndUnit count: 2>
+                        │                   ├── 0 --> <GtCheckUnit>
+                        │                   │   ├── v1 --> <KeepUnit>
+                        │                   │   └── v2 --> 150
+                        │                   └── 1 --> <LeCheckUnit>
+                        │                       ├── v1 --> <KeepUnit>
+                        │                       └── v2 --> inf
+                        └── 2 --> <PipeUnit count: 2>
+                            ├── 0 --> <AddOpUnit>
+                            │   ├── v1 --> <PipeUnit count: 2>
+                            │   │   ├── 0 --> <GetItemUnit>
+                            │   │   │   └── item --> 'a'
+                            │   │   └── 1 --> <ChildPositionUnit>
+                            │   │       └── children --> tuple(1)
+                            │   │           └── 0 --> 'a'
+                            │   └── v2 --> <PipeUnit count: 2>
+                            │       ├── 0 --> <GetItemUnit>
+                            │       │   └── item --> 'b'
+                            │       └── 1 --> <ChildPositionUnit>
+                            │           └── children --> tuple(1)
+                            │               └── 0 --> 'b'
+                            └── 1 --> <IntervalUnit>
+                                └── condition --> <ValidityUnit>
+                                    └── unit --> <AndUnit count: 2>
+                                        ├── 0 --> <GeCheckUnit>
+                                        │   ├── v1 --> <KeepUnit>
+                                        │   └── v2 --> 0
+                                        └── 1 --> <LeCheckUnit>
+                                            ├── v1 --> <KeepUnit>
+                                            └── v2 --> 12
+        """).strip()
+
+        assert u([
+            {'a': 4.0, 'second': '0x5'},
+            {'first': '0b101', 'b': 3.5},
+        ]) == [
+                   {'a': 4.0, 'b': 5},
+                   {'a': 5, 'b': 3.5},
+               ]
+
+        with pytest.raises(MultipleParseError) as ei:
+            u.call([
+                {'a': 1, 'second': '0x64'},
+                {'first': '0b101', 'b': 5.5},
+            ])
+        err = ei.value
+        assert isinstance(err, MultipleParseError)
+        assert len(err.items) == 4
+        assert set(map(lambda x: x[0].position, err.items)) == \
+               {(0, 'a'), (0, 'b'), (0,), (1, 'b')}

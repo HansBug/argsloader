@@ -1,4 +1,4 @@
-from typing import Mapping, Any
+from typing import Mapping, Any, Union, Tuple, List
 
 from hbutils.collection import nested_map
 
@@ -70,3 +70,28 @@ class StructUnit(BaseUnit):
 
 def struct(struct_) -> StructUnit:
     return StructUnit(struct_)
+
+
+class MappingUnit(BaseUnit):
+    def __init__(self, f):
+        self._func = _to_unit(f)
+
+    def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
+        lst: Union[Tuple, List] = v.value
+        valid, records = True, []
+        for index, item in enumerate(lst):
+            res = self._func._process(v.child(index).val(item))
+            valid = valid and res.status.valid
+            records.append(res)
+
+        if valid:
+            return proxy.success(v.val(type(v.value)(map(lambda x: x.result.value, records))), records)
+        else:
+            return proxy.error(None, records)
+
+    def _rinfo(self):
+        return [], [('func', self._func)]
+
+
+def mapping(func) -> MappingUnit:
+    return MappingUnit(func)

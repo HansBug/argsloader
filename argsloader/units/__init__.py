@@ -1,5 +1,5 @@
 from .base import raw
-from .func import proc
+from .func import proc, ufunc
 from .mathop import *
 from .numeric import interval, number
 from .status import parent, child

@@ -1,7 +1,8 @@
 import pytest
 from inflection import humanize
 
-from argsloader.units import proc, keep
+from argsloader.base import ParseError
+from argsloader.units import proc, keep, ufunc, add, mul
 
 
 @pytest.mark.unittest
@@ -49,3 +50,30 @@ class TestUnitsFunc:
     def test_proc_chain(self):
         u = keep() >> humanize >> str.capitalize >> (lambda x: f"{x}.")
         assert u('this_is_a_message') == 'This is a message.'
+
+    def test_ufunc(self):
+        def _nonsense():
+            pass
+
+        @ufunc((ValueError,))
+        def my_func(x, y):
+            if x + y < 0:
+                raise ValueError('this is the bullshit-liked message', x, y)
+            else:
+                return x + 2 * y
+
+        assert my_func.__name__ == 'u_my_func'
+        assert my_func.__module__ == _nonsense.__module__
+
+        u = my_func(keep(), add.by(2) >> mul.by(3))
+        ucls = type(u)
+        assert ucls.__name__ == 'MyFuncFuncUnit'
+        assert ucls.__module__ == _nonsense.__module__
+
+        assert u(23) == 173
+        with pytest.raises(ParseError) as ei:
+            u(-10)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('this is the bullshit-liked message', -10, -24)

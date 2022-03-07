@@ -4,7 +4,7 @@ from .base import BaseUnit, UnitProcessProxy, _to_unit
 from ..base import ParseResult, PValue
 
 
-class _ChainUnit(BaseUnit):
+class _IChainUnit(BaseUnit):
     def __init__(self, unit: BaseUnit, *units: BaseUnit):
         self._units: Tuple[BaseUnit, ...] = tuple(map(_to_unit, (unit, *units)))
 
@@ -26,7 +26,7 @@ class _ChainUnit(BaseUnit):
                 yield unit
 
 
-class PipeUnit(_ChainUnit):
+class PipeUnit(_IChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         curv, rs, valid = v, [], True
         for i, unit in enumerate(self._units):
@@ -51,19 +51,16 @@ def pipe(*units) -> PipeUnit:
     return PipeUnit(*PipeUnit._chain_iter(*units))
 
 
-class AndUnit(_ChainUnit):
+class AndUnit(_IChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         lastv, rs, valid = None, [], True
         for unit in self._units:
-            if valid:
-                curres = unit._process(v)
-                rs.append(curres)
-                if not curres.status.valid:
-                    valid = False
-                else:
-                    lastv = curres.result
+            curres = unit._process(v)
+            rs.append(curres)
+            if not curres.status.valid:
+                valid = False
             else:
-                rs.append(unit._skip(v))
+                lastv = curres.result
 
         if valid:
             return proxy.success(lastv, rs)
@@ -76,7 +73,7 @@ def and_(*units) -> AndUnit:
     return AndUnit(*AndUnit._chain_iter(*units))
 
 
-class OrUnit(_ChainUnit):
+class OrUnit(_IChainUnit):
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         firstv, rs, invalid = None, [], True
         for unit in self._units:

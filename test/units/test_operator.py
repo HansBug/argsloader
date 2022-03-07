@@ -2,7 +2,7 @@ from textwrap import dedent
 
 import pytest
 
-from argsloader.base import ParseError
+from argsloader.base import ParseError, MultipleParseError
 from argsloader.units import is_type, to_type
 
 
@@ -84,6 +84,11 @@ class TestUnitsOperator:
         assert isinstance(err, TypeError)
         assert isinstance(err, ParseError)
 
+        with pytest.raises(MultipleParseError) as ei:
+            it.call(1, 'all')
+        err = ei.value
+        assert len(err.items) == 2
+
     def test_and_chain(self):
         it = is_type(A) & is_type(B)
         assert len(it._units) == 2
@@ -111,6 +116,11 @@ class TestUnitsOperator:
         err = ei.value
         assert isinstance(err, TypeError)
         assert isinstance(err, ParseError)
+
+        with pytest.raises(MultipleParseError) as ei:
+            it.call('jksdflkdjs', 'all')
+        err = ei.value
+        assert len(err.items) == 2
 
     def test_or_chain(self):
         it = is_type(int) | is_type(float)

@@ -4,7 +4,8 @@ import pytest
 from easydict import EasyDict
 
 from argsloader.base import ParseError, MultipleParseError
-from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add
+from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add, in_, isin, contains, \
+    mul, sub
 
 
 @pytest.mark.unittest
@@ -287,3 +288,41 @@ class TestUnitsStructure:
         assert len(err.items) == 4
         assert set(map(lambda x: x[0].position, err.items)) == \
                {(0, 'a'), (0, 'b'), (0,), (1, 'b')}
+
+    def test_in_(self):
+        u = in_(add.by(2), [3, 4, 5])
+        assert u(1) == 1
+        assert u(2) == 2
+        with pytest.raises(ParseError) as ei:
+            u(4)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+        assert err.args == ('Collection should contain instance, but 6 is not included in [3, 4, 5] actually.',)
+
+        u = add.by(2) >> isin([3, 4, 5])
+        assert u(1) == 3
+        assert u(2) == 4
+        with pytest.raises(ParseError) as ei:
+            u(4)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+        assert err.args == ('Collection should contain instance, but 6 is not included in [3, 4, 5] actually.',)
+
+        u = struct([add.by(2), mul.by(2), sub.by(2)]) >> contains(4)
+        assert u(2) == [4, 4, 0]
+        assert u(6) == [8, 12, 4]
+        with pytest.raises(ParseError) as ei:
+            u(7)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+        assert err.args == ('Collection should contain instance, but 4 is not included in [9, 14, 5] actually.',)
+
+        u = in_(add.by(2), 1)
+        with pytest.raises(ParseError) as ei:
+            u(7)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)

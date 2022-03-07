@@ -4,7 +4,7 @@ from hbutils.model import asitems, hasheq, visual, accessor
 from argsloader.base import ParseError
 from argsloader.units import abs_, neg, to_type, inv, invert, pos, add, plus, sub, minus, not_, mul, matmul, \
     truediv, floordiv, mod, pow_, lshift, rshift, and_, or_, validity, is_type, band, bor, bxor, eq, ne, ge, gt, \
-    le, lt, in_, isin, contains
+    le, lt
 
 
 @pytest.mark.unittest
@@ -681,17 +681,3 @@ class TestUtilsMathop:
             lt(add.by(2) >> mul.by(1.5))
         with pytest.raises(TypeError):
             lt(add.by(2))
-
-    def test_in_(self):
-        assert isin is in_.by
-        assert contains is in_.from_
-
-        u = in_(add.by(2), [3, 4, 5, 6])
-        assert u(1)
-        assert not u(-1)
-        assert not u(5)
-
-        u = add.by(2) >> isin([3, 4, 5, 6])
-        assert u(1)
-        assert not u(-1)
-        assert not u(5)

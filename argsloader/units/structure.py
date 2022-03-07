@@ -1,9 +1,11 @@
 from typing import Mapping, Any, Union, Tuple, List
 
 from hbutils.collection import nested_map
+from hbutils.string import truncate
 
 from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy
 from .status import child
+from .utils import keep
 from ..base import PValue, ParseResult
 
 
@@ -95,3 +97,32 @@ class MappingUnit(BaseUnit):
 
 def mapping(func) -> MappingUnit:
     return MappingUnit(func)
+
+
+class InUnit(CalculateUnit):
+    __names__ = ('instance', 'collection')
+    __errors__ = (KeyError, TypeError)
+
+    def __init__(self, instance, collection):
+        CalculateUnit.__init__(self, instance, collection)
+
+    def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
+        instance, collection = pres['instance'], pres['collection']
+        if instance in collection:
+            return v
+        else:
+            raise KeyError(f'Collection should contain instance, '
+                           f'but {repr(instance)} is not included '
+                           f'in {truncate(repr(collection))} actually.')
+
+
+def in_(instance, collection) -> InUnit:
+    return InUnit(instance, collection)
+
+
+def isin(collection) -> InUnit:
+    return InUnit(keep(), collection)
+
+
+def contains(instance) -> InUnit:
+    return InUnit(instance, keep())

@@ -14,7 +14,6 @@ __all__ = [
     'add', 'plus', 'sub', 'minus', 'mul', 'matmul', 'truediv', 'floordiv', 'mod',
     'pow_', 'lshift', 'rshift', 'and_', 'or_', 'band', 'bor', 'bxor',
     'eq', 'ne', 'ge', 'gt', 'le', 'lt',
-    'in_', 'isin', 'contains',
 ]
 
 
@@ -178,8 +177,3 @@ le = _create_binary_check(lambda x, y: x <= y, 'le', '<=', '>', 'than')
 lt = _create_binary_check(lambda x, y: x < y, 'lt', '<', '>=', 'than')
 ge = _create_binary_check(lambda x, y: x >= y, 'ge', '>=', '<', 'than')
 gt = _create_binary_check(lambda x, y: x > y, 'gt', '>', '<=', 'than')
-
-# extra one
-in_ = _create_binary_op(lambda x, y: x in y, 'in', 'in_')
-isin = in_.by
-contains = in_.from_

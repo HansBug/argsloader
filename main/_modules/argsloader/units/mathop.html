@@ -170,6 +170,7 @@
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CalculateUnit</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">keep</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ParseError</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;abs_&#39;</span><span class="p">,</span> <span class="s1">&#39;inv&#39;</span><span class="p">,</span> <span class="s1">&#39;invert&#39;</span><span class="p">,</span> <span class="s1">&#39;pos&#39;</span><span class="p">,</span> <span class="s1">&#39;neg&#39;</span><span class="p">,</span> <span class="s1">&#39;not_&#39;</span><span class="p">,</span>
@@ -398,6 +399,13 @@
 <span class="n">bxor</span> <span class="o">=</span> <span class="n">_create_binary_op</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">^</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;bxor&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">_binary_check_res_doc</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="n">func</span><span class="p">())</span>
+    <span class="k">except</span> <span class="n">ParseError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
+
+
 <span class="k">def</span> <span class="nf">_create_binary_check</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">name_</span><span class="p">,</span> <span class="n">sign</span><span class="p">,</span> <span class="n">opsign</span><span class="p">,</span> <span class="n">preposition</span><span class="p">,</span> <span class="n">funcname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">short_name</span> <span class="o">=</span> <span class="n">name_</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
     <span class="n">funcname</span> <span class="o">=</span> <span class="n">funcname</span> <span class="ow">or</span> <span class="n">short_name</span>
@@ -430,10 +438,44 @@
         <span class="vm">__name__</span><span class="o">=</span><span class="n">funcname</span><span class="p">,</span>
         <span class="vm">__module__</span><span class="o">=</span><span class="n">_nonsense</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_op_func</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="o">*</span><span class="n">vs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_BinaryCheckUnit&#39;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_BinaryCheckUnit</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="o">*</span><span class="n">vs</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_op_func</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_BinaryCheckUnit&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_BinaryCheckUnit</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
 
     <span class="nb">setattr</span><span class="p">(</span><span class="n">_op_func</span><span class="p">,</span> <span class="n">preposition</span><span class="p">,</span> <span class="n">MethodType</span><span class="p">(</span><span class="n">_op_func_to</span><span class="p">,</span> <span class="n">_op_func</span><span class="p">))</span>
+    <span class="n">_op_func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Overview:</span>
+<span class="s2">            Get the </span><span class="si">{</span><span class="n">name_</span><span class="si">}</span><span class="s2"> binary comparison check unit.</span>
+
+<span class="s2">            If ``v1 </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> v2`` is satisfied, the inputted value will be returned without any change, </span><span class="se">\</span>
+<span class="s2">            or ``ValueError`` will be raised.</span>
+
+<span class="s2">        :param v1: First unit.</span>
+<span class="s2">        :param v2: Second unit.</span>
+<span class="s2">        :return: </span><span class="si">{</span><span class="n">name_</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2"> comparison unit.</span>
+<span class="s2">        :raises ValueError: When comparison failed, ``ValueError`` will be raised.</span>
+
+<span class="s2">        Examples::</span>
+<span class="s2">            - Simple comparison check</span>
+
+<span class="s2">            &gt;&gt;&gt; from argsloader.units import </span><span class="si">{</span><span class="n">funcname</span><span class="si">}</span><span class="s2">, keep</span>
+<span class="s2">            &gt;&gt;&gt; u = </span><span class="si">{</span><span class="n">funcname</span><span class="si">}</span><span class="s2">(keep(), 2)</span>
+<span class="s2">            &gt;&gt;&gt; u(1)  # 1 </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">_op_func</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)(</span><span class="mi">1</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            &gt;&gt;&gt; u(2)  # 2 </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">_op_func</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)(</span><span class="mi">2</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            &gt;&gt;&gt; u(3)  # 3 </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">_op_func</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)(</span><span class="mi">3</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+
+<span class="s2">            - Suffix check</span>
+
+<span class="s2">            &gt;&gt;&gt; u = (lambda x: x * 2) &gt;&gt; </span><span class="si">{</span><span class="n">funcname</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">preposition</span><span class="si">}</span><span class="s2">(2)</span>
+<span class="s2">            &gt;&gt;&gt; u(0)  # (0 * 2) </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_op_func</span><span class="p">,</span> <span class="n">preposition</span><span class="p">)(</span><span class="mi">2</span><span class="p">))(</span><span class="mi">0</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            &gt;&gt;&gt; u(1)  # (1 * 2) </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_op_func</span><span class="p">,</span> <span class="n">preposition</span><span class="p">)(</span><span class="mi">2</span><span class="p">))(</span><span class="mi">1</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            &gt;&gt;&gt; u(2)  # (2 * 2) </span><span class="si">{</span><span class="n">sign</span><span class="si">}</span><span class="s2"> 2</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">_binary_check_res_doc</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_op_func</span><span class="p">,</span> <span class="n">preposition</span><span class="p">)(</span><span class="mi">2</span><span class="p">))(</span><span class="mi">2</span><span class="p">))</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_op_func</span>
 

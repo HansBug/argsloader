@@ -1411,48 +1411,330 @@
 <h2>eq<a class="headerlink" href="#eq" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.eq">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">eq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.eq" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">eq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.eq" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the eq binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">==</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Eq comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">eq</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">eq</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 1 != 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 == 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 3 != 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">eq</span><span class="o">.</span><span class="n">to_</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 0 != 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) == 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 4 != 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="ne">
 <h2>ne<a class="headerlink" href="#ne" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.ne">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ne</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ne" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ne</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ne" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the ne binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">!=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Ne comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">ne</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">ne</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 != 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 != 2</span>
+<span class="go">ValueParseError: Expected v1 != v2, but 2 == 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 != 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ne</span><span class="o">.</span><span class="n">to_</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) != 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) != 2</span>
+<span class="go">ValueParseError: Expected v1 != v2, but 2 == 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) != 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="ge">
 <h2>ge<a class="headerlink" href="#ge" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.ge">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ge" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ge" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the ge binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&gt;=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Ge comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">ge</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">ge</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &gt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &gt;= v2, but 1 &lt; 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &gt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &gt;= 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ge</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &gt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &gt;= v2, but 0 &lt; 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &gt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &gt;= 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="gt">
 <h2>gt<a class="headerlink" href="#gt" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.gt">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">gt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.gt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">gt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.gt" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the gt binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&gt;</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gt comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">gt</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">gt</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 1 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 2 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &gt; 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">gt</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 0 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 2 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &gt; 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="le">
 <h2>le<a class="headerlink" href="#le" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.le">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">le</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.le" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">le</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.le" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the le binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&lt;=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Le comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">le</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">le</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &lt;= 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &lt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &lt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &lt;= v2, but 3 &gt; 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">le</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &lt;= 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &lt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &lt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &lt;= v2, but 4 &gt; 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="lt">
 <h2>lt<a class="headerlink" href="#lt" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.mathop.lt">
-<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">lt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.lt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">lt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.lt" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the lt binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&lt;</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lt comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">lt</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">lt</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &lt; 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 2 &gt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 3 &gt;= 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">lt</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &lt; 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 2 &gt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 4 &gt;= 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 </div>

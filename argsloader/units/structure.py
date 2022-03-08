@@ -3,32 +3,36 @@ from typing import Mapping, Any, Union, Tuple, List
 from hbutils.collection import nested_map
 from hbutils.string import truncate
 
-from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy
-from .status import child
+from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy, TransformUnit
 from .utils import keep
 from ..base import PValue, ParseResult
 
 
-class GetItemUnit(CalculateUnit):
+class GetItemUnit(TransformUnit):
     __names__ = ('item',)
     __errors__ = (KeyError, IndexError)
 
-    def __init__(self, item):
-        CalculateUnit.__init__(self, item)
+    def __init__(self, item, offset: bool = True):
+        self._offset = offset
+        TransformUnit.__init__(self, item)
 
-    def _calculate(self, v, pres: Mapping[str, Any]) -> object:
-        item = pres['item']
+    def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
+        item = pres['item'].value
         try:
-            return v[item]
+            res = v.val(v.value[item])
+            if self._offset:
+                res = res.child(item)
+            return res
         except self.__errors__ as err:
             raise type(err)(f'Item {repr(item)} not found.')
 
+    def _rinfo(self):
+        _, children = super()._rinfo()
+        return [('offset', self._offset)], children
 
-def getitem_(item, no_follow: bool = False) -> 'GetItemUnit':
-    u = GetItemUnit(item)
-    if not no_follow:
-        u = u >> child(item)
-    return u
+
+def getitem_(item, offset: bool = True) -> 'GetItemUnit':
+    return GetItemUnit(item, offset)
 
 
 class GetAttrUnit(CalculateUnit):

@@ -36,7 +36,7 @@ class TestUnitsStructure:
         result = u.log({'a': 1, 'b': 2})
         assert result.result.position == ('a',)
 
-        u = getitem_('a', no_follow=True)
+        u = getitem_('a', offset=False)
         result = u.log({'a': 1, 'b': 2})
         assert result.result.position == ()
 
@@ -44,7 +44,7 @@ class TestUnitsStructure:
         result = u.log([2, 3, 5])
         assert result.result.position == (2,)
 
-        u = getitem_(2, no_follow=True)
+        u = getitem_(2, offset=False)
         result = u.log([2, 3, 5])
         assert result.result.position == ()
 
@@ -83,57 +83,25 @@ class TestUnitsStructure:
         assert repr(u).strip() == dedent("""
             <StructUnit>
             └── struct --> dict(a, b, tuple, list, easydict)
-                ├── a --> <PipeUnit count: 2>
-                │   ├── 0 --> <GetItemUnit>
-                │   │   └── item --> 'a'
-                │   └── 1 --> <ChildPositionUnit>
-                │       └── children --> tuple(1)
-                │           └── 0 --> 'a'
-                ├── b --> <PipeUnit count: 2>
-                │   ├── 0 --> <GetItemUnit>
-                │   │   └── item --> 'b'
-                │   └── 1 --> <ChildPositionUnit>
-                │       └── children --> tuple(1)
-                │           └── 0 --> 'b'
+                ├── a --> <GetItemUnit offset: True>
+                │   └── item --> 'a'
+                ├── b --> <GetItemUnit offset: True>
+                │   └── item --> 'b'
                 ├── tuple --> tuple(2)
-                │   ├── 0 --> <PipeUnit count: 2>
-                │   │   ├── 0 --> <GetItemUnit>
-                │   │   │   └── item --> 'a'
-                │   │   └── 1 --> <ChildPositionUnit>
-                │   │       └── children --> tuple(1)
-                │   │           └── 0 --> 'a'
-                │   └── 1 --> <PipeUnit count: 2>
-                │       ├── 0 --> <GetItemUnit>
-                │       │   └── item --> 'b'
-                │       └── 1 --> <ChildPositionUnit>
-                │           └── children --> tuple(1)
-                │               └── 0 --> 'b'
+                │   ├── 0 --> <GetItemUnit offset: True>
+                │   │   └── item --> 'a'
+                │   └── 1 --> <GetItemUnit offset: True>
+                │       └── item --> 'b'
                 ├── list --> list(2)
-                │   ├── 0 --> <PipeUnit count: 2>
-                │   │   ├── 0 --> <GetItemUnit>
-                │   │   │   └── item --> 'a'
-                │   │   └── 1 --> <ChildPositionUnit>
-                │   │       └── children --> tuple(1)
-                │   │           └── 0 --> 'a'
-                │   └── 1 --> <PipeUnit count: 2>
-                │       ├── 0 --> <GetItemUnit>
-                │       │   └── item --> 'b'
-                │       └── 1 --> <ChildPositionUnit>
-                │           └── children --> tuple(1)
-                │               └── 0 --> 'b'
+                │   ├── 0 --> <GetItemUnit offset: True>
+                │   │   └── item --> 'a'
+                │   └── 1 --> <GetItemUnit offset: True>
+                │       └── item --> 'b'
                 └── easydict --> EasyDict(a, b)
-                    ├── a --> <PipeUnit count: 2>
-                    │   ├── 0 --> <GetItemUnit>
-                    │   │   └── item --> 'a'
-                    │   └── 1 --> <ChildPositionUnit>
-                    │       └── children --> tuple(1)
-                    │           └── 0 --> 'a'
-                    └── b --> <PipeUnit count: 2>
-                        ├── 0 --> <GetItemUnit>
-                        │   └── item --> 'b'
-                        └── 1 --> <ChildPositionUnit>
-                            └── children --> tuple(1)
-                                └── 0 --> 'b'
+                    ├── a --> <GetItemUnit offset: True>
+                    │   └── item --> 'a'
+                    └── b --> <GetItemUnit offset: True>
+                        └── item --> 'b'
         """).strip()
 
     def test_struct_error(self):
@@ -177,43 +145,24 @@ class TestUnitsStructure:
                 │   └── struct --> dict(a, b)
                 │       ├── a --> <PipeUnit count: 2>
                 │       │   ├── 0 --> <OrUnit count: 2>
-                │       │   │   ├── 0 --> <PipeUnit count: 2>
-                │       │   │   │   ├── 0 --> <GetItemUnit>
-                │       │   │   │   │   └── item --> 'a'
-                │       │   │   │   └── 1 --> <ChildPositionUnit>
-                │       │   │   │       └── children --> tuple(1)
-                │       │   │   │           └── 0 --> 'a'
-                │       │   │   └── 1 --> <PipeUnit count: 2>
-                │       │   │       ├── 0 --> <GetItemUnit>
-                │       │   │       │   └── item --> 'first'
-                │       │   │       └── 1 --> <ChildPositionUnit>
-                │       │   │           └── children --> tuple(1)
-                │       │   │               └── 0 --> 'first'
+                │       │   │   ├── 0 --> <GetItemUnit offset: True>
+                │       │   │   │   └── item --> 'a'
+                │       │   │   └── 1 --> <GetItemUnit offset: True>
+                │       │   │       └── item --> 'first'
                 │       │   └── 1 --> <NumberUnit>
                 │       └── b --> <PipeUnit count: 2>
                 │           ├── 0 --> <OrUnit count: 2>
-                │           │   ├── 0 --> <PipeUnit count: 2>
-                │           │   │   ├── 0 --> <GetItemUnit>
-                │           │   │   │   └── item --> 'b'
-                │           │   │   └── 1 --> <ChildPositionUnit>
-                │           │   │       └── children --> tuple(1)
-                │           │   │           └── 0 --> 'b'
-                │           │   └── 1 --> <PipeUnit count: 2>
-                │           │       ├── 0 --> <GetItemUnit>
-                │           │       │   └── item --> 'second'
-                │           │       └── 1 --> <ChildPositionUnit>
-                │           │           └── children --> tuple(1)
-                │           │               └── 0 --> 'second'
+                │           │   ├── 0 --> <GetItemUnit offset: True>
+                │           │   │   └── item --> 'b'
+                │           │   └── 1 --> <GetItemUnit offset: True>
+                │           │       └── item --> 'second'
                 │           └── 1 --> <NumberUnit>
                 └── 1 --> <CheckUnit>
                     └── unit --> <AndUnit count: 3>
-                        ├── 0 --> <PipeUnit count: 3>
-                        │   ├── 0 --> <GetItemUnit>
+                        ├── 0 --> <PipeUnit count: 2>
+                        │   ├── 0 --> <GetItemUnit offset: True>
                         │   │   └── item --> 'a'
-                        │   ├── 1 --> <ChildPositionUnit>
-                        │   │   └── children --> tuple(1)
-                        │   │       └── 0 --> 'a'
-                        │   └── 2 --> <IntervalUnit>
+                        │   └── 1 --> <IntervalUnit>
                         │       └── condition --> <ValidityUnit>
                         │           └── unit --> <AndUnit count: 2>
                         │               ├── 0 --> <GtCheckUnit>
@@ -222,13 +171,10 @@ class TestUnitsStructure:
                         │               └── 1 --> <LeCheckUnit>
                         │                   ├── v1 --> <KeepUnit>
                         │                   └── v2 --> 10
-                        ├── 1 --> <PipeUnit count: 3>
-                        │   ├── 0 --> <GetItemUnit>
+                        ├── 1 --> <PipeUnit count: 2>
+                        │   ├── 0 --> <GetItemUnit offset: True>
                         │   │   └── item --> 'b'
-                        │   ├── 1 --> <ChildPositionUnit>
-                        │   │   └── children --> tuple(1)
-                        │   │       └── 0 --> 'b'
-                        │   └── 2 --> <IntervalUnit>
+                        │   └── 1 --> <IntervalUnit>
                         │       └── condition --> <ValidityUnit>
                         │           └── unit --> <OrUnit count: 2>
                         │               ├── 0 --> <AndUnit count: 2>
@@ -247,18 +193,10 @@ class TestUnitsStructure:
                         │                       └── v2 --> inf
                         └── 2 --> <PipeUnit count: 2>
                             ├── 0 --> <AddOpUnit>
-                            │   ├── v1 --> <PipeUnit count: 2>
-                            │   │   ├── 0 --> <GetItemUnit>
-                            │   │   │   └── item --> 'a'
-                            │   │   └── 1 --> <ChildPositionUnit>
-                            │   │       └── children --> tuple(1)
-                            │   │           └── 0 --> 'a'
-                            │   └── v2 --> <PipeUnit count: 2>
-                            │       ├── 0 --> <GetItemUnit>
-                            │       │   └── item --> 'b'
-                            │       └── 1 --> <ChildPositionUnit>
-                            │           └── children --> tuple(1)
-                            │               └── 0 --> 'b'
+                            │   ├── v1 --> <GetItemUnit offset: True>
+                            │   │   └── item --> 'a'
+                            │   └── v2 --> <GetItemUnit offset: True>
+                            │       └── item --> 'b'
                             └── 1 --> <IntervalUnit>
                                 └── condition --> <ValidityUnit>
                                     └── unit --> <AndUnit count: 2>

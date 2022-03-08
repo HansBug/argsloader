@@ -5,4 +5,5 @@ argsloader.units
     :maxdepth: 3
 
     base
+    mathop
     numeric

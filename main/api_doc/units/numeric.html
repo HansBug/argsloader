@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.numeric &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.utils" href="../utils/index.html" />
+    <link rel="prev" title="argsloader.units.base" href="base.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.numeric</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#intervalunit">IntervalUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#interval">interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#numberunit">NumberUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#number">number</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.units</a> &raquo;</li>
+        
+      <li>argsloader.units.numeric</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/units/numeric.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.units.numeric">
+<span id="argsloader-units-numeric"></span><h1>argsloader.units.numeric<a class="headerlink" href="#module-argsloader.units.numeric" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intervalunit">
+<h2>IntervalUnit<a class="headerlink" href="#intervalunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.numeric.IntervalUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">IntervalUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#IntervalUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>A unit for determining if a number falls within the intervals.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.L">
+<code class="sig-name descname">L</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.L" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-bounded interval with positive infinite right bound, like <code class="docutils literal notranslate"><span class="pre">[left,</span> <span class="pre">+inf]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>left</strong> – Left bound, which is included.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.LR">
+<code class="sig-name descname">LR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em>, <em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.LR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Both-side-bounded interval, like <code class="docutils literal notranslate"><span class="pre">[left,</span> <span class="pre">right]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> – Left bound, which is included.</p></li>
+<li><p><strong>right</strong> – Right bound, which is included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.Lr">
+<code class="sig-name descname">Lr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em>, <em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.Lr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-bounded right-inbounded interval, like <code class="docutils literal notranslate"><span class="pre">[left,</span> <span class="pre">right)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> – Left bound, which is included.</p></li>
+<li><p><strong>right</strong> – Right bound, which is not included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.R">
+<code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.R" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right-bounded interval with negative infinite left bound, like <code class="docutils literal notranslate"><span class="pre">[-inf,</span> <span class="pre">right)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>right</strong> – Right bound, which is included.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">intervals</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#IntervalUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntervalUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>intervals</strong> – Interval tuples.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.l">
+<code class="sig-name descname">l</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-inbounded interval with positive infinite right bound, like <code class="docutils literal notranslate"><span class="pre">(left,</span> <span class="pre">+inf]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>left</strong> – Left bound, which is not included.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.lR">
+<code class="sig-name descname">lR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em>, <em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.lR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left-inbounded right-bounded interval, like <code class="docutils literal notranslate"><span class="pre">(left,</span> <span class="pre">right]</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> – Left bound, which is not included.</p></li>
+<li><p><strong>right</strong> – Right bound, which is included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.lr">
+<code class="sig-name descname">lr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">left</span></em>, <em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.lr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Both-side-inbounded interval, like <code class="docutils literal notranslate"><span class="pre">(left,</span> <span class="pre">right)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>left</strong> – Left bound, which is not included.</p></li>
+<li><p><strong>right</strong> – Right bound, which is not included.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntervalUnit.r">
+<code class="sig-name descname">r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">right</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit">argsloader.units.numeric.IntervalUnit</a><a class="headerlink" href="#argsloader.units.numeric.IntervalUnit.r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right-inbounded interval with negative infinite left bound, like <code class="docutils literal notranslate"><span class="pre">[-inf,</span> <span class="pre">right)</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>right</strong> – Right bound, which is not included.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New interval unit object which contains the new interval and all old intervals.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="interval">
+<h2>interval<a class="headerlink" href="#interval" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="argsloader.units.numeric.interval">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">interval</code><a class="headerlink" href="#argsloader.units.numeric.interval" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Interval builder.</p>
+<p>For further information, see <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit" title="argsloader.units.numeric.IntervalUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntervalUnit</span></code></a>.</p>
+</dd>
+<dt>Intervals:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">l(x)</span></code>: Left-inbounded interval with positive infinite right bound, like <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">+inf]</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.l" title="argsloader.units.numeric.IntervalUnit.l"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.l()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">L(x)</span></code>: Left-bounded interval with positive infinite right bound, like <code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">+inf]</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.L" title="argsloader.units.numeric.IntervalUnit.L"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.L()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">r(x)</span></code>: Right-inbounded interval with negative infinite left bound, like <code class="docutils literal notranslate"><span class="pre">[-inf,</span> <span class="pre">x)</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.r" title="argsloader.units.numeric.IntervalUnit.r"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.r()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R(x)</span></code>: Right-bounded interval with negative infinite left bound, like <code class="docutils literal notranslate"><span class="pre">[-inf,</span> <span class="pre">x]</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.R" title="argsloader.units.numeric.IntervalUnit.R"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.R()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr(x,</span> <span class="pre">y)</span></code>: Both-side-inbounded interval, like <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.lr" title="argsloader.units.numeric.IntervalUnit.lr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.lr()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Lr(x,</span> <span class="pre">y)</span></code>: Left-bounded right-inbounded interval, like <code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">y)</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.Lr" title="argsloader.units.numeric.IntervalUnit.Lr"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.Lr()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lR(x,</span> <span class="pre">y)</span></code>: Left-inbounded right-bounded interval, like <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y]</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.lR" title="argsloader.units.numeric.IntervalUnit.lR"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.lR()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LR(x,</span> <span class="pre">y)</span></code>: Both-side-bounded interval, like <code class="docutils literal notranslate"><span class="pre">[x,</span> <span class="pre">y]</span></code>.         See <a class="reference internal" href="#argsloader.units.numeric.IntervalUnit.LR" title="argsloader.units.numeric.IntervalUnit.LR"><code class="xref py py-meth docutils literal notranslate"><span class="pre">IntervalUnit.LR()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># (3, 10]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="go">4.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (3, 10] expected but 12 found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
+<span class="gp">&gt;&gt;&gt; </span>    
+<span class="gp">... </span><span class="n">u</span> <span class="o">=</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># (3, 10] | [12, +inf]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="go">4.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="go">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (3, 10] | [12, +inf] expected but 3 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="numberunit">
+<h2>NumberUnit<a class="headerlink" href="#numberunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.numeric.NumberUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">NumberUnit</code><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#NumberUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.NumberUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>A unit for transform all types of number-liked data to number.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.numeric.NumberUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#NumberUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.NumberUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.numeric.NumberUnit" title="argsloader.units.numeric.NumberUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">NumberUnit</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="number">
+<h2>number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.number">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">number</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.numeric.NumberUnit" title="argsloader.units.numeric.NumberUnit">argsloader.units.numeric.NumberUnit</a><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.number" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get a number unit, used to transform all types of number-liked data to number.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Number unit mentioned above.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">number</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">233</span><span class="p">)</span>  <span class="c1"># int</span>
+<span class="go">233</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">234.5</span><span class="p">)</span>  <span class="c1"># float</span>
+<span class="go">234.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;233&#39;</span><span class="p">)</span>  <span class="c1"># int-liked str</span>
+<span class="go">233</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;234.5&#39;</span><span class="p">)</span>  <span class="c1"># float-liked str</span>
+<span class="go">234.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;0x74f&#39;</span><span class="p">)</span>  <span class="c1"># hex-liked str</span>
+<span class="go">1871</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;0o735&#39;</span><span class="p">)</span>  <span class="c1"># oct-liked str</span>
+<span class="go">477</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;0b1010010011&#39;</span><span class="p">)</span>  <span class="c1"># bin-liked str</span>
+<span class="go">659</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;-inf&#39;</span><span class="p">)</span>  <span class="c1"># neg-infinite</span>
+<span class="go">-inf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>  <span class="c1"># not a number</span>
+<span class="go">nan</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../utils/index.html" class="btn btn-neutral float-right" title="argsloader.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="base.html" class="btn btn-neutral float-left" title="argsloader.units.base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="numeric.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

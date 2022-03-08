@@ -2,6 +2,7 @@ from .base import raw
 from .func import proc, ufunc
 from .mathop import *
 from .numeric import interval, number
+from .resource import timespan
 from .status import parent, child
 from .string import template, regexp
 from .structure import getattr_, getitem_, struct, mapping, in_, isin, contains

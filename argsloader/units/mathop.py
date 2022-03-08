@@ -54,7 +54,7 @@ def _create_unary_op(op, name_=None, funcname=None):
         Overview:s
             Get the {name_} unary operation unit.
                 
-        :param v1: First value, default means the ``keep()`` will be used. 
+        :param v1: First value, default means the :func:`argsloader.units.utils.keep` will be used.
         :return: {name_.capitalize()} operation unit.
             
         Examples::

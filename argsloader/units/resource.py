@@ -1,4 +1,5 @@
 from enum import unique
+from functools import partial
 from typing import Mapping, Any, Union
 
 from hbutils.model import AutoIntEnum, int_enum_loads
@@ -40,36 +41,18 @@ class TimespanUnit(CalculateUnit):
         _, children = CalculateUnit._rinfo(self)
         return [('unit', self._unit)], children
 
-    @property
-    def nano(self):
-        return self.__class__('nanosecond')
 
-    @property
-    def micro(self):
-        return self.__class__('microsecond')
-
-    @property
-    def milli(self):
-        return self.__class__('millisecond')
-
-    @property
-    def seconds(self):
-        return self.__class__('second')
-
-    @property
-    def minutes(self):
-        return self.__class__('minute')
-
-    @property
-    def hours(self):
-        return self.__class__('hour')
-
-    @property
-    def days(self):
-        return self.__class__('day')
+def timespan():
+    return TimespanUnit(TimeScale.SECOND)
 
 
-timespan = TimespanUnit(TimeScale.SECOND)
+timespan.nano = partial(TimespanUnit, TimeScale.NANOSECOND)
+timespan.micro = partial(TimespanUnit, TimeScale.MICROSECOND)
+timespan.milli = partial(TimespanUnit, TimeScale.MILLISECOND)
+timespan.seconds = partial(TimespanUnit, TimeScale.SECOND)
+timespan.minutes = partial(TimespanUnit, TimeScale.MINUTE)
+timespan.hours = partial(TimespanUnit, TimeScale.HOUR)
+timespan.days = partial(TimespanUnit, TimeScale.DAY)
 
 
 @unique
@@ -106,49 +89,11 @@ class MemoryUnit(CalculateUnit):
         _, children = CalculateUnit._rinfo(self)
         return [('unit', self._unit)], children
 
-    @property
-    def bytes(self):
-        return self.__class__(MemoryScale.B)
 
-    # noinspection PyPep8Naming
-    @property
-    def KiB(self):
-        return self.__class__(MemoryScale.KiB)
-
-    # noinspection PyPep8Naming
-    @property
-    def KB(self):
-        return self.__class__(MemoryScale.KB)
-
-    # noinspection PyPep8Naming
-    @property
-    def MiB(self):
-        return self.__class__(MemoryScale.MiB)
-
-    # noinspection PyPep8Naming
-    @property
-    def MB(self):
-        return self.__class__(MemoryScale.MB)
-
-    # noinspection PyPep8Naming
-    @property
-    def GiB(self):
-        return self.__class__(MemoryScale.GiB)
-
-    # noinspection PyPep8Naming
-    @property
-    def GB(self):
-        return self.__class__(MemoryScale.GB)
-
-    # noinspection PyPep8Naming
-    @property
-    def TiB(self):
-        return self.__class__(MemoryScale.TiB)
-
-    # noinspection PyPep8Naming
-    @property
-    def TB(self):
-        return self.__class__(MemoryScale.TB)
+def memory_() -> MemoryUnit:
+    return MemoryUnit(MemoryScale.B)
 
 
-memory_ = MemoryUnit(MemoryScale.B)
+memory_.bytes = partial(MemoryUnit, MemoryScale.B)
+for key, item in MemoryScale.__members__.items():
+    setattr(memory_, key, partial(MemoryUnit, item))

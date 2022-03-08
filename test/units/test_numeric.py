@@ -1,4 +1,5 @@
 import math
+from textwrap import dedent
 
 import pytest
 
@@ -197,6 +198,10 @@ class TestUnitsNumeric:
             interval(1)
         with pytest.raises(SyntaxError):
             interval >> add.by(2)
+
+        assert repr(interval).strip() == dedent("""
+            <(X)_IntervalProxy>
+        """).strip()
 
     def test_interval_complex(self):
         u = interval.R(0.87323232).Lr(3, 10).l(15.2)

@@ -9,6 +9,7 @@ from hbutils.reflection import fassign
 
 from .base import CalculateUnit
 from .utils import keep
+from ..base import ParseError
 
 __all__ = [
     'abs_', 'inv', 'invert', 'pos', 'neg', 'not_',
@@ -237,6 +238,13 @@ bor = _create_binary_op(lambda x, y: x | y, 'bor', '|', reduce=True)
 bxor = _create_binary_op(lambda x, y: x ^ y, 'bxor', '^', reduce=True)
 
 
+def _binary_check_res_doc(func):
+    try:
+        return repr(func())
+    except ParseError as err:
+        return f'{type(err).__name__}: {str(err)}'
+
+
 def _create_binary_check(op, name_, sign, opsign, preposition, funcname=None):
     short_name = name_.strip().strip('_')
     funcname = funcname or short_name
@@ -269,10 +277,44 @@ def _create_binary_check(op, name_, sign, opsign, preposition, funcname=None):
         __name__=funcname,
         __module__=_nonsense.__module__,
     )
-    def _op_func(v1, *vs) -> '_BinaryCheckUnit':
-        return _BinaryCheckUnit(v1, *vs)
+    def _op_func(v1, v2) -> '_BinaryCheckUnit':
+        return _BinaryCheckUnit(v1, v2)
 
     setattr(_op_func, preposition, MethodType(_op_func_to, _op_func))
+    _op_func.__doc__ = dedent(f"""
+        Overview:
+            Get the {name_} binary comparison check unit.
+
+            If ``v1 {sign} v2`` is satisfied, the inputted value will be returned without any change, \
+            or ``ValueError`` will be raised.
+
+        :param v1: First unit.
+        :param v2: Second unit.
+        :return: {name_.capitalize()} comparison unit.
+        :raises ValueError: When comparison failed, ``ValueError`` will be raised.
+
+        Examples::
+            - Simple comparison check
+
+            >>> from argsloader.units import {funcname}, keep
+            >>> u = {funcname}(keep(), 2)
+            >>> u(1)  # 1 {sign} 2
+            {_binary_check_res_doc(lambda: _op_func(keep(), 2)(1))}
+            >>> u(2)  # 2 {sign} 2
+            {_binary_check_res_doc(lambda: _op_func(keep(), 2)(2))}
+            >>> u(3)  # 3 {sign} 2
+            {_binary_check_res_doc(lambda: _op_func(keep(), 2)(3))}
+
+            - Suffix check
+
+            >>> u = (lambda x: x * 2) >> {funcname}.{preposition}(2)
+            >>> u(0)  # (0 * 2) {sign} 2
+            {_binary_check_res_doc(lambda: ((lambda x: x * 2) >> getattr(_op_func, preposition)(2))(0))}
+            >>> u(1)  # (1 * 2) {sign} 2
+            {_binary_check_res_doc(lambda: ((lambda x: x * 2) >> getattr(_op_func, preposition)(2))(1))}
+            >>> u(2)  # (2 * 2) {sign} 2
+            {_binary_check_res_doc(lambda: ((lambda x: x * 2) >> getattr(_op_func, preposition)(2))(2))}
+    """)
 
     return _op_func
 

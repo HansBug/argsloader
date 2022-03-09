@@ -7,5 +7,6 @@ argsloader.units
     base
     mathop
     numeric
+    resource
     type
     utils

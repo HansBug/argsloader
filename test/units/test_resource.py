@@ -16,6 +16,7 @@ class TestUnitsResource:
             <TimespanUnit unit: <TimeScale.SECOND: 1.0>>
         """).strip()
 
+    # noinspection PyUnresolvedReferences
     def test_timespan_scale(self):
         u = timespan.nano()
         assert u('1h') == 3600.0 * 1e9
@@ -58,9 +59,10 @@ class TestUnitsResource:
         assert isinstance(err, ValueError)
 
         assert repr(u).strip() == dedent("""
-            <MemoryUnit unit: <MemoryScale.B: 1.0>>
+            <MemoryUnit unit: <MemoryScale.B: 1>>
         """).strip()
 
+    # noinspection PyUnresolvedReferences
     def test_memory_scale(self):
         u = memory_.bytes()
         assert u(100) == 100

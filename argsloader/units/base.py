@@ -197,8 +197,8 @@ class UnitProcessProxy:
 
 @lru_cache()
 def _get_ops():
-    from .operator import pipe, and_, or_
-    return pipe, and_, or_
+    from .operator import _cpipe, _cand, _cor
+    return _cpipe, _cand, _cor
 
 
 class BaseUnit(_UnitModel):

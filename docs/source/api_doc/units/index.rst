@@ -8,6 +8,8 @@ argsloader.units
     func
     mathop
     numeric
+    operator
     resource
+    structure
     type
     utils

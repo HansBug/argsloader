@@ -14,12 +14,50 @@ class TestUnitsString:
             '${v2} is doubled data,'
             '${v_} is negative data,'
             '${c} is const data',
-            dict(v=keep(), v2=mul.by(2), v_=neg(), c=-12)
+            v=keep(), v2=mul.by(2), v_=neg(), c=-12
         )
         assert u(4) == '4 is original data,' \
                        '8 is doubled data,' \
                        '-4 is negative data,' \
                        '-12 is const data'
+        assert repr(u).strip() == dedent("""
+            <TemplateUnit safe: False>
+            ├── tmp --> '${v} is original data,${v2} is doubled data,${v_} is negative data,${c} is const data'
+            └── vars --> dict(v, v2, v_, c)
+                ├── v --> <KeepUnit>
+                ├── v2 --> <MulOpUnit>
+                │   ├── v1 --> <KeepUnit>
+                │   └── v2 --> 2
+                ├── v_ --> <NegOpUnit>
+                │   └── v1 --> <KeepUnit>
+                └── c --> -12
+        """).strip()
+
+        u = template(
+            '${v} is original data,'
+            '${v2} is doubled data,'
+            '${v_} is negative data,'
+            '${c} is const data',
+            v=keep(), v2=mul.by(2), v_=neg()
+        )
+        with pytest.raises(ParseError) as ei:
+            u(4)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+        assert err.args == ("Key 'c' which is required by template is not provided.",)
+
+        u = template.safe(
+            '${v} is original data,'
+            '${v2} is doubled data,'
+            '${v_} is negative data,'
+            '${c} is const data',
+            v=keep(), v2=mul.by(2), v_=neg()
+        )
+        assert u(4) == '4 is original data,' \
+                       '8 is doubled data,' \
+                       '-4 is negative data,' \
+                       '${c} is const data'
 
     def test_regexp_syntax(self):
         u = regexp(r'([\d]{1,3})\.([\d]{1,3})')

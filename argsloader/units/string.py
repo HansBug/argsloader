@@ -12,26 +12,110 @@ except ImportError:
 
 
 class TemplateUnit(CalculateUnit):
-    __names__ = ('tmp', 'vars', 'safe')
+    """
+    Overview:
+        Unit for templating string.
+    """
+    __names__ = ('tmp', 'vars')
     __errors__ = (KeyError,)
 
-    def __init__(self, tmp, variables: Mapping[str, Any], safe):
-        CalculateUnit.__init__(self, tmp, {k: _to_unit(v) for k, v in variables.items()}, safe)
+    def __init__(self, tmp, variables: Mapping[str, Any], safe: bool):
+        """
+        Constructor of :class:`TemplateUnit`.
+
+        :param tmp: Template string.
+        :param variables: Variable objects.
+        :param safe: Safe mode or not.
+        """
+        self._safe = safe
+        CalculateUnit.__init__(self, tmp, {k: _to_unit(v) for k, v in variables.items()})
 
     def _calculate(self, v: object, pres: Mapping[str, Any]) -> object:
-        # print(pres)
-        return env_template(pres['tmp'], pres['vars'], safe=pres['safe'])
+        try:
+            return env_template(pres['tmp'], pres['vars'], safe=self._safe)
+        except KeyError as err:
+            key, = err.args
+            raise KeyError(f'Key {repr(key)} which is required by template is not provided.')
+
+    def _rinfo(self):
+        _, children = CalculateUnit._rinfo(self)
+        return [('safe', self._safe)], children
 
 
-def template(tmp, vars_, safe: bool = False) -> TemplateUnit:
-    return TemplateUnit(tmp, vars_, safe)
+def _template_safe(_s_template, **vars_) -> TemplateUnit:
+    return TemplateUnit(_s_template, vars_, True)
+
+
+def template(_s_template, **vars_) -> TemplateUnit:
+    """
+    Overview:
+        Create a string, based on a template and several variables.
+
+    :param _s_template: Template string.
+    :param vars_: Variables to be used.
+    :return: A template based unit.
+
+    Examples::
+        >>> from argsloader.units import keep, neg, mul, template
+        >>> u = template(
+        ...     '${v} is original data,'
+        ...     '${v2} is doubled data,'
+        ...     '${v_} is negative data,'
+        ...     '${c} is const data',
+        ...     v=keep(), v2=mul.by(2), v_=neg(), c=-12
+        ... )
+        >>> u(4)
+        '4 is original data,8 is doubled data,-4 is negative data,-12 is const data'
+
+    .. note::
+        When function :func:`template` is used, the safe mode is disabled in default. It means when one of the \
+        required variable's data is not given, a ``KeyError`` will be raised. For example,
+
+        >>> u = template(
+        ...     '${v} is original data,'
+        ...     '${v2} is doubled data,'
+        ...     '${v_} is negative data,'
+        ...     '${c} is const data',
+        ...     v=keep(), v2=mul.by(2), v_=neg()  # c is missing
+        ... )
+        >>> u(4)
+        KeyParseError: "Key 'c' which is required by template is not provided."
+
+        In the abovementioned case, if you need to just keep the missing string, you can enable the safe mode with \
+        ``template.safe``. For example,
+
+        >>> u = template.safe(
+        ...     '${v} is original data,'
+        ...     '${v2} is doubled data,'
+        ...     '${v_} is negative data,'
+        ...     '${c} is const data',
+        ...     v=keep(), v2=mul.by(2), v_=neg()  # c is missing
+        ... )
+        >>> u(4)
+        '4 is original data,8 is doubled data,-4 is negative data,${c} is const data'
+    """
+    return TemplateUnit(_s_template, vars_, False)
+
+
+template.safe = _template_safe
 
 
 class RegexpMatchUnit(CalculateUnit):
+    """
+    Overview:
+        Unit for regular expression matching.
+    """
     __names__ = ('regexp',)
     __errors__ = (ValueError,)
 
     def __init__(self, r, fullmatch: bool = False, check_only: bool = False):
+        """
+        Constructor of :class:`RegexpMatchUnit`.
+
+        :param r: Regular expression string or pattern.
+        :param fullmatch: Fully match required or not, default is ``False``.
+        :param check_only: Only check matching or not, default is ``False``.
+        """
         self._regexp = r
         self._fullmatch = fullmatch
         self._check_only = check_only
@@ -39,10 +123,16 @@ class RegexpMatchUnit(CalculateUnit):
 
     @property
     def full(self) -> 'RegexpMatchUnit':
+        """
+        :return: A :class:`RegexpMatchUnit` with fully-match option enabled.
+        """
         return self.__class__(self._regexp, True, self._check_only)
 
     @property
     def check(self) -> 'RegexpMatchUnit':
+        """
+        :return: A :class:`RegexpMatchUnit` with check-only option enabled.
+        """
         return self.__class__(self._regexp, self._fullmatch, True)
 
     def _calculate(self, v: str, pres: Mapping[str, Any]):
@@ -75,7 +165,21 @@ class RegexpMatchUnit(CalculateUnit):
 
 
 class RegexpProxy(UncompletedUnit):
+    """
+    Overview:
+        Proxy class for regular expression units' building.
+
+    .. note::
+        This class is only used for building unit, which means it can not be used like unit \
+        because of its incompleteness.
+    """
+
     def __init__(self, r) -> None:
+        """
+        Constructor of :class:`RegexpProxy`.
+
+        :param r: Regular expression string or pattern.
+        """
         UncompletedUnit.__init__(self)
         self._regexp = r
 
@@ -87,8 +191,72 @@ class RegexpProxy(UncompletedUnit):
 
     @property
     def match(self):
+        """
+        :return: A :class:`RegexpMatchUnit` with fully-match and check-only options disabled.
+        """
         return RegexpMatchUnit(self._regexp, False, False)
 
 
 def regexp(r) -> RegexpProxy:
+    """
+    Overview:
+
+    :param r: Regular expression string or pattern. If string is given, it will be compiled inside.
+    :return: A :class:`RegexpProxy` object.
+
+    Examples::
+        - Simple match
+
+        >>> from argsloader.units import regexp
+        >>> u = regexp('([a-z0-9_]+)@([a-z0-9_\\.]+)').match
+        >>> u('mymail@gmail.com')
+        {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com'}
+        >>> u('mymail@gmail.com  here is other text')
+        {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com'}
+        >>> u('mymail_gmail.com')
+        ValueParseError: Regular expression '([a-z0-9_]+)@([a-z0-9_\\.]+)' expected, but 'mymail_gmail.com' found which is not matched.
+
+        - Check only
+
+        >>> u = regexp('([a-z0-9_]+)@([a-z0-9_\\.]+)').match.check
+        >>> u('mymail@gmail.com')
+        'mymail@gmail.com'
+        >>> u('mymail@gmail.com  here is other text')
+        'mymail@gmail.com  here is other text'
+        >>> u('mymail_gmail.com')
+        ValueParseError: Regular expression '([a-z0-9_]+)@([a-z0-9_\\.]+)' expected, but 'mymail_gmail.com' found which is not matched.
+
+        - Fully match
+
+        >>> u = regexp('([a-z0-9_]+)@([a-z0-9_\\.]+)').match.full
+        >>> u('mymail@gmail.com')
+        {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com'}
+        >>> u('mymail@gmail.com  here is other text')
+        ValueParseError: Regular expression '([a-z0-9_]+)@([a-z0-9_\\.]+)' expected, but 'mymail@gmail.com here is other text' found which is not fully matched.
+
+        - Fully match, check only
+
+        >>> u = regexp('([a-z0-9_]+)@([a-z0-9_\\.]+)').match.full.check
+        >>> u('mymail@gmail.com')
+        'mymail@gmail.com'
+        >>> u('mymail@gmail.com  here is other text')
+        ValueParseError: Regular expression '([a-z0-9_]+)@([a-z0-9_\\.]+)' expected, but 'mymail@gmail.com here is other text' found which is not fully matched.
+
+        - Match with named group
+
+        >>> u = regexp('(?P<username>[a-z0-9_]+)@(?P<domain>[a-z0-9_\\.]+)').match
+        >>> u('mymail@gmail.com')
+        {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com', 'username': 'mymail', 'domain': 'gmail.com'}
+        >>> u('mymail@gmail.com  here is other text')
+        {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com', 'username': 'mymail', 'domain': 'gmail.com'}
+        >>> u('mymail_gmail.com')
+        ValueParseError: Regular expression '(?P<username>[a-z0-9_]+)@(?P<domain>[a-z0-9_\\.]+)' expected, but 'mymail_gmail.com' found which is not matched.
+
+    .. warning::
+        The object which function :func:`regexp` returned is only a :class:`RegexpProxy` object, \
+        which is only used for building unit and can not be used like other functions.
+
+    .. note::
+        The other functions like ``re.find`` or ``re.search`` will be added later.
+    """
     return RegexpProxy(r)

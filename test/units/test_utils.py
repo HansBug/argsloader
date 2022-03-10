@@ -73,7 +73,7 @@ class TestUnitsUtils:
         assert err.args == ('234', 5, 6)
 
         u = error(not_(validity(is_type(int) | is_type(str))), MyTypeError,
-                  template('${V} is invalid', dict(V=keep())), 5, 6)
+                  template('${V} is invalid', V=keep()), 5, 6)
         assert u(1) == 1
         assert u('skdjflk') == 'skdjflk'
         with pytest.raises(ParseError) as ei:
@@ -99,7 +99,7 @@ class TestUnitsUtils:
         assert err.args == ('234', 5, 6)
 
         u = validate(add.by(2), validity(is_type(int)), MyTypeError,
-                     template('${V} is invalid', dict(V=keep())), 5, 6)
+                     template('${V} is invalid', V=keep()), 5, 6)
         assert u(1) == 1
         with pytest.raises(ParseError) as ei:
             u(1.5)
@@ -122,7 +122,7 @@ class TestUnitsUtils:
         assert isinstance(err, MyValueError)
         assert err.args == ('This is my error',)
 
-        u = fail(MyValueError, template('${v} is the cause to error', dict(v=keep())), add.by(2), 'const')
+        u = fail(MyValueError, template('${v} is the cause to error', v=keep()), add.by(2), 'const')
         with pytest.raises(ParseError) as ei:
             u(1)
 

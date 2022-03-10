@@ -19,7 +19,7 @@ class TestUnitsStructure:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, KeyError)
-        assert err.args == ("Item 'a' not found.",)
+        assert err.args == ("Item 'a' not found in value.",)
 
         u = getitem_(2)
         assert u([3, 5, 7]) == 7
@@ -29,7 +29,7 @@ class TestUnitsStructure:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, IndexError)
-        assert err.args == ("Item 2 not found.",)
+        assert err.args == ("Item 2 not found in value.",)
 
     def test_getitem_position(self):
         u = getitem_('a')

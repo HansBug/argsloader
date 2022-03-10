@@ -13,6 +13,8 @@ IsTypeUnit
     :members: __init__
 
 
+.. _argsloader-units-type-is_type:
+
 is_type
 -------------------
 
@@ -26,6 +28,8 @@ ToTypeUnit
     :members: __init__
 
 
+.. _argsloader-units-type-to_type:
+
 to_type
 -------------------
 
@@ -38,6 +42,8 @@ IsSubclassUnit
 .. autoclass:: IsSubclassUnit
     :members: __init__
 
+
+.. _argsloader-units-type-is_subclass:
 
 is_subclass
 -------------------

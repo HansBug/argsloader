@@ -138,6 +138,10 @@ htmlhelp_basename = 'TreeValue'
 # so a file named "default.css" will overwrite the plugins "default.css".
 html_static_path = ['_static']
 
+html_css_files = [
+    'css/custom.css',
+]
+
 epub_title = project
 epub_exclude_files = ['search.html']
 

@@ -13,6 +13,7 @@ configuration file's structure and their versions.
 
     tutorials/installation/index
     tutorials/quick_start/index
+    tutorials/cheat_sheet/index
 
 .. toctree::
     :maxdepth: 2

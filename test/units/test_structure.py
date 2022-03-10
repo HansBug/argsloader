@@ -3,9 +3,9 @@ from textwrap import dedent
 import pytest
 from easydict import EasyDict
 
-from argsloader.base import ParseError, MultipleParseError
+from argsloader.base import ParseError, MultipleParseError, PValue
 from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add, in_, isin, contains, \
-    mul, sub
+    mul, sub, to_type, is_type
 
 
 @pytest.mark.unittest
@@ -127,6 +127,66 @@ class TestUnitsStructure:
         assert err.items[0][1].message == 'Value not in interval - (3, 10] expected but 11 found.'
         assert err.items[1][0].position == ('b',)
         assert err.items[1][1].message == 'Value not in interval - [-inf, 5] expected but 6 found.'
+
+    # noinspection DuplicatedCode
+    def test_mapping_simple(self):
+        u = mapping(to_type(int))
+        assert u([1, 2.3, '15']) == [1, 2, 15]
+        assert u((1, 2.3, '15')) == (1, 2, 15)
+
+        u = mapping(is_type(int) >> add.by(2) >> interval.LR(1, 10))
+        assert u([1, 3, 7]) == [3, 5, 9]
+        assert u((1, 3, 7)) == (3, 5, 9)
+
+        with pytest.raises(ParseError) as ei:
+            u([1.0, 3, 9])
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+        assert err.args == ('Value type not match - int expected but float found.',)
+
+        with pytest.raises(ParseError) as ei:
+            u([1, 3, 9])
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Value not in interval - [1, 10] expected but 11 found.',)
+
+        with pytest.raises(MultipleParseError) as ei:
+            u.call([1.0, 3, 9])
+        err = ei.value
+        assert err.items[0][0] == PValue(1.0, (0,))
+        assert err.items[0][1].args == ('Value type not match - int expected but float found.',)
+        assert err.items[1][0] == PValue(11, (2,))
+        assert err.items[1][1].args == ('Value not in interval - [1, 10] expected but 11 found.',)
+
+    # noinspection DuplicatedCode
+    def test_mapping_without_offset(self):
+        u = mapping(is_type(int) >> add.by(2) >> interval.LR(1, 10), offset=False)
+        assert u([1, 3, 7]) == [3, 5, 9]
+        assert u((1, 3, 7)) == (3, 5, 9)
+
+        with pytest.raises(ParseError) as ei:
+            u([1.0, 3, 9])
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+        assert err.args == ('Value type not match - int expected but float found.',)
+
+        with pytest.raises(ParseError) as ei:
+            u([1, 3, 9])
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('Value not in interval - [1, 10] expected but 11 found.',)
+
+        with pytest.raises(MultipleParseError) as ei:
+            u.call([1.0, 3, 9])
+        err = ei.value
+        assert err.items[0][0] == PValue(1.0, ())
+        assert err.items[0][1].args == ('Value type not match - int expected but float found.',)
+        assert err.items[1][0] == PValue(11, ())
+        assert err.items[1][1].args == ('Value not in interval - [1, 10] expected but 11 found.',)
 
     def test_mapping(self):
         u = mapping(struct({

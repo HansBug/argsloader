@@ -32,7 +32,7 @@ class GetItemUnit(TransformUnit):
 
 
 def getitem_(item, offset: bool = True) -> 'GetItemUnit':
-    return GetItemUnit(item, offset)
+    return GetItemUnit(item, not not offset)
 
 
 class GetAttrUnit(CalculateUnit):
@@ -79,14 +79,19 @@ def struct(struct_) -> StructUnit:
 
 
 class MappingUnit(BaseUnit):
-    def __init__(self, f):
+    def __init__(self, f, offset: bool = True):
         self._func = _to_unit(f)
+        self._offset = offset
 
     def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
         lst: Union[Tuple, List] = v.value
         valid, records = True, []
         for index, item in enumerate(lst):
-            res = self._func._process(v.child(index).val(item))
+            iv = v.val(item)
+            if self._offset:
+                iv = iv.child(index)
+
+            res = self._func._process(iv)
             valid = valid and res.status.valid
             records.append(res)
 
@@ -99,8 +104,8 @@ class MappingUnit(BaseUnit):
         return [], [('func', self._func)]
 
 
-def mapping(func) -> MappingUnit:
-    return MappingUnit(func)
+def mapping(func, offset: bool = True) -> MappingUnit:
+    return MappingUnit(func, not not offset)
 
 
 class InUnit(CalculateUnit):

@@ -15,7 +15,7 @@ PipeUnit
 
 .. _argsloader-units-operator-_cpipe:
 
-\_cpipe
+Operator >>
 ---------------------------
 
 .. autofunction:: _cpipe
@@ -30,7 +30,7 @@ AndUnit
 
 .. _argsloader-units-operator-_cand:
 
-\_cand
+Operator &
 ---------------------------
 
 .. autofunction:: _cand
@@ -45,7 +45,7 @@ OrUnit
 
 .. _argsloader-units-operator-_cor:
 
-\_cor
+Operator |
 ---------------------------
 
 .. autofunction:: _cor

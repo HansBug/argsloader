@@ -438,8 +438,20 @@
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td><p>Check if <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">2</span></code> is equal to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">*</span> <span class="pre">2</span></code> (assume the given value is <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></td>
-<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span><span class="o">.</span><span class="n">to_</span><span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<tr class="row-even"><td><p>Check if <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">2</span></code> is greater than or equal to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">**</span> <span class="pre">2</span></code> (assume the given value is <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ge</span><span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-ge"><span class="std std-ref">ge</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-add"><span class="std std-ref">add</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-mul"><span class="std std-ref">mul</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Check if <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">2</span></code> is equal to <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">*</span> <span class="pre">2</span></code> (assume the given value is <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span><span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
 </td>
@@ -596,7 +608,7 @@
 <td><ul class="simple">
 <li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></li>
 <li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-ge"><span class="std std-ref">ge</span></a></p></li>
-<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cand"><span class="std std-ref">Operator &amp;</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cand"><span class="std std-ref">&amp; operator</span></a></p></li>
 </ul>
 </td>
 </tr>
@@ -608,7 +620,7 @@
 <td><ul class="simple">
 <li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></li>
 <li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-ge"><span class="std std-ref">ge</span></a></p></li>
-<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cor"><span class="std std-ref">Operator |</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cor"><span class="std std-ref">| operator</span></a></p></li>
 </ul>
 </td>
 </tr>
@@ -620,7 +632,7 @@
 <td><ul class="simple">
 <li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-pow"><span class="std std-ref">pow_</span></a></p></li>
 <li><p><a class="reference internal" href="../../api_doc/units/numeric.html#argsloader-units-numeric-interval"><span class="std std-ref">interval</span></a></p></li>
-<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cpipe"><span class="std std-ref">Operator &gt;&gt;</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/operator.html#argsloader-units-operator-cpipe"><span class="std std-ref">&gt;&gt; operator</span></a></p></li>
 </ul>
 </td>
 </tr>
@@ -673,7 +685,7 @@
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td><p>Check if the given text is a 11-digits phone number (similar with <code class="docutils literal notranslate"><span class="pre">re.matchall</span></code>)</p></td>
+<tr class="row-odd"><td><p>Check if the given text is a 11-digits phone number (similar with <code class="docutils literal notranslate"><span class="pre">re.fullmatch</span></code>)</p></td>
 <td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">regexp</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">d</span><span class="si">{11}</span><span class="s1">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="o">.</span><span class="n">full</span><span class="o">.</span><span class="n">check</span>
 </pre></div>
 </div>

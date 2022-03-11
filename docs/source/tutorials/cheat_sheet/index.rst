@@ -197,10 +197,19 @@ Math Validation
 
         - - :ref:`argsloader-units-mathop-ne`
 
+    *   - Check if ``x + 2`` is greater than or equal to ``x ** 2`` (assume the given value is ``x``)
+        - .. code-block::
+
+            ge(add.by(2), mul.by(2))
+
+        - - :ref:`argsloader-units-mathop-ge`
+          - :ref:`argsloader-units-mathop-add`
+          - :ref:`argsloader-units-mathop-mul`
+
     *   - Check if ``x + 2`` is equal to ``x * 2`` (assume the given value is ``x``)
         - .. code-block::
 
-            eq.to_(add.by(2), mul.by(2))
+            eq(add.by(2), mul.by(2))
 
         - - :ref:`argsloader-units-mathop-eq`
           - :ref:`argsloader-units-mathop-add`
@@ -364,7 +373,7 @@ String or Text
 
         - - :ref:`argsloader-units-string-regexp`
 
-    *   - Check if the given text is a 11-digits phone number (similar with ``re.matchall``)
+    *   - Check if the given text is a 11-digits phone number (similar with ``re.fullmatch``)
         - .. code-block::
 
             regexp('\\d{11}').match.full.check

@@ -4,6 +4,7 @@ from typing import Mapping, Any
 from hbutils.string import env_template, truncate
 
 from .base import CalculateUnit, _to_unit, UncompletedUnit
+from .utils import check, CheckUnit
 
 try:
     from re import Pattern
@@ -108,17 +109,15 @@ class RegexpMatchUnit(CalculateUnit):
     __names__ = ('regexp',)
     __errors__ = (ValueError,)
 
-    def __init__(self, r, fullmatch: bool = False, check_only: bool = False):
+    def __init__(self, r, fullmatch: bool = False):
         """
         Constructor of :class:`RegexpMatchUnit`.
 
         :param r: Regular expression string or pattern.
         :param fullmatch: Fully match required or not, default is ``False``.
-        :param check_only: Only check matching or not, default is ``False``.
         """
         self._regexp = r
         self._fullmatch = fullmatch
-        self._check_only = check_only
         CalculateUnit.__init__(self, r)
 
     @property
@@ -126,14 +125,14 @@ class RegexpMatchUnit(CalculateUnit):
         """
         :return: A :class:`RegexpMatchUnit` with fully-match option enabled.
         """
-        return self.__class__(self._regexp, True, self._check_only)
+        return self.__class__(self._regexp, True)
 
     @property
-    def check(self) -> 'RegexpMatchUnit':
+    def check(self) -> 'CheckUnit':
         """
-        :return: A :class:`RegexpMatchUnit` with check-only option enabled.
+        :return: A :class:`argsloader.units.utils.CheckUnit` which only check the match or not.
         """
-        return self.__class__(self._regexp, self._fullmatch, True)
+        return check(self)
 
     def _calculate(self, v: str, pres: Mapping[str, Any]):
         r = pres['regexp']
@@ -143,14 +142,11 @@ class RegexpMatchUnit(CalculateUnit):
         mfunc = r.fullmatch if self._fullmatch else r.match
         match = mfunc(v)
         if match:
-            if self._check_only:
-                return v
-            else:
-                return {
-                    0: match.group(0),
-                    **{i + 1: content for i, content in enumerate(match.groups())},
-                    **match.groupdict(),
-                }
+            return {
+                0: match.group(0),
+                **{i + 1: content for i, content in enumerate(match.groups())},
+                **match.groupdict(),
+            }
         else:
             raise ValueError(f'Regular expression {repr(r.pattern)} expected, '
                              f'but {truncate(repr(v))} found which is '
@@ -158,10 +154,7 @@ class RegexpMatchUnit(CalculateUnit):
 
     def _rinfo(self):
         _, children = super()._rinfo()
-        return [
-                   ('fullmatch', self._fullmatch),
-                   ('check_only', self._check_only),
-               ], children
+        return [('fullmatch', self._fullmatch)], children
 
 
 class RegexpProxy(UncompletedUnit):
@@ -194,7 +187,7 @@ class RegexpProxy(UncompletedUnit):
         """
         :return: A :class:`RegexpMatchUnit` with fully-match and check-only options disabled.
         """
-        return RegexpMatchUnit(self._regexp, False, False)
+        return RegexpMatchUnit(self._regexp, False)
 
 
 def regexp(r) -> RegexpProxy:

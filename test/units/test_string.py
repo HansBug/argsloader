@@ -81,24 +81,7 @@ class TestUnitsString:
                             "but '1234.567' found which is not matched.",)
 
         assert repr(u).strip() == dedent(r"""
-            <RegexpMatchUnit fullmatch: False, check_only: False>
-            └── regexp --> '([\\d]{1,3})\\.([\\d]{1,3})'
-        """).strip()
-
-        # check only match
-        u = regexp(r'([\d]{1,3})\.([\d]{1,3})').match.check
-        assert u('123.456') == '123.456'
-        assert u('123.4569203djksfgh') == '123.4569203djksfgh'
-        with pytest.raises(ParseError) as ei:
-            u('1234.567')
-        err = ei.value
-        assert isinstance(err, ParseError)
-        assert isinstance(err, ValueError)
-        assert err.args == ("Regular expression '([\\\\d]{1,3})\\\\.([\\\\d]{1,3})' expected, "
-                            "but '1234.567' found which is not matched.",)
-
-        assert repr(u).strip() == dedent(r"""
-            <RegexpMatchUnit fullmatch: False, check_only: True>
+            <RegexpMatchUnit fullmatch: False>
             └── regexp --> '([\\d]{1,3})\\.([\\d]{1,3})'
         """).strip()
 
@@ -123,8 +106,28 @@ class TestUnitsString:
                             "but '1234.567' found which is not fully matched.",)
 
         assert repr(u).strip() == dedent(r"""
-            <RegexpMatchUnit fullmatch: True, check_only: False>
+            <RegexpMatchUnit fullmatch: True>
             └── regexp --> '(?P<first>[\\d]{1,3})\\.(?P<second>[\\d]{1,3})'
+        """).strip()
+
+    # noinspection DuplicatedCode
+    def test_regexp_match_check(self):
+        # check only match
+        u = regexp(r'([\d]{1,3})\.([\d]{1,3})').match.check
+        assert u('123.456') == '123.456'
+        assert u('123.4569203djksfgh') == '123.4569203djksfgh'
+        with pytest.raises(ParseError) as ei:
+            u('1234.567')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Regular expression '([\\\\d]{1,3})\\\\.([\\\\d]{1,3})' expected, "
+                            "but '1234.567' found which is not matched.",)
+
+        assert repr(u).strip() == dedent(r"""
+            <CheckUnit>
+            └── unit --> <RegexpMatchUnit fullmatch: False>
+                └── regexp --> '([\\d]{1,3})\\.([\\d]{1,3})'
         """).strip()
 
         # check only full match
@@ -148,6 +151,7 @@ class TestUnitsString:
                             "but '1234.567' found which is not fully matched.",)
 
         assert repr(u).strip() == dedent(r"""
-            <RegexpMatchUnit fullmatch: True, check_only: True>
-            └── regexp --> '(?P<first>[\\d]{1,3})\\.(?P<second>[\\d]{1,3})'
+            <CheckUnit>
+            └── unit --> <RegexpMatchUnit fullmatch: True>
+                └── regexp --> '(?P<first>[\\d]{1,3})\\.(?P<second>[\\d]{1,3})'
         """).strip()

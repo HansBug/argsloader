@@ -20,6 +20,8 @@ TimespanUnit
     :members: __init__
 
 
+.. _argsloader-units-resource-timespan:
+
 timespan
 ---------------------------
 
@@ -39,6 +41,8 @@ MemoryUnit
 .. autoclass:: MemoryUnit
     :members: __init__
 
+
+.. _argsloader-units-resource-memory_:
 
 memory\_
 ---------------------------

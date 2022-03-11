@@ -13,6 +13,8 @@ ChildPositionUnit
     :members: __init__
 
 
+.. _argsloader-units-status-child:
+
 child
 ------------------------------------
 
@@ -25,6 +27,8 @@ ParentPositionUnit
 .. autoclass:: ParentPositionUnit
     :members: __init__
 
+
+.. _argsloader-units-status-parent:
 
 parent
 ------------------------------------

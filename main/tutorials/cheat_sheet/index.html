@@ -92,6 +92,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../quick_start/index.html">Quick Start</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cheat Sheet of Units</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#types">Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-structure">Data Structure</a></li>
 </ul>
 </li>
 </ul>
@@ -187,24 +188,168 @@
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Check if the given object is a string</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">is_type(str)</span></code></p></td>
-<td><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">is_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></li>
+</ul>
+</td>
 </tr>
 <tr class="row-odd"><td><p>Check if the given object is a list or tuple</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">is_type((list,</span> <span class="pre">tuple))</span></code></p></td>
-<td><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">is_type</span><span class="p">((</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-type"><span class="std std-ref">is_type</span></a></p></li>
+</ul>
+</td>
 </tr>
 <tr class="row-even"><td><p>Transform a given object to string</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">to_type(str)</span></code></p></td>
-<td><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-to-type"><span class="std std-ref">to_type</span></a></p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">to_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-to-type"><span class="std std-ref">to_type</span></a></p></li>
+</ul>
+</td>
 </tr>
 <tr class="row-odd"><td><p>Transform a sequence-liked object to list</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">to_type(list)</span></code></p></td>
-<td><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-to-type"><span class="std std-ref">to_type</span></a></p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">to_type</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-to-type"><span class="std std-ref">to_type</span></a></p></li>
+</ul>
+</td>
 </tr>
 <tr class="row-even"><td><p>Check if the given class is a subclass of dict</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">is_subclass(dict)</span></code></p></td>
-<td><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-subclass"><span class="std std-ref">is_subclass</span></a></p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">is_subclass</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/type.html#argsloader-units-type-is-subclass"><span class="std std-ref">is_subclass</span></a></p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="data-structure">
+<h2>Data Structure<a class="headerlink" href="#data-structure" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-given docutils align-default" id="id2">
+<caption><span class="caption-text">Unit Usage About Data Structures</span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 30%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>What you want to do</p></th>
+<th class="head"><p>What you need to write</p></th>
+<th class="head"><p>Further details</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Get item <code class="docutils literal notranslate"><span class="pre">a</span></code> from the given dict object</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">getitem_</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-getitem"><span class="std std-ref">getitem_</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Get 2nd item from the given list or tuple</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">getitem_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-getitem"><span class="std std-ref">getitem_</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>Get item <code class="docutils literal notranslate"><span class="pre">a</span></code> from the given dict object, which is not the original data and position offset should be disabled</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">getitem_</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-getitem"><span class="std std-ref">getitem_</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Get attribute <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> from the given object</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">getattr_</span><span class="p">(</span><span class="s1">&#39;__dict__&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-getattr"><span class="std std-ref">getattr_</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>Get value of <code class="docutils literal notranslate"><span class="pre">a</span></code> from <code class="docutils literal notranslate"><span class="pre">EasyDict</span></code>, based on getter of attribute</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">getattr_</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-getattr"><span class="std std-ref">getattr_</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Create a tuple which contains <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">2</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> (assume the given value is <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="p">((</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">keep</span><span class="p">))</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-struct"><span class="std std-ref">struct</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-add"><span class="std std-ref">add</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/utils.html#argsloader-units-utils-keep"><span class="std std-ref">keep</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>Create a dict with <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">2</span></code> and <code class="docutils literal notranslate"><span class="pre">x</span></code> (assume the given value is <code class="docutils literal notranslate"><span class="pre">x</span></code>)</p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="p">({</span>
+    <span class="s1">&#39;plus2&#39;</span><span class="p">:</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+    <span class="s1">&#39;origin&#39;</span><span class="p">:</span> <span class="n">keep</span><span class="p">(),</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-struct"><span class="std std-ref">struct</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-add"><span class="std std-ref">add</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/utils.html#argsloader-units-utils-keep"><span class="std std-ref">keep</span></a></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Create nested structure, like <code class="docutils literal notranslate"><span class="pre">{'plus':</span> <span class="pre">(X,</span> <span class="pre">X),</span> <span class="pre">'origin':</span> <span class="pre">X}</span></code></p></td>
+<td><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">struct</span><span class="p">({</span>
+    <span class="s1">&#39;plus&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+        <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;origin&#39;</span><span class="p">:</span> <span class="n">keep</span><span class="p">(),</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</td>
+<td><ul class="simple">
+<li><p><a class="reference internal" href="../../api_doc/units/structure.html#argsloader-units-structure-struct"><span class="std std-ref">struct</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/mathop.html#argsloader-units-mathop-add"><span class="std std-ref">add</span></a></p></li>
+<li><p><a class="reference internal" href="../../api_doc/units/utils.html#argsloader-units-utils-keep"><span class="std std-ref">keep</span></a></p></li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>

@@ -13,6 +13,8 @@ GetItemUnit
     :members: __init__
 
 
+.. _argsloader-units-structure-getitem_:
+
 getitem\_
 ------------------------------
 
@@ -25,6 +27,8 @@ GetAttrUnit
 .. autoclass:: GetAttrUnit
     :members: __init__
 
+
+.. _argsloader-units-structure-getattr\_:
 
 getattr\_
 ------------------------------
@@ -39,6 +43,8 @@ StructUnit
     :members: __init__
 
 
+.. _argsloader-units-structure-struct:
+
 struct
 ------------------------------
 
@@ -51,6 +57,8 @@ MappingUnit
 .. autoclass:: MappingUnit
     :members: __init__
 
+
+.. _argsloader-units-structure-mapping:
 
 mapping
 ------------------------------
@@ -65,17 +73,23 @@ InUnit
     :members: __init__
 
 
+.. _argsloader-units-structure-in_:
+
 in\_
 ------------------------------
 
 .. autofunction:: in_
 
 
+.. _argsloader-units-structure-isin:
+
 isin
 ------------------------------
 
 .. autofunction:: isin
 
+
+.. _argsloader-units-structure-contains:
 
 contains
 ------------------------------

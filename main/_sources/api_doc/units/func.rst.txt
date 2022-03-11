@@ -13,11 +13,15 @@ ProcUnit
     :members: __init__
 
 
+.. _argsloader-units-func-proc:
+
 proc
 -----------------------
 
 .. autofunction:: proc
 
+
+.. _argsloader-units-func-ufunc:
 
 ufunc
 -----------------------

@@ -290,6 +290,19 @@
 </dd>
 </dl>
 <dl class="py method">
+<dt id="argsloader.units.string.RegexpMatchUnit.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">struct_</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>struct</strong> – The expected structure.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <a class="reference internal" href="operator.html#argsloader.units.operator.PipeUnit" title="argsloader.units.operator.PipeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.operator.PipeUnit</span></code></a> which can combine the grouped data together.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="argsloader.units.string.RegexpMatchUnit.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">fullmatch</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of <a class="reference internal" href="#argsloader.units.string.RegexpMatchUnit" title="argsloader.units.string.RegexpMatchUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegexpMatchUnit</span></code></a>.</p>
@@ -433,6 +446,19 @@
 <span class="go">{0: &#39;mymail@gmail.com&#39;, 1: &#39;mymail&#39;, 2: &#39;gmail.com&#39;, &#39;username&#39;: &#39;mymail&#39;, &#39;domain&#39;: &#39;gmail.com&#39;}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;mymail_gmail.com&#39;</span><span class="p">)</span>
 <span class="go">ValueParseError: Regular expression &#39;(?P&lt;username&gt;[a-z0-9_]+)@(?P&lt;domain&gt;[a-z0-9_\.]+)&#39; expected, but &#39;mymail_gmail.com&#39; found which is not matched.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Get data from matching result</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">regexp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">regexp</span><span class="p">(</span><span class="s1">&#39;([a-z0-9_]+)@([a-z0-9_\.]+)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="o">.</span><span class="n">full</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;u&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;mymail@gmail.com&#39;</span><span class="p">)</span>
+<span class="go">(&#39;mymail@gmail.com&#39;, {&#39;u&#39;: &#39;mymail&#39;, &#39;d&#39;: &#39;gmail.com&#39;})</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">regexp</span><span class="p">(</span><span class="s1">&#39;(?P&lt;username&gt;[a-z0-9_]+)@(?P&lt;domain&gt;[a-z0-9_\.]+)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;domain&#39;</span><span class="p">))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;mymail@gmail.com&#39;</span><span class="p">)</span>
+<span class="go">(&#39;mymail@gmail.com&#39;, (&#39;mymail&#39;, &#39;gmail.com&#39;))</span>
 </pre></div>
 </div>
 </dd>

@@ -164,9 +164,11 @@
 <span></span><span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span>
 
+<span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_map</span>
 <span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">env_template</span><span class="p">,</span> <span class="n">truncate</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CalculateUnit</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">,</span> <span class="n">UncompletedUnit</span>
+<span class="kn">from</span> <span class="nn">.structure</span> <span class="kn">import</span> <span class="n">getitem_</span><span class="p">,</span> <span class="n">struct</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check</span><span class="p">,</span> <span class="n">CheckUnit</span>
 
 <span class="k">try</span><span class="p">:</span>
@@ -297,6 +299,13 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">check</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
+<div class="viewcode-block" id="RegexpMatchUnit.__getitem__"><a class="viewcode-back" href="../../../api_doc/units/string.html#argsloader.units.string.RegexpMatchUnit.__getitem__">[docs]</a>    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param struct_: The expected structure.</span>
+<span class="sd">        :return: A :class:`argsloader.units.operator.PipeUnit` which can combine the grouped data together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">&gt;&gt;</span> <span class="n">struct</span><span class="p">(</span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">getitem_</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">struct_</span><span class="p">))</span></div>
+
     <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;regexp&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">Pattern</span><span class="p">):</span>
@@ -407,6 +416,17 @@
 <span class="sd">        {0: &#39;mymail@gmail.com&#39;, 1: &#39;mymail&#39;, 2: &#39;gmail.com&#39;, &#39;username&#39;: &#39;mymail&#39;, &#39;domain&#39;: &#39;gmail.com&#39;}</span>
 <span class="sd">        &gt;&gt;&gt; u(&#39;mymail_gmail.com&#39;)</span>
 <span class="sd">        ValueParseError: Regular expression &#39;(?P&lt;username&gt;[a-z0-9_]+)@(?P&lt;domain&gt;[a-z0-9_\\.]+)&#39; expected, but &#39;mymail_gmail.com&#39; found which is not matched.</span>
+
+<span class="sd">        - Get data from matching result</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import regexp</span>
+<span class="sd">        &gt;&gt;&gt; u = regexp(&#39;([a-z0-9_]+)@([a-z0-9_\\.]+)&#39;).match.full[(0, {&#39;u&#39;: 1, &#39;d&#39;: 2})]</span>
+<span class="sd">        &gt;&gt;&gt; u(&#39;mymail@gmail.com&#39;)</span>
+<span class="sd">        (&#39;mymail@gmail.com&#39;, {&#39;u&#39;: &#39;mymail&#39;, &#39;d&#39;: &#39;gmail.com&#39;})</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u = regexp(&#39;(?P&lt;username&gt;[a-z0-9_]+)@(?P&lt;domain&gt;[a-z0-9_\\.]+)&#39;).match[(0, (&#39;username&#39;, &#39;domain&#39;))]</span>
+<span class="sd">        &gt;&gt;&gt; u(&#39;mymail@gmail.com&#39;)</span>
+<span class="sd">        (&#39;mymail@gmail.com&#39;, (&#39;mymail&#39;, &#39;gmail.com&#39;))</span>
 
 <span class="sd">    .. warning::</span>
 <span class="sd">        The object which function :func:`regexp` returned is only a :class:`RegexpProxy` object, \</span>

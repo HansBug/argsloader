@@ -343,7 +343,7 @@
         <span class="k">return</span> <span class="p">[],</span> <span class="p">[(</span><span class="s1">&#39;struct&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_struct</span><span class="p">)]</span></div>
 
 
-<div class="viewcode-block" id="struct"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.struct">[docs]</a><span class="k">def</span> <span class="nf">struct</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StructUnit</span><span class="p">:</span>
+<div class="viewcode-block" id="struct"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.struct">[docs]</a><span class="k">def</span> <span class="nf">struct</span><span class="p">(</span><span class="n">struct_</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Quickly build a structure, based on the given ``struct`` data.</span>
@@ -399,8 +399,14 @@
 <span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [0, 5] expected but 7 found.</span>
 <span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [10, 30] expected but 40 found.</span>
 
+<span class="sd">    .. warning::</span>
+<span class="sd">        If the given ``struct_`` is not a dict, list or tuple, the return value will be a simple unit instead of \</span>
+<span class="sd">        :class:`StructUnit`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">StructUnit</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct_</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">StructUnit</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MappingUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.MappingUnit">[docs]</a><span class="k">class</span> <span class="nc">MappingUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>

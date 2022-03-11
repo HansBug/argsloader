@@ -385,7 +385,7 @@
 <span id="argsloader-units-structure-struct"></span><h2>struct<a class="headerlink" href="#struct" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="argsloader.units.structure.struct">
-<code class="sig-prename descclassname">argsloader.units.structure.</code><code class="sig-name descname">struct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">struct_</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.structure.StructUnit" title="argsloader.units.structure.StructUnit">argsloader.units.structure.StructUnit</a><a class="reference internal" href="../../_modules/argsloader/units/structure.html#struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.structure.struct" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">argsloader.units.structure.</code><code class="sig-name descname">struct</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">struct_</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/structure.html#struct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.structure.struct" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Quickly build a structure, based on the given <code class="docutils literal notranslate"><span class="pre">struct</span></code> data.</p>
 </dd>
@@ -451,6 +451,10 @@
 <span class="go">  &lt;root&gt;: ValueParseError: Value not in interval - [10, 30] expected but 40 found.</span>
 </pre></div>
 </div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If the given <code class="docutils literal notranslate"><span class="pre">struct_</span></code> is not a dict, list or tuple, the return value will be a simple unit instead of         <a class="reference internal" href="#argsloader.units.structure.StructUnit" title="argsloader.units.structure.StructUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructUnit</span></code></a>.</p>
 </div>
 </dd></dl>
 

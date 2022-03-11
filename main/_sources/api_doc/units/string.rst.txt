@@ -25,7 +25,7 @@ RegexpMatchUnit
 ------------------------------------
 
 .. autoclass:: RegexpMatchUnit
-    :members: __init__, full, check
+    :members: __init__, full, check, __getitem__
 
 
 RegexpProxy

@@ -284,21 +284,20 @@
 <h2>RegexpMatchUnit<a class="headerlink" href="#regexpmatchunit" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="argsloader.units.string.RegexpMatchUnit">
-<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.string.</code><code class="sig-name descname">RegexpMatchUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">fullmatch</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_only</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.string.</code><code class="sig-name descname">RegexpMatchUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">fullmatch</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Unit for regular expression matching.</p>
 </dd>
 </dl>
 <dl class="py method">
 <dt id="argsloader.units.string.RegexpMatchUnit.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">fullmatch</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">check_only</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">fullmatch</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/string.html#RegexpMatchUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of <a class="reference internal" href="#argsloader.units.string.RegexpMatchUnit" title="argsloader.units.string.RegexpMatchUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegexpMatchUnit</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>r</strong> – Regular expression string or pattern.</p></li>
 <li><p><strong>fullmatch</strong> – Fully match required or not, default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
-<li><p><strong>check_only</strong> – Only check matching or not, default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -309,7 +308,7 @@
 <em class="property">property </em><code class="sig-name descname">check</code><a class="headerlink" href="#argsloader.units.string.RegexpMatchUnit.check" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A <a class="reference internal" href="#argsloader.units.string.RegexpMatchUnit" title="argsloader.units.string.RegexpMatchUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegexpMatchUnit</span></code></a> with check-only option enabled.</p>
+<dd class="field-odd"><p>A <a class="reference internal" href="utils.html#argsloader.units.utils.CheckUnit" title="argsloader.units.utils.CheckUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.utils.CheckUnit</span></code></a> which only check the match or not.</p>
 </dd>
 </dl>
 </dd></dl>

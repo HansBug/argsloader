@@ -104,6 +104,9 @@ class TestUnitsStructure:
                         └── item --> 'b'
         """).strip()
 
+        u = struct(getitem_('a'))
+        assert u({'a': 1, 'b': 2}) == 1
+
     def test_struct_error(self):
         u = struct({
             'a': (getitem_('a') | getitem_('first')) >> number() >> interval.lR(3, 10),

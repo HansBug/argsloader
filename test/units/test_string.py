@@ -155,3 +155,34 @@ class TestUnitsString:
             └── unit --> <RegexpMatchUnit fullmatch: True>
                 └── regexp --> '(?P<first>[\\d]{1,3})\\.(?P<second>[\\d]{1,3})'
         """).strip()
+
+    # noinspection DuplicatedCode
+    def test_regexp_match_getitem(self):
+        u = regexp(r'([\d]{1,3})\.([\d]{1,3})').match[(0, (1, 2))]
+        assert u('123.456') == ('123.456', ('123', '456'))
+        assert u('123.4569203djksfgh') == ('123.456', ('123', '456'))
+        with pytest.raises(ParseError) as ei:
+            u('1234.567')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Regular expression '([\\\\d]{1,3})\\\\.([\\\\d]{1,3})' expected, "
+                            "but '1234.567' found which is not matched.",)
+
+        u = regexp(r'(?P<first>[\d]{1,3})\.(?P<second>[\d]{1,3})').match.full[(0, ('first', 'second'))]
+        assert u('123.456') == ('123.456', ('123', '456'))
+        with pytest.raises(ParseError) as ei:
+            u('123.4569203djksfgh')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Regular expression '(?P<first>[\\\\d]{1,3})\\\\.(?P<second>[\\\\d]{1,3})' expected, "
+                            "but '123.4569203djksfgh' found which is not fully matched.",)
+
+        with pytest.raises(ParseError) as ei:
+            u('1234.567')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Regular expression '(?P<first>[\\\\d]{1,3})\\\\.(?P<second>[\\\\d]{1,3})' expected, "
+                            "but '1234.567' found which is not fully matched.",)

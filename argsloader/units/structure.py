@@ -180,7 +180,7 @@ class StructUnit(BaseUnit):
         return [], [('struct', self._struct)]
 
 
-def struct(struct_) -> StructUnit:
+def struct(struct_):
     """
     Overview:
         Quickly build a structure, based on the given ``struct`` data.
@@ -236,8 +236,14 @@ def struct(struct_) -> StructUnit:
           <root>: ValueParseError: Value not in interval - [0, 5] expected but 7 found.
           <root>: ValueParseError: Value not in interval - [10, 30] expected but 40 found.
 
+    .. warning::
+        If the given ``struct_`` is not a dict, list or tuple, the return value will be a simple unit instead of \
+        :class:`StructUnit`.
     """
-    return StructUnit(struct_)
+    if isinstance(struct_, (dict, list, tuple)):
+        return StructUnit(struct_)
+    else:
+        return _to_unit(struct_)
 
 
 class MappingUnit(BaseUnit):

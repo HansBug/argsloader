@@ -1,9 +1,11 @@
 import re
 from typing import Mapping, Any
 
+from hbutils.collection import nested_map
 from hbutils.string import env_template, truncate
 
 from .base import CalculateUnit, _to_unit, UncompletedUnit
+from .structure import getitem_, struct
 from .utils import check, CheckUnit
 
 try:
@@ -134,6 +136,13 @@ class RegexpMatchUnit(CalculateUnit):
         """
         return check(self)
 
+    def __getitem__(self, struct_):
+        """
+        :param struct_: The expected structure.
+        :return: A :class:`argsloader.units.operator.PipeUnit` which can combine the grouped data together.
+        """
+        return self >> struct(nested_map(lambda x: getitem_(x, offset=False), struct_))
+
     def _calculate(self, v: str, pres: Mapping[str, Any]):
         r = pres['regexp']
         if not isinstance(r, Pattern):
@@ -244,6 +253,17 @@ def regexp(r) -> RegexpProxy:
         {0: 'mymail@gmail.com', 1: 'mymail', 2: 'gmail.com', 'username': 'mymail', 'domain': 'gmail.com'}
         >>> u('mymail_gmail.com')
         ValueParseError: Regular expression '(?P<username>[a-z0-9_]+)@(?P<domain>[a-z0-9_\\.]+)' expected, but 'mymail_gmail.com' found which is not matched.
+
+        - Get data from matching result
+
+        >>> from argsloader.units import regexp
+        >>> u = regexp('([a-z0-9_]+)@([a-z0-9_\\.]+)').match.full[(0, {'u': 1, 'd': 2})]
+        >>> u('mymail@gmail.com')
+        ('mymail@gmail.com', {'u': 'mymail', 'd': 'gmail.com'})
+        >>>
+        >>> u = regexp('(?P<username>[a-z0-9_]+)@(?P<domain>[a-z0-9_\\.]+)').match[(0, ('username', 'domain'))]
+        >>> u('mymail@gmail.com')
+        ('mymail@gmail.com', ('mymail', 'gmail.com'))
 
     .. warning::
         The object which function :func:`regexp` returned is only a :class:`RegexpProxy` object, \

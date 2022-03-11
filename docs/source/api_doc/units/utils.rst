@@ -13,6 +13,8 @@ KeepUnit
     :members: __init__
 
 
+.. _argsloader-units-utils-keep:
+
 keep
 -----------------------------
 
@@ -25,6 +27,8 @@ CheckUnit
 .. autoclass:: CheckUnit
     :members: __init__
 
+
+.. _argsloader-units-utils-check:
 
 check
 -----------------------------
@@ -39,6 +43,8 @@ ValidityUnit
     :members: __init__
 
 
+.. _argsloader-units-utils-validity:
+
 validity
 -----------------------------
 
@@ -52,17 +58,23 @@ ErrorUnit
     :members: __init__
 
 
+.. _argsloader-units-utils-error:
+
 error
 -----------------------------
 
 .. autofunction:: error
 
 
+.. _argsloader-units-utils-validate:
+
 validate
 -----------------------------
 
 .. autofunction:: validate
 
+
+.. _argsloader-units-utils-fail:
 
 fail
 -----------------------------
@@ -83,6 +95,8 @@ IfUnit
 .. autoclass:: _IfProxy
     :members: else_, elif_
 
+
+.. _argsloader-units-utils-if_:
 
 if\_
 -----------------------------

@@ -13,6 +13,8 @@ IntervalUnit
     :members: __init__, l, r, L, R, lr, Lr, lR, LR
 
 
+.. _argsloader-units-numeric-interval:
+
 interval
 --------------------
 
@@ -26,6 +28,8 @@ NumberUnit
 .. autoclass:: NumberUnit
     :members: __init__
 
+
+.. _argsloader-units-numeric-number:
 
 number
 --------------------

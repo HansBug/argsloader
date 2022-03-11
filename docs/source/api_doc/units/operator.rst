@@ -13,6 +13,8 @@ PipeUnit
     :members: __init__
 
 
+.. _argsloader-units-operator-_cpipe:
+
 \_cpipe
 ---------------------------
 
@@ -26,6 +28,8 @@ AndUnit
     :members: __init__
 
 
+.. _argsloader-units-operator-_cand:
+
 \_cand
 ---------------------------
 
@@ -38,6 +42,8 @@ OrUnit
 .. autoclass:: OrUnit
     :members: __init__
 
+
+.. _argsloader-units-operator-_cor:
 
 \_cor
 ---------------------------

@@ -13,6 +13,8 @@ TemplateUnit
     :members: __init__
 
 
+.. _argsloader-units-string-template:
+
 template
 ------------------------------------
 
@@ -32,6 +34,8 @@ RegexpProxy
 .. autoclass:: RegexpProxy
     :members: __init__, match
 
+
+.. _argsloader-units-string-regexp:
 
 regexp
 ------------------------------------

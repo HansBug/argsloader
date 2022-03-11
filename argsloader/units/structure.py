@@ -185,8 +185,8 @@ def struct(struct_) -> StructUnit:
     Overview:
         Quickly build a structure, based on the given ``struct`` data.
 
-    :param struct_:
-    :return:
+    :param struct_: Structure data, which should contain one or multiple units.
+    :return: Structed data, which has the same structure with the given ``struct_``.
 
     Examples::
         >>> u = struct({

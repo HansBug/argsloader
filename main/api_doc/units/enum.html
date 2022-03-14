@@ -101,6 +101,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.enum</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#enumunit">EnumUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#enum">enum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deprecated-schoiceunit">[Deprecated] SChoiceUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deprecated-schoice">[Deprecated] schoice</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
@@ -289,6 +291,113 @@
 <li><p><a class="reference external" href="https://docs.python.org/3/library/enum.html#creating-an-enum">enum - Creating an Enum</a></p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/enum.html#flag">enum - Flag</a></p></li>
 </ul>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="deprecated-schoiceunit">
+<h2>[Deprecated] SChoiceUnit<a class="headerlink" href="#deprecated-schoiceunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.enum.SChoiceUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.enum.</code><code class="sig-name descname">SChoiceUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sch</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/enum.html#SChoiceUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.enum.SChoiceUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unit for parsing string-based enum value.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.enum.SChoiceUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sch</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="p">:</span> <span class="n">bool</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/enum.html#SChoiceUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.enum.SChoiceUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.enum.SChoiceUnit" title="argsloader.units.enum.SChoiceUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">SChoiceUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sch</strong> – String choices.</p></li>
+<li><p><strong>case_sensitive</strong> – Case sensitive or not.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="deprecated-schoice">
+<h2>[Deprecated] schoice<a class="headerlink" href="#deprecated-schoice" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.enum.schoice">
+<code class="sig-prename descclassname">argsloader.units.enum.</code><code class="sig-name descname">schoice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sch</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.enum.SChoiceUnit" title="argsloader.units.enum.SChoiceUnit">argsloader.units.enum.SChoiceUnit</a><a class="reference internal" href="../../_modules/argsloader/units/enum.html#schoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.enum.schoice" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Getting a string-based choice parser.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sch</strong> – String choices.</p></li>
+<li><p><strong>case_sensitive</strong> – Case sensitive or not.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A unit for parsing string-based choices.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple choices</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">schoice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">schoice</span><span class="p">([</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="go">&#39;red&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;RED&#39;</span><span class="p">)</span>
+<span class="go">&#39;red&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;Green&#39;</span><span class="p">)</span>
+<span class="go">&#39;green&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;BlUe&#39;</span><span class="p">)</span>
+<span class="go">&#39;blue&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;Pink&#39;</span><span class="p">)</span>
+<span class="go">ValueParseError: Value is expected to be within (&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;), but &#39;pink&#39; found actually.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Case sensitive choices</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">schoice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">schoice</span><span class="p">([</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">],</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="go">&#39;red&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;RED&#39;</span><span class="p">)</span>
+<span class="go">ValueParseError: Value is expected to be within (&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;), but &#39;RED&#39; found actually.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;Green&#39;</span><span class="p">)</span>
+<span class="go">ValueParseError: Value is expected to be within (&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;), but &#39;Green&#39; found actually.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;Pink&#39;</span><span class="p">)</span>
+<span class="go">ValueParseError: Value is expected to be within (&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;), but &#39;Pink&#39; found actually.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>This function is deprecated and will be completely removed since</strong>         <code class="docutils literal notranslate"><span class="pre">1.0.0</span></code> <strong>version</strong>. Please replace this to function <a class="reference internal" href="#argsloader.units.enum.enum" title="argsloader.units.enum.enum"><code class="xref py py-func docutils literal notranslate"><span class="pre">enum()</span></code></a>. For example, the following         <a class="reference internal" href="#argsloader.units.enum.schoice" title="argsloader.units.enum.schoice"><code class="xref py py-func docutils literal notranslate"><span class="pre">schoice()</span></code></a> expression</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">schoice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">schoice</span><span class="p">([</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;blue&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>can be replaced with complete-enum-based <a class="reference internal" href="#argsloader.units.enum.enum" title="argsloader.units.enum.enum"><code class="xref py py-func docutils literal notranslate"><span class="pre">enum()</span></code></a> expression, with a more reliable and conventional         presentation mode, like the following code</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">enum</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Color</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">RED</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">... </span>    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">... </span>    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">enum</span><span class="p">(</span><span class="n">Color</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 1.0.0: </span>Function schoice is not recommended to be used, use function
+enum instead.</p>
 </div>
 </dd></dl>
 

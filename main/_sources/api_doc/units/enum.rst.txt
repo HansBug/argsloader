@@ -19,3 +19,16 @@ enum
 .. autofunction:: enum
 
 
+[Deprecated] SChoiceUnit
+-----------------------------
+
+.. autoclass:: SChoiceUnit
+    :members: __init__
+
+
+[Deprecated] schoice
+-----------------------------
+
+.. autofunction:: schoice
+
+

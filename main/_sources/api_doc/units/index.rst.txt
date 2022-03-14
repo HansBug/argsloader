@@ -5,6 +5,7 @@ argsloader.units
     :maxdepth: 3
 
     base
+    enum
     func
     mathop
     numeric

@@ -5,7 +5,7 @@ import pytest
 from hbutils.model import AutoIntEnum
 
 from argsloader.base import ParseError
-from argsloader.units import enum
+from argsloader.units import enum, schoice
 
 
 @pytest.mark.unittest
@@ -117,3 +117,40 @@ class TestUnitsEnum:
         assert u([]) == CFlag(0)
         assert u({1, 'g', 'B'}) == CFlag.W
         assert u({5, 2}) == CFlag.W
+
+    def test_schoice(self):
+        with pytest.warns(DeprecationWarning):
+            u = schoice(['red', 'green', 'blue'])
+
+        assert repr(u).strip() == dedent("""
+            <SChoiceUnit choices: ('red', 'green', 'blue'), case_sensitive: False>
+        """).strip()
+
+        assert u('red') == 'red'
+        assert u('Red') == 'red'
+        assert u('GREEN') == 'green'
+        assert u('BlUe') == 'blue'
+        with pytest.raises(ParseError) as ei:
+            u('PINK')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Value is expected to be within ('red', 'green', 'blue'), but 'pink' found actually.",)
+
+    def test_schoice_case_sensitive(self):
+        with pytest.warns(DeprecationWarning):
+            u = schoice(['red', 'green', 'blue'], case_sensitive=True)
+
+        assert repr(u).strip() == dedent("""
+            <SChoiceUnit choices: ('red', 'green', 'blue'), case_sensitive: True>
+        """).strip()
+
+        assert u('red') == 'red'
+        assert u('green') == 'green'
+        assert u('blue') == 'blue'
+        with pytest.raises(ParseError) as ei:
+            u('Red')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ("Value is expected to be within ('red', 'green', 'blue'), but 'Red' found actually.",)

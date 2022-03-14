@@ -5,9 +5,117 @@ from operator import __or__
 from typing import Type
 
 import inflection
+from deprecated.sphinx import deprecated
 
 from .base import BaseUnit, UnitProcessProxy
 from ..base import PValue, ParseResult
+
+
+class SChoiceUnit(BaseUnit):
+    """
+    Overview:
+        Unit for parsing string-based enum value.
+    """
+
+    def __init__(self, sch, case_sensitive: bool):
+        """
+        Constructor of class :class:`SChoiceUnit`.
+
+        :param sch: String choices.
+        :param case_sensitive: Case sensitive or not.
+        """
+        self._case_sensitive = case_sensitive
+        self._choices = tuple(map(self._process_item, filter(bool, map(str, sch))))
+        self._cset = set(self._choices)
+
+    def _process_item(self, v: str):
+        if not self._case_sensitive:
+            return v.lower()
+        else:
+            return v
+
+    def _try_find(self, v: str):
+        v = self._process_item(v)
+        if v in self._cset:
+            return v
+        else:
+            raise ValueError(f'Value is expected to be within {repr(self._choices)}, '
+                             f'but {repr(v)} found actually.')
+
+    def _easy_process(self, v: PValue, proxy: UnitProcessProxy) -> ParseResult:
+        try:
+            return proxy.success(v.val(self._try_find(v.value)))
+        except ValueError as err:
+            return proxy.error(err)
+
+    def _rinfo(self):
+        return [
+                   ('choices', self._choices),
+                   ('case_sensitive', self._case_sensitive),
+               ], []
+
+
+@deprecated('Function schoice is not recommended to be used, '
+            'use function enum instead.', version='1.0.0')
+def schoice(sch, case_sensitive: bool = False) -> SChoiceUnit:
+    """
+    Overview:
+        Getting a string-based choice parser.
+
+    :param sch: String choices.
+    :param case_sensitive: Case sensitive or not.
+    :return: A unit for parsing string-based choices.
+
+    Examples::
+        - Simple choices
+
+        >>> from argsloader.units import schoice
+        >>> u = schoice(['red', 'green', 'blue'])
+        >>> u('red')
+        'red'
+        >>> u('RED')
+        'red'
+        >>> u('Green')
+        'green'
+        >>> u('BlUe')
+        'blue'
+        >>> u('Pink')
+        ValueParseError: Value is expected to be within ('red', 'green', 'blue'), but 'pink' found actually.
+
+        - Case sensitive choices
+
+        >>> from argsloader.units import schoice
+        >>> u = schoice(['red', 'green', 'blue'], case_sensitive=True)
+        >>> u('red')
+        'red'
+        >>> u('RED')
+        ValueParseError: Value is expected to be within ('red', 'green', 'blue'), but 'RED' found actually.
+        >>> u('Green')
+        ValueParseError: Value is expected to be within ('red', 'green', 'blue'), but 'Green' found actually.
+        >>> u('Pink')
+        ValueParseError: Value is expected to be within ('red', 'green', 'blue'), but 'Pink' found actually.
+
+    .. warning::
+        **This function is deprecated and will be completely removed since** \
+        ``1.0.0`` **version**. Please replace this to function :func:`enum`. For example, the following \
+        :func:`schoice` expression
+
+        >>> from argsloader.units import schoice
+        >>> u = schoice(['red', 'green', 'blue'])
+
+        can be replaced with complete-enum-based :func:`enum` expression, with a more reliable and conventional \
+        presentation mode, like the following code
+
+        >>> from enum import Enum
+        >>> from argsloader.units import enum
+        >>> class Color(Enum):
+        ...     RED = 1
+        ...     GREEN = 2
+        ...     BLUE = 4
+        ...
+        >>> u = enum(Color)
+    """
+    return SChoiceUnit(sch, case_sensitive)
 
 
 def _name_align(name: str):

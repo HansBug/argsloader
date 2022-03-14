@@ -1,4 +1,5 @@
 from .base import raw
+from .enum import enum
 from .func import proc, ufunc
 from .mathop import *
 from .numeric import interval, number

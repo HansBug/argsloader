@@ -1,0 +1,566 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.base.result &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.base.value" href="value.html" />
+    <link rel="prev" title="argsloader.base.exception" href="exception.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.base</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exception.html">argsloader.base.exception</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.base.result</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parseresultchildproxy">ParseResultChildProxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resultstatus">ResultStatus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#errmode">ErrMode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parseresult">ParseResult</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="value.html">argsloader.base.value</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.base</a> &raquo;</li>
+        
+      <li>argsloader.base.result</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/base/result.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.base.result">
+<span id="argsloader-base-result"></span><h1>argsloader.base.result<a class="headerlink" href="#module-argsloader.base.result" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="parseresultchildproxy">
+<h2>ParseResultChildProxy<a class="headerlink" href="#parseresultchildproxy" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.base.result.ParseResultChildProxy">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.result.</code><code class="sig-name descname">ParseResultChildProxy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">children</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResultChildProxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Proxy class of children, only used for accessing.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResultChildProxy.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this children collection contain the given <code class="docutils literal notranslate"><span class="pre">item</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – Item to be checked.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Item is contained or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResultChildProxy.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy">argsloader.base.result.ParseResultChildProxy</a><span class="p">, </span>object<span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get item from children.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – Name of item, can be a string or an integer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Item got, can be a <a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ParseResultChildProxy</span></code></a> or an object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResultChildProxy.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">children</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResultChildProxy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ParseResultChildProxy</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>children</strong> – Child structure.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResultChildProxy.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>Union<span class="p">[</span>int<span class="p">, </span>str<span class="p">]</span><span class="p">, </span>Union<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy">argsloader.base.result.ParseResultChildProxy</a><span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collection of pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Collection of pairs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResultChildProxy.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#argsloader.base.result.ParseResultChildProxy.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collection of keys, can be a collection of string or integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Collection of keys.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="resultstatus">
+<h2>ResultStatus<a class="headerlink" href="#resultstatus" title="Permalink to this headline">¶</a></h2>
+<dl class="py class enum">
+<dt id="argsloader.base.result.ResultStatus">
+<em class="property">enum </em><code class="sig-prename descclassname">argsloader.base.result.</code><code class="sig-name descname">ResultStatus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ResultStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ResultStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Member Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt id="argsloader.base.result.ResultStatus.SKIPPED">
+<code class="sig-name descname">SKIPPED</code><em class="property"> = &lt;ResultStatus.SKIPPED: 0&gt;</em><a class="headerlink" href="#argsloader.base.result.ResultStatus.SKIPPED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit processing is skipped.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="argsloader.base.result.ResultStatus.SUCCESS">
+<code class="sig-name descname">SUCCESS</code><em class="property"> = &lt;ResultStatus.SUCCESS: 1&gt;</em><a class="headerlink" href="#argsloader.base.result.ResultStatus.SUCCESS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit processing is not skipped and succeed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="argsloader.base.result.ResultStatus.ERROR">
+<code class="sig-name descname">ERROR</code><em class="property"> = &lt;ResultStatus.ERROR: 2&gt;</em><a class="headerlink" href="#argsloader.base.result.ResultStatus.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit processing is not skipped and error occurred.</p>
+</dd></dl>
+
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code> and its members also have the following methods:</p>
+<dl class="py method">
+<dt id="argsloader.base.result.ResultStatus.valid">
+<em class="property">property </em><code class="sig-name descname">valid</code><a class="headerlink" href="#argsloader.base.result.ResultStatus.valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validity, which means it is processed and succeed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ResultStatus.processed">
+<em class="property">property </em><code class="sig-name descname">processed</code><a class="headerlink" href="#argsloader.base.result.ResultStatus.processed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processed or not, which means this process is not skipped.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ResultStatus.loads">
+<em class="property">classmethod </em><code class="sig-name descname">loads</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ResultStatus" title="argsloader.base.result.ResultStatus">argsloader.base.result.ResultStatus</a><span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ResultStatus.loads" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Load enum data from raw data.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>): Data which going to be parsed.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>enum_data (:obj:): Parsed enum data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="errmode">
+<h2>ErrMode<a class="headerlink" href="#errmode" title="Permalink to this headline">¶</a></h2>
+<dl class="py class enum">
+<dt id="argsloader.base.result.ErrMode">
+<em class="property">enum </em><code class="sig-prename descclassname">argsloader.base.result.</code><code class="sig-name descname">ErrMode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ErrMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ErrMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>An enumeration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Member Type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></p>
+</dd>
+</dl>
+<p>Valid values are as follows:</p>
+<dl class="py attribute">
+<dt id="argsloader.base.result.ErrMode.FIRST">
+<code class="sig-name descname">FIRST</code><em class="property"> = &lt;ErrMode.FIRST: 1&gt;</em><a class="headerlink" href="#argsloader.base.result.ErrMode.FIRST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise first error.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="argsloader.base.result.ErrMode.TRY_ALL">
+<code class="sig-name descname">TRY_ALL</code><em class="property"> = &lt;ErrMode.TRY_ALL: 2&gt;</em><a class="headerlink" href="#argsloader.base.result.ErrMode.TRY_ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try raise all errors, if only one error is found, raise it.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="argsloader.base.result.ErrMode.ALL">
+<code class="sig-name descname">ALL</code><em class="property"> = &lt;ErrMode.ALL: 3&gt;</em><a class="headerlink" href="#argsloader.base.result.ErrMode.ALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise all errors, with <a class="reference internal" href="exception.html#argsloader.base.exception.MultipleParseError" title="argsloader.base.exception.MultipleParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.exception.MultipleParseError</span></code></a>.</p>
+</dd></dl>
+
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code> and its members also have the following methods:</p>
+<dl class="py method">
+<dt id="argsloader.base.result.ErrMode.loads">
+<em class="property">classmethod </em><code class="sig-name descname">loads</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ErrMode" title="argsloader.base.result.ErrMode">argsloader.base.result.ErrMode</a><span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ErrMode.loads" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Load enum data from raw data.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>): Data which going to be parsed.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>enum_data (:obj:): Parsed enum data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="parseresult">
+<h2>ParseResult<a class="headerlink" href="#parseresult" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.base.result.ParseResult">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.base.result.</code><code class="sig-name descname">ParseResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">status</span></em>, <em class="sig-param"><span class="n">result</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="exception.html#argsloader.base.exception.ParseError" title="argsloader.base.exception.ParseError">argsloader.base.exception.ParseError</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">children</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResult" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Result of one parsing process.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#argsloader.base.result.ParseResult.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this children collection contain the given <code class="docutils literal notranslate"><span class="pre">item</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – Item to be checked.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Item is contained or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span></em><span class="sig-paren">)</span> &#x2192; Union<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy">argsloader.base.result.ParseResultChildProxy</a><span class="p">, </span>object<span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ParseResult.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get item from children.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>item</strong> – Name of item, can be a string or an integer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Item got, can be a <a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ParseResultChildProxy</span></code></a> or an object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">input_</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">unit</span></em>, <em class="sig-param"><span class="n">status</span></em>, <em class="sig-param"><span class="n">result</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="exception.html#argsloader.base.exception.ParseError" title="argsloader.base.exception.ParseError">argsloader.base.exception.ParseError</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">children</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ParseResult</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_</strong> – Input value object.</p></li>
+<li><p><strong>unit</strong> – Unit to do parsing process.</p></li>
+<li><p><strong>status</strong> – Status of result.</p></li>
+<li><p><strong>result</strong> – Result object of parsing process, should be <code class="docutils literal notranslate"><span class="pre">None</span></code> when <code class="docutils literal notranslate"><span class="pre">status</span></code> is not valid.</p></li>
+<li><p><strong>error</strong> – Error object of parsing process, should be <code class="docutils literal notranslate"><span class="pre">None</span></code> when no error, skipped or             the error is caused by child leveled unit.</p></li>
+<li><p><strong>children</strong> – Children information, should be structure like <code class="docutils literal notranslate"><span class="pre">dict</span></code>, <code class="docutils literal notranslate"><span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResult.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResult.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.act">
+<code class="sig-name descname">act</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err_mode</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/base/result.html#ParseResult.act"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.base.result.ParseResult.act" title="Permalink to this definition">¶</a></dt>
+<dd><p>Act this result:</p>
+<ul class="simple">
+<li><p>If success, return value as result.</p></li>
+<li><p>If error, raise the error as the <code class="docutils literal notranslate"><span class="pre">err_mode</span></code> saied.</p></li>
+<li><p>If skipped, raise <code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.SkippedParseError</span></code>.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>err_mode</strong> – Error mode.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.error">
+<em class="property">property </em><code class="sig-name descname">error</code><a class="headerlink" href="#argsloader.base.result.ParseResult.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error object of parsing process, should be <code class="docutils literal notranslate"><span class="pre">None</span></code> when no error,             skipped or the error is caused by child leveled unit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.input">
+<em class="property">property </em><code class="sig-name descname">input</code><a class="headerlink" href="#argsloader.base.result.ParseResult.input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input value object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>Union<span class="p">[</span>int<span class="p">, </span>str<span class="p">]</span><span class="p">, </span>Union<span class="p">[</span><a class="reference internal" href="#argsloader.base.result.ParseResultChildProxy" title="argsloader.base.result.ParseResultChildProxy">argsloader.base.result.ParseResultChildProxy</a><span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#argsloader.base.result.ParseResult.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collection of pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Collection of pairs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#argsloader.base.result.ParseResult.keys" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collection of keys, can be a collection of string or integer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Collection of keys.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.result">
+<em class="property">property </em><code class="sig-name descname">result</code><a class="headerlink" href="#argsloader.base.result.ParseResult.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Result object of parsing process, should be <code class="docutils literal notranslate"><span class="pre">None</span></code> when <code class="docutils literal notranslate"><span class="pre">status</span></code> is not valid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.status">
+<em class="property">property </em><code class="sig-name descname">status</code><a class="headerlink" href="#argsloader.base.result.ParseResult.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status of result.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.base.result.ParseResult.unit">
+<em class="property">property </em><code class="sig-name descname">unit</code><a class="headerlink" href="#argsloader.base.result.ParseResult.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unit to do parsing process.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="value.html" class="btn btn-neutral float-right" title="argsloader.base.value" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="exception.html" class="btn btn-neutral float-left" title="argsloader.base.exception" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/dmask
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="result.html">dev/dmask</a></dd>
+                        <dd><a href="../../../../main/api_doc/base/result.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

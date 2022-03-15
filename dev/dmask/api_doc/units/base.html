@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.base &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.units.enum" href="enum.html" />
+    <link rel="prev" title="argsloader.units" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.base</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#uncompletedunit">UncompletedUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#baseunit">BaseUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unitprocessproxy">UnitProcessProxy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#valueunit">ValueUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raw">raw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transformunit">TransformUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculateunit">CalculateUnit</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numeric.html">argsloader.units.numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator.html">argsloader.units.operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">argsloader.units.resource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="status.html">argsloader.units.status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html">argsloader.units.string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html">argsloader.units.structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type.html">argsloader.units.type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">argsloader.units.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.units</a> &raquo;</li>
+        
+      <li>argsloader.units.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/units/base.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.units.base">
+<span id="argsloader-units-base"></span><h1>argsloader.units.base<a class="headerlink" href="#module-argsloader.units.base" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="uncompletedunit">
+<h2>UncompletedUnit<a class="headerlink" href="#uncompletedunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.UncompletedUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">UncompletedUnit</code><a class="reference internal" href="../../_modules/argsloader/units/base.html#UncompletedUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UncompletedUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Uncompleted unit class, used when some unit structure is not completed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.base.UncompletedUnit.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#UncompletedUnit.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UncompletedUnit.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will fail due to its incompleteness.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Input value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output value.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>SyntaxError</strong> – Unit syntax error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UncompletedUnit._fail">
+<code class="sig-name descname">_fail</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#UncompletedUnit._fail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UncompletedUnit._fail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fail method, should raise error when this uncompleted unit is used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>SyntaxError</strong> – Unit syntax error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UncompletedUnit.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">err_mode</span><span class="o">=</span><span class="default_value">'first'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#UncompletedUnit.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UncompletedUnit.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value, similar to <a class="reference internal" href="#argsloader.units.base.UncompletedUnit.__call__" title="argsloader.units.base.UncompletedUnit.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will fail due to its incompleteness.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Input value.</p></li>
+<li><p><strong>err_mode</strong> – Error mode, see <a class="reference internal" href="../base/result.html#argsloader.base.result.ErrMode" title="argsloader.base.result.ErrMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ErrMode</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>SyntaxError</strong> – Unit syntax error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UncompletedUnit.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#UncompletedUnit.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UncompletedUnit.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full log of this parsing process.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will fail due to its incompleteness.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Input value.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>SyntaxError</strong> – Unit syntax error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UncompletedUnit.validity">
+<em class="property">property </em><code class="sig-name descname">validity</code><a class="headerlink" href="#argsloader.units.base.UncompletedUnit.validity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validity of this unit.</p>
+<p>See: <a class="reference internal" href="utils.html#argsloader.units.utils.validity" title="argsloader.units.utils.validity"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.validity()</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This will fail due to its incompleteness.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="baseunit">
+<h2>BaseUnit<a class="headerlink" href="#baseunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.BaseUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">BaseUnit</code><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__and__">
+<code class="sig-name descname">__and__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__and__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__and__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build and-liked unit within units, like <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">&amp;</span> <span class="pre">other</span></code>.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.operator.and_()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>And-linked unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Input value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output value.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="../base/exception.html#argsloader.base.exception.ParseError" title="argsloader.base.exception.ParseError"><strong>ParseError</strong></a> – Parse error.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__or__">
+<code class="sig-name descname">__or__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__or__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__or__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build or-liked unit within units, like <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">|</span> <span class="pre">other</span></code>.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.operator.or_()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Or-linked unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__rand__">
+<code class="sig-name descname">__rand__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__rand__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__rand__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right version of <a class="reference internal" href="#argsloader.units.base.BaseUnit.__and__" title="argsloader.units.base.BaseUnit.__and__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__and__()</span></code></a>, like <code class="docutils literal notranslate"><span class="pre">other</span> <span class="pre">&amp;</span> <span class="pre">self</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>And-linked unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__ror__">
+<code class="sig-name descname">__ror__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__ror__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__ror__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right version of <a class="reference internal" href="#argsloader.units.base.BaseUnit.__or__" title="argsloader.units.base.BaseUnit.__or__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__or__()</span></code></a>, like <code class="docutils literal notranslate"><span class="pre">other</span> <span class="pre">|</span> <span class="pre">self</span></code>.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.operator.or_()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Or-linked unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__rrshift__">
+<code class="sig-name descname">__rrshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__rrshift__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__rrshift__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right version of <a class="reference internal" href="#argsloader.units.base.BaseUnit.__rshift__" title="argsloader.units.base.BaseUnit.__rshift__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__rshift__()</span></code></a>, like <code class="docutils literal notranslate"><span class="pre">other</span> <span class="pre">&gt;&gt;</span> <span class="pre">self</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Piped unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.__rshift__">
+<code class="sig-name descname">__rshift__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.__rshift__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.__rshift__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build pipe within units, like <code class="docutils literal notranslate"><span class="pre">self</span> <span class="pre">&gt;&gt;</span> <span class="pre">other</span></code>.</p>
+<p>See <code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.operator.pipe()</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> – Another unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Piped unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit._easy_process">
+<code class="sig-name descname">_easy_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">proxy</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy">argsloader.units.base.UnitProcessProxy</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit._easy_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit._easy_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Easy process method, <code class="docutils literal notranslate"><span class="pre">proxy</span></code> can be used to quickly build parse result object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>proxy</strong> – Proxy object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit._process">
+<code class="sig-name descname">_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit._process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit._process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Protected process method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> input object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit._skip">
+<code class="sig-name descname">_skip</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit._skip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit._skip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a skipped result</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Skipped parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">err_mode</span><span class="o">=</span><span class="default_value">'ALL'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value, similar to <a class="reference internal" href="#argsloader.units.base.BaseUnit.__call__" title="argsloader.units.base.BaseUnit.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Input value.</p></li>
+<li><p><strong>err_mode</strong> – Error mode, see <a class="reference internal" href="../base/result.html#argsloader.base.result.ErrMode" title="argsloader.base.result.ErrMode"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.result.ErrMode</span></code></a>, default is <code class="docutils literal notranslate"><span class="pre">ALL</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Output value.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../base/exception.html#argsloader.base.exception.ParseError" title="argsloader.base.exception.ParseError"><strong>ParseError</strong></a> – Parse error.</p></li>
+<li><p><a class="reference internal" href="../base/exception.html#argsloader.base.exception.MultipleParseError" title="argsloader.base.exception.MultipleParseError"><strong>MultipleParseError</strong></a> – Indexed parsed error, will be raised when <code class="docutils literal notranslate"><span class="pre">ALL</span></code> mode is used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#BaseUnit.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.BaseUnit.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full log of this parsing process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Input value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.BaseUnit.validity">
+<em class="property">property </em><code class="sig-name descname">validity</code><a class="headerlink" href="#argsloader.units.base.BaseUnit.validity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validity of this unit.</p>
+<p>See: <a class="reference internal" href="utils.html#argsloader.units.utils.validity" title="argsloader.units.utils.validity"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.validity()</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="unitprocessproxy">
+<h2>UnitProcessProxy<a class="headerlink" href="#unitprocessproxy" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.UnitProcessProxy">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">UnitProcessProxy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em>, <em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#UnitProcessProxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UnitProcessProxy" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Proxy class, used to create result object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.base.UnitProcessProxy.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unit</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em>, <em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#UnitProcessProxy.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UnitProcessProxy.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.base.UnitProcessProxy</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>unit</strong> – Unit object.</p></li>
+<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UnitProcessProxy.error">
+<code class="sig-name descname">error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span></em>, <em class="sig-param"><span class="n">children</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#UnitProcessProxy.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UnitProcessProxy.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build an error result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>err</strong> – Error object, will be transformed to <a class="reference internal" href="../base/exception.html#argsloader.base.exception.ParseError" title="argsloader.base.exception.ParseError"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.base.exception.ParseError</span></code></a> if             it is not yet.</p></li>
+<li><p><strong>children</strong> – Children objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Error parse result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UnitProcessProxy.skipped">
+<code class="sig-name descname">skipped</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#UnitProcessProxy.skipped"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UnitProcessProxy.skipped" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a skipped result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Skipped parse result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.UnitProcessProxy.success">
+<code class="sig-name descname">success</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">res</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">children</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#UnitProcessProxy.success"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.UnitProcessProxy.success" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a success result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>res</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> result object.</p></li>
+<li><p><strong>children</strong> – Children objects.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Success parse result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="valueunit">
+<h2>ValueUnit<a class="headerlink" href="#valueunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.ValueUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">ValueUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#ValueUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.ValueUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Raw value unit.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.base.ValueUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#ValueUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.ValueUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.base.ValueUnit" title="argsloader.units.base.ValueUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.base.ValueUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>value</strong> – Raw value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.ValueUnit._easy_process">
+<code class="sig-name descname">_easy_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">proxy</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy">argsloader.units.base.UnitProcessProxy</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#ValueUnit._easy_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.ValueUnit._easy_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Easy process method, <code class="docutils literal notranslate"><span class="pre">proxy</span></code> can be used to quickly build parse result object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>proxy</strong> – Proxy object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="raw">
+<h2>raw<a class="headerlink" href="#raw" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.base.raw">
+<code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">raw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.base.ValueUnit" title="argsloader.units.base.ValueUnit">argsloader.units.base.ValueUnit</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.raw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raw value unit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Original value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>raw value unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="transformunit">
+<h2>TransformUnit<a class="headerlink" href="#transformunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.TransformUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">TransformUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Common transform unit.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.base.TransformUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.base.TransformUnit" title="argsloader.units.base.TransformUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.base.TransformUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> – Values need to be pre-processed, should be mapped one-to-one with <code class="docutils literal notranslate"><span class="pre">__names__</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.TransformUnit._easy_process">
+<code class="sig-name descname">_easy_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">proxy</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy">argsloader.units.base.UnitProcessProxy</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit._easy_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit._easy_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Easy process method, <code class="docutils literal notranslate"><span class="pre">proxy</span></code> can be used to quickly build parse result object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>proxy</strong> – Proxy object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.TransformUnit._transform">
+<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit._transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="calculateunit">
+<h2>CalculateUnit<a class="headerlink" href="#calculateunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.base.CalculateUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">CalculateUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Simple value calculation unit.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.base.CalculateUnit._calculate">
+<code class="sig-name descname">_calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">object</span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; object<a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit._calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit._calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original value.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned value.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.base.CalculateUnit._transform">
+<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit._transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="enum.html" class="btn btn-neutral float-right" title="argsloader.units.enum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="argsloader.units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/dmask
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="base.html">dev/dmask</a></dd>
+                        <dd><a href="../../../../main/api_doc/units/base.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

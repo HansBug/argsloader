@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.base &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>argsloader.units.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for argsloader.units.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
+<span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_map</span>
+<span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">plural_word</span>
+
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ParseResult</span><span class="p">,</span> <span class="n">wrap_exception</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">,</span> <span class="n">ResultStatus</span><span class="p">,</span> <span class="n">PValue</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">format_tree</span>
+
+
+<span class="k">def</span> <span class="nf">_prefix_indent</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="n">txt</span> <span class="o">=</span> <span class="n">indent</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prefix</span> <span class="o">+</span> <span class="n">txt</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">):]</span>
+
+
+<span class="k">class</span> <span class="nc">_ITreeFormat</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="k">def</span> <span class="nf">_rcalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_dispatch</span><span class="p">):</span>
+        <span class="n">attached</span><span class="p">,</span> <span class="n">_children</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rinfo</span><span class="p">()</span>
+        <span class="n">attached_content</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">v_</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v_</span> <span class="ow">in</span> <span class="n">attached</span><span class="p">)</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_cname</span><span class="p">()</span><span class="si">}{</span><span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">attached_content</span> <span class="k">if</span> <span class="n">attached</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+        <span class="n">children</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_children</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">title</span><span class="p">,</span> <span class="n">children</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">format_tree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_format_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">{},</span> <span class="p">(),</span> <span class="kc">True</span><span class="p">),</span> <span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_cname</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_get_format_unit</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">id_pool</span><span class="p">,</span> <span class="n">curpath</span><span class="p">,</span> <span class="n">is_dispatch</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">_ITreeFormat</span><span class="p">):</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">(</span><span class="n">is_dispatch</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="p">[]</span>
+
+        <span class="n">cs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">_get_format_unit</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">id_pool</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">curpath</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">children</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">title</span><span class="p">,</span> <span class="p">[(</span><span class="n">_prefix_indent</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> --&gt; &#39;</span><span class="p">,</span> <span class="n">ctitle</span><span class="p">),</span> <span class="n">cchild</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="p">(</span><span class="n">ctitle</span><span class="p">,</span> <span class="n">cchild</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">children</span><span class="p">,</span> <span class="n">cs</span><span class="p">)]</span>
+
+
+<span class="k">class</span> <span class="nc">_UnitModel</span><span class="p">(</span><span class="n">_ITreeFormat</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">validity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+
+<div class="viewcode-block" id="UncompletedUnit"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit">[docs]</a><span class="k">class</span> <span class="nc">UncompletedUnit</span><span class="p">(</span><span class="n">_UnitModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Uncompleted unit class, used when some unit structure is not completed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="UncompletedUnit._fail"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit._fail">[docs]</a>    <span class="k">def</span> <span class="nf">_fail</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fail method, should raise error when this uncompleted unit is used.</span>
+
+<span class="sd">        :raises SyntaxError: Unit syntax error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="UncompletedUnit.__call__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate with given value.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This will fail due to its incompleteness.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :return: Output value.</span>
+<span class="sd">        :raises SyntaxError: Unit syntax error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="UncompletedUnit.call"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate with given value, similar to :meth:`__call__`.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This will fail due to its incompleteness.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :param err_mode: Error mode, see :class:`argsloader.base.result.ErrMode`.</span>
+<span class="sd">        :raises SyntaxError: Unit syntax error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="UncompletedUnit.log"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get full log of this parsing process.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This will fail due to its incompleteness.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :raises SyntaxError: Unit syntax error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">validity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validity of this unit.</span>
+
+<span class="sd">        See: :func:`argsloader.units.utils.validity`.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            This will fail due to its incompleteness.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_cname</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;(X)</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+
+<div class="viewcode-block" id="UnitProcessProxy"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UnitProcessProxy">[docs]</a><span class="k">class</span> <span class="nc">UnitProcessProxy</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Proxy class, used to create result object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="UnitProcessProxy.__init__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UnitProcessProxy.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of class :class:`argsloader.units.base.UnitProcessProxy`.</span>
+
+<span class="sd">        :param unit: Unit object.</span>
+<span class="sd">        :param v: ``PValue`` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__v</span> <span class="o">=</span> <span class="n">v</span></div>
+
+<div class="viewcode-block" id="UnitProcessProxy.success"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UnitProcessProxy.success">[docs]</a>    <span class="k">def</span> <span class="nf">success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a success result.</span>
+
+<span class="sd">        :param res: ``PValue`` result object.</span>
+<span class="sd">        :param children: Children objects.</span>
+<span class="sd">        :return: Success parse result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ParseResult</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span><span class="p">,</span>
+            <span class="n">ResultStatus</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">children</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="UnitProcessProxy.error"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UnitProcessProxy.error">[docs]</a>    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">children</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build an error result.</span>
+
+<span class="sd">        :param err: Error object, will be transformed to :class:`argsloader.base.exception.ParseError` if \</span>
+<span class="sd">            it is not yet.</span>
+<span class="sd">        :param children: Children objects.</span>
+<span class="sd">        :return: Error parse result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">err</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">):</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="n">wrap_exception</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ParseResult</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__v</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span><span class="p">,</span>
+            <span class="n">ResultStatus</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">children</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="UnitProcessProxy.skipped"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UnitProcessProxy.skipped">[docs]</a>    <span class="k">def</span> <span class="nf">skipped</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build a skipped result.</span>
+
+<span class="sd">        :return: Skipped parse result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ParseResult</span><span class="p">(</span>
+            <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__unit</span><span class="p">,</span>
+            <span class="n">ResultStatus</span><span class="o">.</span><span class="n">SKIPPED</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="p">)</span></div></div>
+
+
+<span class="nd">@lru_cache</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">_get_ops</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">.operator</span> <span class="kn">import</span> <span class="n">_cpipe</span><span class="p">,</span> <span class="n">_cand</span><span class="p">,</span> <span class="n">_cor</span>
+    <span class="k">return</span> <span class="n">_cpipe</span><span class="p">,</span> <span class="n">_cand</span><span class="p">,</span> <span class="n">_cor</span>
+
+
+<div class="viewcode-block" id="BaseUnit"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit">[docs]</a><span class="k">class</span> <span class="nc">BaseUnit</span><span class="p">(</span><span class="n">_UnitModel</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseUnit._process"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit._process">[docs]</a>    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Protected process method.</span>
+
+<span class="sd">        :param v: ``PValue`` input object.</span>
+<span class="sd">        :return: Parse result object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_easy_process</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">UnitProcessProxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseUnit._easy_process"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit._easy_process">[docs]</a>    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Easy process method, ``proxy`` can be used to quickly build parse result object.</span>
+
+<span class="sd">        :param v: ``PValue`` object.</span>
+<span class="sd">        :param proxy: Proxy object.</span>
+<span class="sd">        :return: Parse result object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="BaseUnit._skip"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit._skip">[docs]</a>    <span class="k">def</span> <span class="nf">_skip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a skipped result</span>
+
+<span class="sd">        :param v: ``PValue`` object.</span>
+<span class="sd">        :return: Skipped parse result object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">UnitProcessProxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">skipped</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__call__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate with given value.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :return: Output value.</span>
+<span class="sd">        :raises ParseError: Parse error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;FIRST&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseUnit.call"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;ALL&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate with given value, similar to :meth:`__call__`.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :param err_mode: Error mode, see :class:`argsloader.base.result.ErrMode`, default is ``ALL``.</span>
+<span class="sd">        :return: Output value.</span>
+<span class="sd">        :raises ParseError: Parse error.</span>
+<span class="sd">        :raises MultipleParseError: Indexed parsed error, will be raised when ``ALL`` mode is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">PValue</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">()))</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">err_mode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseUnit.log"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get full log of this parsing process.</span>
+
+<span class="sd">        :param v: Input value.</span>
+<span class="sd">        :return: Parse result.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">PValue</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">()))</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">validity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validity of this unit.</span>
+
+<span class="sd">        See: :func:`argsloader.units.utils.validity`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">validity</span>
+        <span class="k">return</span> <span class="n">validity</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseUnit.__rshift__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__rshift__">[docs]</a>    <span class="k">def</span> <span class="fm">__rshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build pipe within units, like ``self &gt;&gt; other``.</span>
+
+<span class="sd">        See :func:`argsloader.units.operator.pipe`.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: Piped unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pipe</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_get_ops</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pipe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__rrshift__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__rrshift__">[docs]</a>    <span class="k">def</span> <span class="fm">__rrshift__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Right version of :meth:`__rshift__`, like ``other &gt;&gt; self``.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: Piped unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__and__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__and__">[docs]</a>    <span class="k">def</span> <span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build and-liked unit within units, like ``self &amp; other``.</span>
+
+<span class="sd">        See :func:`argsloader.units.operator.and_`.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: And-linked unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">and_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_get_ops</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">and_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__rand__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__rand__">[docs]</a>    <span class="k">def</span> <span class="fm">__rand__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Right version of :meth:`__and__`, like ``other &amp; self``.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: And-linked unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">&amp;</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__or__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__or__">[docs]</a>    <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build or-liked unit within units, like ``self | other``.</span>
+
+<span class="sd">        See :func:`argsloader.units.operator.or_`.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: Or-linked unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">or_</span> <span class="o">=</span> <span class="n">_get_ops</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">or_</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="BaseUnit.__ror__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__ror__">[docs]</a>    <span class="k">def</span> <span class="fm">__ror__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseUnit&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Right version of :meth:`__or__`, like ``other | self``.</span>
+
+<span class="sd">        See :func:`argsloader.units.operator.or_`.</span>
+
+<span class="sd">        :param other: Another unit.</span>
+<span class="sd">        :return: Or-linked unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="o">|</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+
+<div class="viewcode-block" id="ValueUnit"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.ValueUnit">[docs]</a><span class="k">class</span> <span class="nc">ValueUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Raw value unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ValueUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.ValueUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of class :class:`argsloader.units.base.ValueUnit`.</span>
+
+<span class="sd">        :param value: Raw value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="ValueUnit._easy_process"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.ValueUnit._easy_process">[docs]</a>    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">_rcalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_dispatch</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_dispatch</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">BaseUnit</span><span class="o">.</span><span class="n">_rcalc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_dispatch</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">),</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="p">[(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="raw"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.raw">[docs]</a><span class="k">def</span> <span class="nf">raw</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValueUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raw value unit.</span>
+
+<span class="sd">    :param v: Original value.</span>
+<span class="sd">    :return: raw value unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ValueUnit</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_to_unit</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseUnit</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">UncompletedUnit</span><span class="p">):</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;_fail&#39;</span><span class="p">)()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">BaseUnit</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">.func</span> <span class="kn">import</span> <span class="n">_FUNC_TYPES</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">_FUNC_TYPES</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">.func</span> <span class="kn">import</span> <span class="n">proc</span>
+            <span class="k">return</span> <span class="n">proc</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">raw</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TransformUnit"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.TransformUnit">[docs]</a><span class="k">class</span> <span class="nc">TransformUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Common transform unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">()</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">()</span>
+
+<div class="viewcode-block" id="TransformUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.TransformUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of class :class:`argsloader.units.base.TransformUnit`.</span>
+
+<span class="sd">        :param values: Values need to be pre-processed, should be mapped one-to-one with ``__names__``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__names__</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1"> should accept </span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__names__</span><span class="p">),</span> <span class="s2">&quot;word&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">, &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;but </span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="s2">&quot;word&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_values</span> <span class="o">=</span> <span class="n">nested_map</span><span class="p">(</span><span class="n">_to_unit</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="TransformUnit._transform"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.TransformUnit._transform">[docs]</a>    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PValue</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform method.</span>
+
+<span class="sd">        :param v: Original ``PValue`` object.</span>
+<span class="sd">        :param pres: Pre-processed values.</span>
+<span class="sd">        :return: Returned ``PValue`` object.</span>
+<span class="sd">        :raises Exception: Raised exception which is instance of ``__errors__`` will be processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="TransformUnit._easy_process"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.TransformUnit._easy_process">[docs]</a>    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">ovalues</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__names__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">)),</span> <span class="kc">True</span>
+
+        <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">ov</span><span class="p">):</span>
+            <span class="k">nonlocal</span> <span class="n">valid</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ov</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">vs</span><span class="p">,</span> <span class="n">rs</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">name_</span><span class="p">,</span> <span class="n">iv</span> <span class="ow">in</span> <span class="n">ov</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">v_</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+                    <span class="n">vs</span><span class="p">[</span><span class="n">name_</span><span class="p">]</span> <span class="o">=</span> <span class="n">v_</span>
+                    <span class="n">rs</span><span class="p">[</span><span class="n">name_</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+                <span class="n">tp</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ov</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">tp</span><span class="p">(</span><span class="n">vs</span><span class="p">),</span> <span class="n">tp</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ov</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="n">vs</span><span class="p">,</span> <span class="n">rs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">iv</span> <span class="ow">in</span> <span class="n">ov</span><span class="p">:</span>
+                    <span class="n">v_</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+                    <span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_</span><span class="p">)</span>
+                    <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="n">tp</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">ov</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">tp</span><span class="p">(</span><span class="n">vs</span><span class="p">),</span> <span class="n">tp</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_curu</span> <span class="o">=</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">ov</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">_curu</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">res</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">res</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_curu</span><span class="o">.</span><span class="n">_skip</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="n">pvalues</span><span class="p">,</span> <span class="n">rvalues</span> <span class="o">=</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">ovalues</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="n">pres</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pres</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pvalues</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ParseError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">err</span>
+            <span class="k">except</span> <span class="bp">self</span><span class="o">.</span><span class="n">__errors__</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">err</span>
+
+            <span class="k">if</span> <span class="n">error</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">pres</span><span class="p">,</span> <span class="n">rvalues</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">rvalues</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rvalues</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__names__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="CalculateUnit"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.CalculateUnit">[docs]</a><span class="k">class</span> <span class="nc">CalculateUnit</span><span class="p">(</span><span class="n">TransformUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Simple value calculation unit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CalculateUnit._transform"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.CalculateUnit._transform">[docs]</a>    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PValue</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_calculate</span><span class="p">(</span>
+            <span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span>
+        <span class="p">))</span></div>
+
+<div class="viewcode-block" id="CalculateUnit._calculate"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.CalculateUnit._calculate">[docs]</a>    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculation method.</span>
+
+<span class="sd">        :param v: Original value.</span>
+<span class="sd">        :param pres: Pre-processed values.</span>
+<span class="sd">        :return: Returned value.</span>
+<span class="sd">        :raises Exception: Raised exception which is instance of ``__errors__`` will be processed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/dmask
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="base.html">dev/dmask</a></dd>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

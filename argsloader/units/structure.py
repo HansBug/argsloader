@@ -429,6 +429,12 @@ DEFAULT_REQUIRED = SingletonMark('CVALUE_DEFAULT_REQUIRED')
 
 
 def crequired():
+    """
+    Overview:
+        Get a mark which means this value is required.
+
+        See :func:`cdict`.
+    """
     return DEFAULT_REQUIRED
 
 
@@ -439,12 +445,120 @@ class _CDefaultValidation:
 
 
 def cvalue(default_, ucheck=UNIT_KEEP) -> _CDefaultValidation:
+    """
+    Overview:
+        Get a value validation mark which means this value item has a default value and some validations.
+
+        See :func:`cdict`.
+
+    :param default_: Default value of this item.
+    :param ucheck: Check unit for this item, default means just do not do any validation.
+
+    .. note::
+        The validation will be processed after item's getting and default value's applying. \
+        This means the given ``default_`` will be processed by ``ucheck`` as well.
+
+    .. warning::
+        Do not use unit object in ``default_`` parameter, \
+        which will be processed with :func:`argsloader.units.base.raw`. \
+        Some unexpected result will be caused due to this misuse.
+    """
     ucheck = keep() if ucheck is UNIT_KEEP else _to_unit(ucheck)
     udefault = None if default_ is DEFAULT_REQUIRED else raw(default_)
     return _CDefaultValidation(ucheck, udefault)
 
 
 def cdict(dict_: dict):
+    """
+    Overview:
+        Build a :func:`struct` unit to parse dict-based data, with some slight validations.
+
+    :param dict_: Dict-based metadata.
+    :return: A :func:`struct` unit.
+
+    Examples::
+        >>> from easydict import EasyDict
+        >>> from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number
+        >>> u = cdict({
+        ...     'a': cvalue(1, number()),
+        ...     'b': crequired(),
+        ...     'c': EasyDict({
+        ...         'x': cvalue(4, is_type(int) >> add.by(10)),
+        ...         'y': cvalue(crequired(), is_type(int) & interval.LR(0, 10)),
+        ...     })
+        ... })
+        >>>
+        >>> u.call({'a': 5, 'b': 10, 'c': {'x': 7, 'y': 9}})
+        {'a': 5, 'b': 10, 'c': {'x': 17, 'y': 9}}
+        >>> u.call({'a': '0xff', 'b': -2, 'c': {'y': 4}})
+        {'a': 255, 'b': -2, 'c': {'x': 14, 'y': 4}}
+        >>> u.call({'a': '0b101011', 'c': {'x': 6.0, 'y': 100.0}})
+        argsloader.base.exception.MultipleParseError: (4 errors)
+          <root>: KeyParseError: Item 'b' not found in value.
+          <root>.c.x: TypeParseError: Value type not match - int expected but float found.
+          <root>.c.y: TypeParseError: Value type not match - int expected but float found.
+          <root>.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.
+
+    .. note::
+        This :func:`cdict` is just a syntactic sugar for struct and various validation units. For the abovementioned \
+        unit is actually structed as the following structure
+
+        >>> from easydict import EasyDict
+        >>> from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number
+        >>> u = cdict({
+        ...     'a': cvalue(1, number()),
+        ...     'b': crequired(),
+        ...     'c': EasyDict({
+        ...         'x': cvalue(4, is_type(int) >> add.by(10)),
+        ...         'y': cvalue(crequired(), is_type(int) & interval.LR(0, 10)),
+        ...     })
+        ... })
+        >>>
+        >>> u
+        <StructUnit>
+        └── struct --> dict(a, b, c)
+            ├── a --> <PipeUnit count: 2>
+            │   ├── 0 --> <OrUnit count: 2>
+            │   │   ├── 0 --> <GetItemUnit offset: True>
+            │   │   │   └── item --> 'a'
+            │   │   └── 1 --> 1
+            │   └── 1 --> <NumberUnit>
+            ├── b --> <GetItemUnit offset: True>
+            │   └── item --> 'b'
+            └── c --> EasyDict(x, y)
+                ├── x --> <PipeUnit count: 2>
+                │   ├── 0 --> <OrUnit count: 2>
+                │   │   ├── 0 --> <PipeUnit count: 2>
+                │   │   │   ├── 0 --> <GetItemUnit offset: True>
+                │   │   │   │   └── item --> 'c'
+                │   │   │   └── 1 --> <GetItemUnit offset: True>
+                │   │   │       └── item --> 'x'
+                │   │   └── 1 --> 4
+                │   └── 1 --> <PipeUnit count: 2>
+                │       ├── 0 --> <IsTypeUnit>
+                │       │   └── type --> <class 'int'>
+                │       └── 1 --> <AddOpUnit>
+                │           ├── v1 --> <KeepUnit>
+                │           └── v2 --> 10
+                └── y --> <PipeUnit count: 3>
+                    ├── 0 --> <GetItemUnit offset: True>
+                    │   └── item --> 'c'
+                    ├── 1 --> <GetItemUnit offset: True>
+                    │   └── item --> 'y'
+                    └── 2 --> <AndUnit count: 2>
+                        ├── 0 --> <IsTypeUnit>
+                        │   └── type --> <class 'int'>
+                        └── 1 --> <IntervalUnit>
+                            └── condition --> <ValidityUnit>
+                                └── unit --> <AndUnit count: 2>
+                                    ├── 0 --> <GeCheckUnit>
+                                    │   ├── v1 --> <KeepUnit>
+                                    │   └── v2 --> 0
+                                    └── 1 --> <LeCheckUnit>
+                                        ├── v1 --> <KeepUnit>
+                                        └── v2 --> 10
+    """
+
     def _recursion(d, path):
         gitem = reduce(__rshift__, map(getitem_, path)) if path else keep()
         if isinstance(d, _CDefaultValidation):

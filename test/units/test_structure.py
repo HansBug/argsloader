@@ -5,7 +5,7 @@ from easydict import EasyDict
 
 from argsloader.base import ParseError, MultipleParseError, PValue
 from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add, in_, isin, contains, \
-    mul, sub, to_type, is_type
+    mul, sub, to_type, is_type, cdict, cvalue, crequired
 
 
 @pytest.mark.unittest
@@ -327,3 +327,105 @@ class TestUnitsStructure:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, TypeError)
+
+    def test_cdict(self):
+        u = cdict({
+            'a': 1,
+            'b': 2,
+        })
+        assert u({}) == {'a': 1, 'b': 2}
+        assert u({'a': 10}) == {'a': 10, 'b': 2}
+        assert u({'a': 10, 'c': -1}) == {'a': 10, 'b': 2}
+
+        u = cdict(EasyDict({
+            'a': 1,
+            'b': 2,
+        }))
+        assert u({}) == {'a': 1, 'b': 2}
+        assert isinstance(u({}), EasyDict)
+        assert u({'a': 10}) == {'a': 10, 'b': 2}
+        assert isinstance(u({'a': 10}), EasyDict)
+        assert u({'a': 10, 'c': -1}) == {'a': 10, 'b': 2}
+        assert isinstance(u({'a': 10, 'c': -1}), EasyDict)
+
+    def test_cdict_with_cvalue(self):
+        u = cdict({
+            'a': 1,
+            'b': cvalue(2, is_type(int)),
+            'c': {
+                'x': cvalue(3, is_type(int) >> add.by(2)),
+                'y': cvalue(4, is_type(int) & interval.LR(0, 10)),
+            }
+        })
+        assert u({}) == {'a': 1, 'b': 2, 'c': {'x': 5, 'y': 4}}
+        assert u({'a': 5, 'b': 4, 'c': {'x': 18}}) == {'a': 5, 'b': 4, 'c': {'x': 20, 'y': 4}}
+
+        with pytest.raises(ParseError) as ei:
+            u({'b': 2.0})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'c': {'x': 3.0}})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'c': {'y': 4.0}})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'c': {'y': 12}})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        with pytest.raises(MultipleParseError) as ei:
+            u.call({
+                'a': 5,
+                'b': 4.0,
+                'c': {
+                    'x': 8.0,
+                    'y': 12.0,
+                }
+            })
+        err = ei.value
+        assert len(err.items) == 4
+
+    def test_cdict_with_crequired(self):
+        u = cdict({
+            'a': crequired(),
+            'b': cvalue(2, is_type(int)),
+            'c': {
+                'x': cvalue(crequired(), is_type(int) >> add.by(2)),
+                'y': cvalue(4, is_type(int) & interval.LR(0, 10)),
+            }
+        })
+        with pytest.raises(ParseError) as ei:
+            u({})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'a': 5})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'c': {'x': 5}})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+
+        assert u({'a': 4, 'c': {'x': 5}}) == {'a': 4, 'b': 2, 'c': {'x': 7, 'y': 4}}
+
+        with pytest.raises(MultipleParseError) as ei:
+            u.call({'b': 2.0, 'c': {'y': 12.0}})
+        err = ei.value
+        assert len(err.items) == 5

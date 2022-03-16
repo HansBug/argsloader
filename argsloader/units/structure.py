@@ -1,9 +1,12 @@
+from functools import reduce
+from operator import __rshift__
 from typing import Mapping, Any, Union, Tuple, List
 
 from hbutils.collection import nested_map
+from hbutils.design import SingletonMark
 from hbutils.string import truncate
 
-from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy, TransformUnit
+from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy, TransformUnit, raw
 from .utils import keep
 from ..base import PValue, ParseResult
 
@@ -419,3 +422,44 @@ def contains(instance) -> InUnit:
         KeyParseError: 'Collection should contain instance, but 8 is not included in [9, 14, 10] actually.'
     """
     return in_(instance, keep())
+
+
+UNIT_KEEP = SingletonMark('CVALUE_UNIT_KEEP')
+DEFAULT_REQUIRED = SingletonMark('CVALUE_DEFAULT_REQUIRED')
+
+
+def crequired():
+    return DEFAULT_REQUIRED
+
+
+class _CDefaultValidation:
+    def __init__(self, ucheck, udefault):
+        self.ucheck = ucheck
+        self.udefault = udefault
+
+
+def cvalue(default_, ucheck=UNIT_KEEP) -> _CDefaultValidation:
+    ucheck = keep() if ucheck is UNIT_KEEP else _to_unit(ucheck)
+    udefault = None if default_ is DEFAULT_REQUIRED else raw(default_)
+    return _CDefaultValidation(ucheck, udefault)
+
+
+def cdict(dict_: dict):
+    def _recursion(d, path):
+        gitem = reduce(__rshift__, map(getitem_, path)) if path else keep()
+        if isinstance(d, _CDefaultValidation):
+            if d.udefault is not None:
+                return (gitem | d.udefault) >> d.ucheck
+            else:
+                return gitem >> d.ucheck
+        elif d is DEFAULT_REQUIRED:
+            return gitem
+        elif isinstance(d, dict):
+            return type(d)({
+                key: _recursion(value, (*path, key))
+                for key, value in d.items()
+            })
+        else:
+            return gitem | _to_unit(d)
+
+    return struct(_recursion(dict_, ()))

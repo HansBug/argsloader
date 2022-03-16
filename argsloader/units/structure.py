@@ -6,7 +6,8 @@ from hbutils.collection import nested_map
 from hbutils.design import SingletonMark
 from hbutils.string import truncate
 
-from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy, TransformUnit, raw
+from .base import BaseUnit, _to_unit, UnitProcessProxy, raw
+from .build import TransformUnit, CalculateUnit
 from .utils import keep
 from ..base import PValue, ParseResult
 
@@ -499,64 +500,6 @@ def cdict(dict_: dict):
           <root>.c.y: TypeParseError: Value type not match - int expected but float found.
           <root>.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.
 
-    .. note::
-        This :func:`cdict` is just a syntactic sugar for struct and various validation units. For the abovementioned \
-        unit is actually structed as the following structure
-
-        >>> from easydict import EasyDict
-        >>> from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number
-        >>> u = cdict({
-        ...     'a': cvalue(1, number()),
-        ...     'b': crequired(),
-        ...     'c': EasyDict({
-        ...         'x': cvalue(4, is_type(int) >> add.by(10)),
-        ...         'y': cvalue(crequired(), is_type(int) & interval.LR(0, 10)),
-        ...     })
-        ... })
-        >>>
-        >>> u
-        <StructUnit>
-        └── struct --> dict(a, b, c)
-            ├── a --> <PipeUnit count: 2>
-            │   ├── 0 --> <OrUnit count: 2>
-            │   │   ├── 0 --> <GetItemUnit offset: True>
-            │   │   │   └── item --> 'a'
-            │   │   └── 1 --> 1
-            │   └── 1 --> <NumberUnit>
-            ├── b --> <GetItemUnit offset: True>
-            │   └── item --> 'b'
-            └── c --> EasyDict(x, y)
-                ├── x --> <PipeUnit count: 2>
-                │   ├── 0 --> <OrUnit count: 2>
-                │   │   ├── 0 --> <PipeUnit count: 2>
-                │   │   │   ├── 0 --> <GetItemUnit offset: True>
-                │   │   │   │   └── item --> 'c'
-                │   │   │   └── 1 --> <GetItemUnit offset: True>
-                │   │   │       └── item --> 'x'
-                │   │   └── 1 --> 4
-                │   └── 1 --> <PipeUnit count: 2>
-                │       ├── 0 --> <IsTypeUnit>
-                │       │   └── type --> <class 'int'>
-                │       └── 1 --> <AddOpUnit>
-                │           ├── v1 --> <KeepUnit>
-                │           └── v2 --> 10
-                └── y --> <PipeUnit count: 3>
-                    ├── 0 --> <GetItemUnit offset: True>
-                    │   └── item --> 'c'
-                    ├── 1 --> <GetItemUnit offset: True>
-                    │   └── item --> 'y'
-                    └── 2 --> <AndUnit count: 2>
-                        ├── 0 --> <IsTypeUnit>
-                        │   └── type --> <class 'int'>
-                        └── 1 --> <IntervalUnit>
-                            └── condition --> <ValidityUnit>
-                                └── unit --> <AndUnit count: 2>
-                                    ├── 0 --> <GeCheckUnit>
-                                    │   ├── v1 --> <KeepUnit>
-                                    │   └── v2 --> 0
-                                    └── 1 --> <LeCheckUnit>
-                                        ├── v1 --> <KeepUnit>
-                                        └── v2 --> 10
     """
 
     def _recursion(d, path):

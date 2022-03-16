@@ -7,7 +7,7 @@ import enum_tools
 from hbutils.model import AutoIntEnum
 from hbutils.scale import time_to_duration, size_to_bytes
 
-from .base import CalculateUnit
+from .build import CalculateUnit
 
 
 @enum_tools.documentation.document_enum

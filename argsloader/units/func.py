@@ -5,7 +5,8 @@ from typing import Mapping, Any
 import inflection
 from hbutils.reflection import frename
 
-from .base import CalculateUnit, raw
+from .base import raw
+from .build import CalculateUnit
 
 try:
     from types import MethodWrapperType, MethodDescriptorType, ClassMethodDescriptorType, WrapperDescriptorType

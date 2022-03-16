@@ -40,16 +40,4 @@ raw
 .. autofunction:: raw
 
 
-TransformUnit
------------------------
-
-.. autoclass:: TransformUnit
-    :members: __init__, _transform, _easy_process
-
-
-CalculateUnit
---------------------------
-
-.. autoclass:: CalculateUnit
-    :members: _transform, _calculate
 

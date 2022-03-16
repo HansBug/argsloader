@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">argsloader.units.build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
@@ -699,21 +700,63 @@
 </dd>
 </dl>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easydict</span> <span class="kn">import</span> <span class="n">EasyDict</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>  <span class="c1"># default value with validation</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>  <span class="c1"># required value</span>
+<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="n">crequired</span><span class="p">(),</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># simple default value</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0b101011&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">}})</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (4 errors)</span>
+<span class="go">  &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
+<span class="go">  &lt;root&gt;.c.x: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Keep the original type</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easydict</span> <span class="kn">import</span> <span class="n">EasyDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="n">EasyDict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
+<span class="gp">... </span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">})</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}),</span> <span class="n">EasyDict</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">({</span>
 <span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
 <span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
-<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">EasyDict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">cdict</span><span class="p">({</span>  <span class="c1"># inner cdict can be used</span>
 <span class="gp">... </span>        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
 <span class="gp">... </span>        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="n">crequired</span><span class="p">(),</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
-<span class="gp">... </span>    <span class="p">})</span>
+<span class="gp">... </span>        <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}),</span>
 <span class="gp">... </span><span class="p">})</span>
-<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}})</span>
-<span class="go">{&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9}}</span>
+<span class="go">{&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
-<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4}}</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0b101011&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">}})</span>
 <span class="go">argsloader.base.exception.MultipleParseError: (4 errors)</span>
 <span class="go">  &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
@@ -724,63 +767,17 @@
 </div>
 </dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This <a class="reference internal" href="#argsloader.units.structure.cdict" title="argsloader.units.structure.cdict"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdict()</span></code></a> is just a syntactic sugar for struct and various validation units. For the abovementioned         unit is actually structed as the following structure</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Attention that the value items which not appeared in the <code class="docutils literal notranslate"><span class="pre">dict_</span></code> value will be ignored.         This means the parsing result of function <a class="reference internal" href="#argsloader.units.structure.cdict" title="argsloader.units.structure.cdict"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdict()</span></code></a> will have exactly the same structure         as <code class="docutils literal notranslate"><span class="pre">dict_</span></code>. For example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easydict</span> <span class="kn">import</span> <span class="n">EasyDict</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">({</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="n">EasyDict</span><span class="p">({</span>
 <span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
 <span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
-<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">EasyDict</span><span class="p">({</span>
-<span class="gp">... </span>        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
-<span class="gp">... </span>        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="n">crequired</span><span class="p">(),</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
-<span class="gp">... </span>    <span class="p">})</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span>
-<span class="go">&lt;StructUnit&gt;</span>
-<span class="go">└── struct --&gt; dict(a, b, c)</span>
-<span class="go">    ├── a --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="go">    │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
-<span class="go">    │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">    │   │   │   └── item --&gt; &#39;a&#39;</span>
-<span class="go">    │   │   └── 1 --&gt; 1</span>
-<span class="go">    │   └── 1 --&gt; &lt;NumberUnit&gt;</span>
-<span class="go">    ├── b --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">    │   └── item --&gt; &#39;b&#39;</span>
-<span class="go">    └── c --&gt; EasyDict(x, y)</span>
-<span class="go">        ├── x --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="go">        │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
-<span class="go">        │   │   ├── 0 --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="go">        │   │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">        │   │   │   │   └── item --&gt; &#39;c&#39;</span>
-<span class="go">        │   │   │   └── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">        │   │   │       └── item --&gt; &#39;x&#39;</span>
-<span class="go">        │   │   └── 1 --&gt; 4</span>
-<span class="go">        │   └── 1 --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="go">        │       ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
-<span class="go">        │       │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
-<span class="go">        │       └── 1 --&gt; &lt;AddOpUnit&gt;</span>
-<span class="go">        │           ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="go">        │           └── v2 --&gt; 10</span>
-<span class="go">        └── y --&gt; &lt;PipeUnit count: 3&gt;</span>
-<span class="go">            ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">            │   └── item --&gt; &#39;c&#39;</span>
-<span class="go">            ├── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="go">            │   └── item --&gt; &#39;y&#39;</span>
-<span class="go">            └── 2 --&gt; &lt;AndUnit count: 2&gt;</span>
-<span class="go">                ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
-<span class="go">                │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
-<span class="go">                └── 1 --&gt; &lt;IntervalUnit&gt;</span>
-<span class="go">                    └── condition --&gt; &lt;ValidityUnit&gt;</span>
-<span class="go">                        └── unit --&gt; &lt;AndUnit count: 2&gt;</span>
-<span class="go">                            ├── 0 --&gt; &lt;GeCheckUnit&gt;</span>
-<span class="go">                            │   ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="go">                            │   └── v2 --&gt; 0</span>
-<span class="go">                            └── 1 --&gt; &lt;LeCheckUnit&gt;</span>
-<span class="go">                                ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="go">                                └── v2 --&gt; 10</span>
+<span class="gp">... </span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">174</span><span class="p">})</span>  <span class="c1"># z is ignored</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
 </pre></div>
 </div>
 </div>

@@ -169,7 +169,8 @@
 <span class="kn">from</span> <span class="nn">hbutils.design</span> <span class="kn">import</span> <span class="n">SingletonMark</span>
 <span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">truncate</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CalculateUnit</span><span class="p">,</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">,</span> <span class="n">UnitProcessProxy</span><span class="p">,</span> <span class="n">TransformUnit</span><span class="p">,</span> <span class="n">raw</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">,</span> <span class="n">UnitProcessProxy</span><span class="p">,</span> <span class="n">raw</span>
+<span class="kn">from</span> <span class="nn">.build</span> <span class="kn">import</span> <span class="n">TransformUnit</span><span class="p">,</span> <span class="n">CalculateUnit</span><span class="p">,</span> <span class="n">WrapperUnit</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">keep</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">ParseResult</span>
 
@@ -631,6 +632,16 @@
     <span class="k">return</span> <span class="n">_CDefaultValidation</span><span class="p">(</span><span class="n">ucheck</span><span class="p">,</span> <span class="n">udefault</span><span class="p">)</span></div>
 
 
+<span class="k">class</span> <span class="nc">CDictWrapUnit</span><span class="p">(</span><span class="n">WrapperUnit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="n">WrapperUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span>
+
+
 <div class="viewcode-block" id="cdict"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.cdict">[docs]</a><span class="k">def</span> <span class="nf">cdict</span><span class="p">(</span><span class="n">dict_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
@@ -640,21 +651,22 @@
 <span class="sd">    :return: A :func:`struct` unit.</span>
 
 <span class="sd">    Examples::</span>
-<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        - Simple usage</span>
+
 <span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number</span>
 <span class="sd">        &gt;&gt;&gt; u = cdict({</span>
-<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
-<span class="sd">        ...     &#39;b&#39;: crequired(),</span>
-<span class="sd">        ...     &#39;c&#39;: EasyDict({</span>
+<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),  # default value with validation</span>
+<span class="sd">        ...     &#39;b&#39;: crequired(),  # required value</span>
+<span class="sd">        ...     &#39;c&#39;: {</span>
 <span class="sd">        ...         &#39;x&#39;: cvalue(4, is_type(int) &gt;&gt; add.by(10)),</span>
 <span class="sd">        ...         &#39;y&#39;: cvalue(crequired(), is_type(int) &amp; interval.LR(0, 10)),</span>
-<span class="sd">        ...     })</span>
+<span class="sd">        ...         &#39;z&#39;: 5,  # simple default value</span>
+<span class="sd">        ...     },</span>
 <span class="sd">        ... })</span>
-<span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 7, &#39;y&#39;: 9}})</span>
-<span class="sd">        {&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9}}</span>
+<span class="sd">        {&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
 <span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2, &#39;c&#39;: {&#39;y&#39;: 4}})</span>
-<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4}}</span>
+<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
 <span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0b101011&#39;, &#39;c&#39;: {&#39;x&#39;: 6.0, &#39;y&#39;: 100.0}})</span>
 <span class="sd">        argsloader.base.exception.MultipleParseError: (4 errors)</span>
 <span class="sd">          &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
@@ -662,64 +674,56 @@
 <span class="sd">          &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
 <span class="sd">          &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
 
-<span class="sd">    .. note::</span>
-<span class="sd">        This :func:`cdict` is just a syntactic sugar for struct and various validation units. For the abovementioned \</span>
-<span class="sd">        unit is actually structed as the following structure</span>
+<span class="sd">        - Keep the original type</span>
 
 <span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, number</span>
+<span class="sd">        &gt;&gt;&gt; u = cdict(EasyDict({</span>
+<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
+<span class="sd">        ...     &#39;b&#39;: crequired(),</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2})</span>
+<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
+<span class="sd">        &gt;&gt;&gt; isinstance(u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2}), EasyDict)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        - Nested usage</span>
+
 <span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number</span>
 <span class="sd">        &gt;&gt;&gt; u = cdict({</span>
 <span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
 <span class="sd">        ...     &#39;b&#39;: crequired(),</span>
-<span class="sd">        ...     &#39;c&#39;: EasyDict({</span>
+<span class="sd">        ...     &#39;c&#39;: cdict({  # inner cdict can be used</span>
 <span class="sd">        ...         &#39;x&#39;: cvalue(4, is_type(int) &gt;&gt; add.by(10)),</span>
 <span class="sd">        ...         &#39;y&#39;: cvalue(crequired(), is_type(int) &amp; interval.LR(0, 10)),</span>
-<span class="sd">        ...     })</span>
+<span class="sd">        ...         &#39;z&#39;: 5,</span>
+<span class="sd">        ...     }),</span>
 <span class="sd">        ... })</span>
-<span class="sd">        &gt;&gt;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; u</span>
-<span class="sd">        &lt;StructUnit&gt;</span>
-<span class="sd">        └── struct --&gt; dict(a, b, c)</span>
-<span class="sd">            ├── a --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="sd">            │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
-<span class="sd">            │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">            │   │   │   └── item --&gt; &#39;a&#39;</span>
-<span class="sd">            │   │   └── 1 --&gt; 1</span>
-<span class="sd">            │   └── 1 --&gt; &lt;NumberUnit&gt;</span>
-<span class="sd">            ├── b --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">            │   └── item --&gt; &#39;b&#39;</span>
-<span class="sd">            └── c --&gt; EasyDict(x, y)</span>
-<span class="sd">                ├── x --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="sd">                │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
-<span class="sd">                │   │   ├── 0 --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="sd">                │   │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">                │   │   │   │   └── item --&gt; &#39;c&#39;</span>
-<span class="sd">                │   │   │   └── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">                │   │   │       └── item --&gt; &#39;x&#39;</span>
-<span class="sd">                │   │   └── 1 --&gt; 4</span>
-<span class="sd">                │   └── 1 --&gt; &lt;PipeUnit count: 2&gt;</span>
-<span class="sd">                │       ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
-<span class="sd">                │       │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
-<span class="sd">                │       └── 1 --&gt; &lt;AddOpUnit&gt;</span>
-<span class="sd">                │           ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="sd">                │           └── v2 --&gt; 10</span>
-<span class="sd">                └── y --&gt; &lt;PipeUnit count: 3&gt;</span>
-<span class="sd">                    ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">                    │   └── item --&gt; &#39;c&#39;</span>
-<span class="sd">                    ├── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
-<span class="sd">                    │   └── item --&gt; &#39;y&#39;</span>
-<span class="sd">                    └── 2 --&gt; &lt;AndUnit count: 2&gt;</span>
-<span class="sd">                        ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
-<span class="sd">                        │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
-<span class="sd">                        └── 1 --&gt; &lt;IntervalUnit&gt;</span>
-<span class="sd">                            └── condition --&gt; &lt;ValidityUnit&gt;</span>
-<span class="sd">                                └── unit --&gt; &lt;AndUnit count: 2&gt;</span>
-<span class="sd">                                    ├── 0 --&gt; &lt;GeCheckUnit&gt;</span>
-<span class="sd">                                    │   ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="sd">                                    │   └── v2 --&gt; 0</span>
-<span class="sd">                                    └── 1 --&gt; &lt;LeCheckUnit&gt;</span>
-<span class="sd">                                        ├── v1 --&gt; &lt;KeepUnit&gt;</span>
-<span class="sd">                                        └── v2 --&gt; 10</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 7, &#39;y&#39;: 9}})</span>
+<span class="sd">        {&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2, &#39;c&#39;: {&#39;y&#39;: 4}})</span>
+<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0b101011&#39;, &#39;c&#39;: {&#39;x&#39;: 6.0, &#39;y&#39;: 100.0}})</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (4 errors)</span>
+<span class="sd">          &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
+<span class="sd">          &lt;root&gt;.c.x: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        Attention that the value items which not appeared in the ``dict_`` value will be ignored. \</span>
+<span class="sd">        This means the parsing result of function :func:`cdict` will have exactly the same structure \</span>
+<span class="sd">        as ``dict_``. For example</span>
+
+<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, number</span>
+<span class="sd">        &gt;&gt;&gt; u = cdict(EasyDict({</span>
+<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
+<span class="sd">        ...     &#39;b&#39;: crequired(),</span>
+<span class="sd">        ... }))</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2, &#39;z&#39;: 174})  # z is ignored</span>
+<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -736,10 +740,13 @@
                 <span class="n">key</span><span class="p">:</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
             <span class="p">})</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">CDictWrapUnit</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">gitem</span> <span class="o">|</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">struct</span><span class="p">(</span><span class="n">_recursion</span><span class="p">(</span><span class="n">dict_</span><span class="p">,</span> <span class="p">()))</span></div>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">struct</span><span class="p">(</span><span class="n">_recursion</span><span class="p">(</span><span class="n">dict_</span><span class="p">,</span> <span class="p">()))</span>
+    <span class="k">return</span> <span class="n">CDictWrapUnit</span><span class="p">(</span><span class="n">dict_</span><span class="p">,</span> <span class="n">unit</span><span class="p">)</span></div>
 </pre></div>
 
 

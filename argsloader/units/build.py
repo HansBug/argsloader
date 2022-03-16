@@ -114,3 +114,30 @@ class CalculateUnit(TransformUnit):
         :raises Exception: Raised exception which is instance of ``__errors__`` will be processed.
         """
         raise NotImplementedError  # pragma: no cover
+
+
+class WrapperUnit(TransformUnit):
+    """
+    Overview:
+        Simple wrapper unit, .
+    """
+    __names__ = ('wrapped',)
+
+    def __init__(self, wrapped: BaseUnit):
+        """
+        Constructor of :class:`WrapperUnit`.
+
+        :param wrapped: Wrapped unit.
+        """
+        TransformUnit.__init__(self, _to_unit(wrapped))
+        self.__wrapped = wrapped
+
+    @property
+    def wrapped(self) -> BaseUnit:
+        """
+        Wrapped unit.
+        """
+        return self.__wrapped
+
+    def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
+        return pres['wrapped']

@@ -19,3 +19,11 @@ CalculateUnit
 .. autoclass:: CalculateUnit
     :members: _transform, _calculate
 
+
+WrapperUnit
+--------------------------
+
+.. autoclass:: WrapperUnit
+    :members: __init__, wrapped
+
+

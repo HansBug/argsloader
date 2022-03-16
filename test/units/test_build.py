@@ -6,7 +6,7 @@ from hbutils.collection import nested_map
 
 from argsloader.base import ParseError, PValue
 from argsloader.units import to_type, is_type
-from argsloader.units.build import TransformUnit, CalculateUnit
+from argsloader.units.build import TransformUnit, CalculateUnit, WrapperUnit
 
 
 @pytest.mark.unittest
@@ -92,3 +92,16 @@ class TestUnitsBuild:
         assert isinstance(err, ParseError)
         assert isinstance(err, ValueError)
         assert err.args == ('verr', [-3, 2, -3, -3], 2)
+
+    def test_wrapper_unit(self):
+        original_unit = is_type(int)
+        u = WrapperUnit(original_unit)
+        assert u.wrapped is original_unit
+
+        assert u(1) == 1
+        assert u(2) == 2
+        with pytest.raises(ParseError) as ei:
+            u('str')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)

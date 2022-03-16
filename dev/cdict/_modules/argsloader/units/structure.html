@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.structure &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>argsloader.units.structure</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for argsloader.units.structure</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="fm">__rshift__</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_map</span>
+<span class="kn">from</span> <span class="nn">hbutils.design</span> <span class="kn">import</span> <span class="n">SingletonMark</span>
+<span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">truncate</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CalculateUnit</span><span class="p">,</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="n">_to_unit</span><span class="p">,</span> <span class="n">UnitProcessProxy</span><span class="p">,</span> <span class="n">TransformUnit</span><span class="p">,</span> <span class="n">raw</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">keep</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">ParseResult</span>
+
+
+<div class="viewcode-block" id="GetItemUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.GetItemUnit">[docs]</a><span class="k">class</span> <span class="nc">GetItemUnit</span><span class="p">(</span><span class="n">TransformUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for getting item from list, tuple or dict object, using ``__getitem__``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;item&#39;</span><span class="p">,)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GetItemUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.GetItemUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`GetItemUnit`.</span>
+
+<span class="sd">        :param item: Item data.</span>
+<span class="sd">        :param offset: Create offset when getting item, default is ``True``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span>
+        <span class="n">TransformUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">PValue</span><span class="p">:</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;item&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">item</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">except</span> <span class="bp">self</span><span class="o">.</span><span class="n">__errors__</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">type</span><span class="p">(</span><span class="n">err</span><span class="p">)(</span><span class="sa">f</span><span class="s1">&#39;Item </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="si">}</span><span class="s1"> not found in value.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_rinfo</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;offset&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">)],</span> <span class="n">children</span></div>
+
+
+<div class="viewcode-block" id="getitem_"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.getitem_">[docs]</a><span class="k">def</span> <span class="nf">getitem_</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GetItemUnit&#39;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Getting item from list, tuple and dict, based on ``__getitem__``.</span>
+
+<span class="sd">    :param item: Item to be got, units are supported.</span>
+<span class="sd">    :param offset: Enable offset or not, default is ``True``.</span>
+<span class="sd">    :return: A unit for getting item.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Get item from list and tuple</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import getitem_</span>
+<span class="sd">        &gt;&gt;&gt; u = getitem_(2)</span>
+<span class="sd">        &gt;&gt;&gt; u([2, 3, 5, 7, 11, 13])</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; u((2, 3, 5, 7, 11, 13))</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; u([2, 3])</span>
+<span class="sd">        IndexParseError: Item 2 not found in value.</span>
+
+<span class="sd">        - Get item from dict</span>
+
+<span class="sd">        &gt;&gt;&gt; u = getitem_(&#39;b&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;a&#39;: 12, &#39;b&#39;: 23})</span>
+<span class="sd">        23</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;b&#39;: 24, &#39;bb&#39;: 233})</span>
+<span class="sd">        24</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;a&#39;: 12, &#39;c&#39;: 23})</span>
+<span class="sd">        KeyParseError: &quot;Item &#39;b&#39; not found in value.&quot;</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        When :func:`getitem_` is used, the position of value will be switched to child-level. \</span>
+<span class="sd">        This can be seen when method :meth:`argsloader.units.base.BaseUnit.call` is called. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import getitem_, is_type</span>
+<span class="sd">        &gt;&gt;&gt; u = getitem_(2) &gt;&gt; is_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5.0])</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="sd">          &lt;root&gt;.2: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u = getitem_(&#39;b&#39;) &gt;&gt; is_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: 12, &#39;b&#39;: 23.0})</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="sd">          &lt;root&gt;.b: TypeParseError: Value type not match - int expected but float found.</span>
+
+<span class="sd">        But sometimes this offset should not be kept, so we can disable it. For example, in the following code, \</span>
+<span class="sd">        This positions of the errors are all ``&lt;root&gt;`` instead of ``&lt;root&gt;.2`` or ``&lt;root&gt;.b``.</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import getitem_, is_type</span>
+<span class="sd">        &gt;&gt;&gt; u = getitem_(2, offset=False) &gt;&gt; is_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5.0])</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="sd">          &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u = getitem_(&#39;b&#39;, offset=False) &gt;&gt; is_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: 12, &#39;b&#39;: 23.0})</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="sd">          &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">GetItemUnit</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">offset</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GetAttrUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.GetAttrUnit">[docs]</a><span class="k">class</span> <span class="nc">GetAttrUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for getting attribute from object, using ``__getattr__``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;attr&#39;</span><span class="p">,)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="GetAttrUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.GetAttrUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`GetAttrUnit`.</span>
+
+<span class="sd">        :param attr: Attribute data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;attr&#39;</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="getattr_"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.getattr_">[docs]</a><span class="k">def</span> <span class="nf">getattr_</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GetAttrUnit&#39;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Getting attribute from object, based on ``__getattr__``.</span>
+
+<span class="sd">    :param attr: Attribute to be got, units are supported.</span>
+<span class="sd">    :return: A unit for getting attribute.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import getattr_</span>
+<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; u = getattr_(&#39;a&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; u(EasyDict({&#39;a&#39;: 1, &#39;b&#39;: 2}))</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u = getattr_(&#39;__dict__&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; u(EasyDict({&#39;a&#39;: 1, &#39;b&#39;: 2}))</span>
+<span class="sd">        {&#39;a&#39;: 1, &#39;b&#39;: 2}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">GetAttrUnit</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StructUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.StructUnit">[docs]</a><span class="k">class</span> <span class="nc">StructUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for building structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StructUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.StructUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`StructUnit`.</span>
+
+<span class="sd">        :param struct_: Structure data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_struct</span> <span class="o">=</span> <span class="n">nested_map</span><span class="p">(</span><span class="n">_to_unit</span><span class="p">,</span> <span class="n">struct_</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">def</span> <span class="nf">_sprocess</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">):</span>
+            <span class="k">nonlocal</span> <span class="n">valid</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="n">records</span> <span class="o">=</span> <span class="n">nested_map</span><span class="p">(</span><span class="n">_sprocess</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_struct</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">r</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">records</span><span class="p">)),</span> <span class="n">records</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">records</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="p">[(</span><span class="s1">&#39;struct&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_struct</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="struct"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.struct">[docs]</a><span class="k">def</span> <span class="nf">struct</span><span class="p">(</span><span class="n">struct_</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Quickly build a structure, based on the given ``struct`` data.</span>
+
+<span class="sd">    :param struct_: Structure data, which should contain one or multiple units.</span>
+<span class="sd">    :return: Structed data, which has the same structure with the given ``struct_``.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; u = struct({</span>
+<span class="sd">        ...     &#39;a&#39;: add.by(2) &gt;&gt; interval.LR(1, 15),</span>
+<span class="sd">        ...     &#39;b&#39;: (sub.by(3), &#39;this is b&#39;),</span>
+<span class="sd">        ...     &#39;c&#39;: [233, mul.by(4)],</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; u(5)</span>
+<span class="sd">        {&#39;a&#39;: 7, &#39;b&#39;: (2, &#39;this is b&#39;), &#39;c&#39;: [233, 20]}</span>
+<span class="sd">        &gt;&gt;&gt; u(10)</span>
+<span class="sd">        {&#39;a&#39;: 12, &#39;b&#39;: (7, &#39;this is b&#39;), &#39;c&#39;: [233, 40]}</span>
+<span class="sd">        &gt;&gt;&gt; u(20)</span>
+<span class="sd">        ValueParseError: Value not in interval - [1, 15] expected but 22 found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Extended class of list, tuple or dict&#39;s type will be kept. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import struct, add, mul, sub, interval</span>
+<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; u = struct({</span>
+<span class="sd">        ...     &#39;a&#39;: add.by(2) &gt;&gt; interval.LR(1, 15),</span>
+<span class="sd">        ...     &#39;b&#39;: (sub.by(3), &#39;this is b&#39;),</span>
+<span class="sd">        ...     &#39;c&#39;: EasyDict({&#39;x&#39;: 233, &#39;y&#39;: mul.by(4)}),</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; u(5)</span>
+<span class="sd">        {&#39;a&#39;: 7, &#39;b&#39;: (2, &#39;this is b&#39;), &#39;c&#39;: {&#39;x&#39;: 233, &#39;y&#39;: 20}}</span>
+<span class="sd">        &gt;&gt;&gt; type(u(5))</span>
+<span class="sd">        &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; type(u(5)[&#39;c&#39;])</span>
+<span class="sd">        &lt;class &#39;easydict.EasyDict&#39;&gt;</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Like the ``&amp;`` operator, all the units will be executed, so all the errors will be recorded when \</span>
+<span class="sd">        method :meth:`argsloader.units.base.BaseUnit.call` is used. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import struct, add, mul, sub, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = struct({</span>
+<span class="sd">        ...     &#39;a&#39;: add.by(2) &gt;&gt; interval.LR(1, 10),</span>
+<span class="sd">        ...     &#39;b&#39;: (sub.by(3) &gt;&gt; interval.LR(0, 5), &#39;this is b&#39;),</span>
+<span class="sd">        ...     &#39;c&#39;: [233, mul.by(4) &gt;&gt; interval.LR(10, 30)],</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt; u.call(5)</span>
+<span class="sd">        {&#39;a&#39;: 7, &#39;b&#39;: (2, &#39;this is b&#39;), &#39;c&#39;: [233, 20]}</span>
+<span class="sd">        &gt;&gt;&gt; u.call(10)</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (3 errors)</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [1, 10] expected but 12 found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [0, 5] expected but 7 found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [10, 30] expected but 40 found.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        If the given ``struct_`` is not a dict, list or tuple, the return value will be a simple unit instead of \</span>
+<span class="sd">        :class:`StructUnit`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">struct_</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">StructUnit</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">struct_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MappingUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.MappingUnit">[docs]</a><span class="k">class</span> <span class="nc">MappingUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for processing sequence-based objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="MappingUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.MappingUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`MappingUnit`.</span>
+
+<span class="sd">        :param f: Processor function.</span>
+<span class="sd">        :param offset: Create offset when getting item, default is ``True``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span></div>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">lst</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">valid</span><span class="p">,</span> <span class="n">records</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+            <span class="n">iv</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">:</span>
+                <span class="n">iv</span> <span class="o">=</span> <span class="n">iv</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">iv</span><span class="p">)</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="n">valid</span> <span class="ow">and</span> <span class="n">res</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span>
+            <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">val</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">)(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">records</span><span class="p">))),</span> <span class="n">records</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">records</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[],</span> <span class="p">[(</span><span class="s1">&#39;func&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="mapping"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.mapping">[docs]</a><span class="k">def</span> <span class="nf">mapping</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MappingUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Mapping items from sequence based object.</span>
+
+<span class="sd">    :param func: Processor function for mapping.</span>
+<span class="sd">    :param offset: Enable offset or not, default is ``True``.</span>
+<span class="sd">    :return: A unit for mapping sequence based-object.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import mapping, interval, add</span>
+<span class="sd">        &gt;&gt;&gt; u = mapping(add.by(2) &gt;&gt; interval.LR(1, 10))</span>
+<span class="sd">        &gt;&gt;&gt; u([2, 3, 5, 7])</span>
+<span class="sd">        [4, 5, 7, 9]</span>
+<span class="sd">        &gt;&gt;&gt; u([2, 3, 5, 71, 11, 13])</span>
+<span class="sd">        ValueParseError: Value not in interval - [1, 10] expected but 73 found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        All the values will be processed by the unit, so all the errors will be recorded. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import mapping, interval, add</span>
+<span class="sd">        &gt;&gt;&gt; u = mapping(add.by(2) &gt;&gt; interval.LR(1, 10))</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5, 7])</span>
+<span class="sd">        [4, 5, 7, 9]</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5, 71, 11, 13])</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (3 errors)</span>
+<span class="sd">          &lt;root&gt;.3: ValueParseError: Value not in interval - [1, 10] expected but 73 found.</span>
+<span class="sd">          &lt;root&gt;.4: ValueParseError: Value not in interval - [1, 10] expected but 13 found.</span>
+<span class="sd">          &lt;root&gt;.5: ValueParseError: Value not in interval - [1, 10] expected but 15 found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Like function :func:`getitem_`, the position offset is enabled in default. But we can disable it \</span>
+<span class="sd">        when necessary. For example, in the following code, all the errors will be marked as ``&lt;root&gt;``.</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import mapping, interval, add</span>
+<span class="sd">        &gt;&gt;&gt; u = mapping(add.by(2) &gt;&gt; interval.LR(1, 10), offset=False)</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5, 7])</span>
+<span class="sd">        [4, 5, 7, 9]</span>
+<span class="sd">        &gt;&gt;&gt; u.call([2, 3, 5, 71, 11, 13])</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (3 errors)</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [1, 10] expected but 73 found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [1, 10] expected but 13 found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - [1, 10] expected but 15 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">MappingUnit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">offset</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="InUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.InUnit">[docs]</a><span class="k">class</span> <span class="nc">InUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for checking if one object is **in** another object, using ``__contains__`` method.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span>
+
+<div class="viewcode-block" id="InUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.InUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">collection</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`InUnit`.</span>
+
+<span class="sd">        :param instance: Instance to be checked.</span>
+<span class="sd">        :param collection: Collection to be checked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">instance</span><span class="p">,</span> <span class="n">collection</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;instance&#39;</span><span class="p">],</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">instance</span> <span class="ow">in</span> <span class="n">collection</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Collection should contain instance, &#39;</span>
+                           <span class="sa">f</span><span class="s1">&#39;but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span><span class="si">}</span><span class="s1"> is not included &#39;</span>
+                           <span class="sa">f</span><span class="s1">&#39;in </span><span class="si">{</span><span class="n">truncate</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">collection</span><span class="p">))</span><span class="si">}</span><span class="s1"> actually.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="in_"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.in_">[docs]</a><span class="k">def</span> <span class="nf">in_</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Containment check, using ``__contains__`` method.</span>
+
+<span class="sd">    :param instance: Instance to be checked.</span>
+<span class="sd">    :param collection: Collection to be checked.</span>
+<span class="sd">    :return: Unit for checking containment.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import in_, add, mul, struct</span>
+<span class="sd">        &gt;&gt;&gt; u = in_(add.by(2), struct([2, mul.by(2), 5]))</span>
+<span class="sd">        &gt;&gt;&gt; u(0)  # 2 in [2, 0, 5]</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(2)  # 4 in [2, 4, 5]</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; u(4)  # 6 in [2, 8, 5]</span>
+<span class="sd">        KeyParseError: &#39;Collection should contain instance, but 6 is not included in [2, 8, 5] actually.&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">InUnit</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">collection</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="isin"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.isin">[docs]</a><span class="k">def</span> <span class="nf">isin</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Containment check, the same as ``in_(keep(), collection)``.</span>
+
+<span class="sd">    :param collection: Collection to be checked.</span>
+<span class="sd">    :return: Unit for checking containment.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import isin, add, mul</span>
+<span class="sd">        &gt;&gt;&gt; u = add.by(2) &gt;&gt; mul.by(3) &gt;&gt; isin([9, 0, 12])</span>
+<span class="sd">        &gt;&gt;&gt; u(1)  # 9 in [9, 0, 12]</span>
+<span class="sd">        9</span>
+<span class="sd">        &gt;&gt;&gt; u(2)  # 12 in [9, 0, 12]</span>
+<span class="sd">        12</span>
+<span class="sd">        &gt;&gt;&gt; u(3)  # 15 in [9, 0, 12]</span>
+<span class="sd">        KeyParseError: &#39;Collection should contain instance, but 15 is not included in [9, 0, 12] actually.&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">in_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="n">collection</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="contains"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.contains">[docs]</a><span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Containment check, the same as ``in_(instance, keep())``.</span>
+
+<span class="sd">    :param instance: Instance to be checked.</span>
+<span class="sd">    :return: Unit for checking containment.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import contains, add, mul, struct</span>
+<span class="sd">        &gt;&gt;&gt; u = struct([add.by(2), mul.by(2), 10]) &gt;&gt; contains(8)</span>
+<span class="sd">        &gt;&gt;&gt; u(4)  # 8 in [6, 8, 10]</span>
+<span class="sd">        [6, 8, 10]</span>
+<span class="sd">        &gt;&gt;&gt; u(6)  # 8 in [8, 12, 10]</span>
+<span class="sd">        [8, 12, 10]</span>
+<span class="sd">        &gt;&gt;&gt; u(7)  # 8 in [9, 14, 10]</span>
+<span class="sd">        KeyParseError: &#39;Collection should contain instance, but 8 is not included in [9, 14, 10] actually.&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">in_</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">keep</span><span class="p">())</span></div>
+
+
+<span class="n">UNIT_KEEP</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;CVALUE_UNIT_KEEP&#39;</span><span class="p">)</span>
+<span class="n">DEFAULT_REQUIRED</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;CVALUE_DEFAULT_REQUIRED&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="crequired"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.crequired">[docs]</a><span class="k">def</span> <span class="nf">crequired</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get a mark which means this value is required.</span>
+
+<span class="sd">        See :func:`cdict`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DEFAULT_REQUIRED</span></div>
+
+
+<span class="k">class</span> <span class="nc">_CDefaultValidation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ucheck</span><span class="p">,</span> <span class="n">udefault</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ucheck</span> <span class="o">=</span> <span class="n">ucheck</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">udefault</span> <span class="o">=</span> <span class="n">udefault</span>
+
+
+<div class="viewcode-block" id="cvalue"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.cvalue">[docs]</a><span class="k">def</span> <span class="nf">cvalue</span><span class="p">(</span><span class="n">default_</span><span class="p">,</span> <span class="n">ucheck</span><span class="o">=</span><span class="n">UNIT_KEEP</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_CDefaultValidation</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get a value validation mark which means this value item has a default value and some validations.</span>
+
+<span class="sd">        See :func:`cdict`.</span>
+
+<span class="sd">    :param default_: Default value of this item.</span>
+<span class="sd">    :param ucheck: Check unit for this item, default means just do not do any validation.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The validation will be processed after item&#39;s getting and default value&#39;s applying. \</span>
+<span class="sd">        This means the given ``default_`` will be processed by ``ucheck`` as well.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        Do not use unit object in ``default_`` parameter, \</span>
+<span class="sd">        which will be processed with :func:`argsloader.units.base.raw`. \</span>
+<span class="sd">        Some unexpected result will be caused due to this misuse.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ucheck</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="k">if</span> <span class="n">ucheck</span> <span class="ow">is</span> <span class="n">UNIT_KEEP</span> <span class="k">else</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">ucheck</span><span class="p">)</span>
+    <span class="n">udefault</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">default_</span> <span class="ow">is</span> <span class="n">DEFAULT_REQUIRED</span> <span class="k">else</span> <span class="n">raw</span><span class="p">(</span><span class="n">default_</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_CDefaultValidation</span><span class="p">(</span><span class="n">ucheck</span><span class="p">,</span> <span class="n">udefault</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="cdict"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.cdict">[docs]</a><span class="k">def</span> <span class="nf">cdict</span><span class="p">(</span><span class="n">dict_</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Build a :func:`struct` unit to parse dict-based data, with some slight validations.</span>
+
+<span class="sd">    :param dict_: Dict-based metadata.</span>
+<span class="sd">    :return: A :func:`struct` unit.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number</span>
+<span class="sd">        &gt;&gt;&gt; u = cdict({</span>
+<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
+<span class="sd">        ...     &#39;b&#39;: crequired(),</span>
+<span class="sd">        ...     &#39;c&#39;: EasyDict({</span>
+<span class="sd">        ...         &#39;x&#39;: cvalue(4, is_type(int) &gt;&gt; add.by(10)),</span>
+<span class="sd">        ...         &#39;y&#39;: cvalue(crequired(), is_type(int) &amp; interval.LR(0, 10)),</span>
+<span class="sd">        ...     })</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 7, &#39;y&#39;: 9}})</span>
+<span class="sd">        {&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9}}</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0xff&#39;, &#39;b&#39;: -2, &#39;c&#39;: {&#39;y&#39;: 4}})</span>
+<span class="sd">        {&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4}}</span>
+<span class="sd">        &gt;&gt;&gt; u.call({&#39;a&#39;: &#39;0b101011&#39;, &#39;c&#39;: {&#39;x&#39;: 6.0, &#39;y&#39;: 100.0}})</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (4 errors)</span>
+<span class="sd">          &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
+<span class="sd">          &lt;root&gt;.c.x: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This :func:`cdict` is just a syntactic sugar for struct and various validation units. For the abovementioned \</span>
+<span class="sd">        unit is actually structed as the following structure</span>
+
+<span class="sd">        &gt;&gt;&gt; from easydict import EasyDict</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number</span>
+<span class="sd">        &gt;&gt;&gt; u = cdict({</span>
+<span class="sd">        ...     &#39;a&#39;: cvalue(1, number()),</span>
+<span class="sd">        ...     &#39;b&#39;: crequired(),</span>
+<span class="sd">        ...     &#39;c&#39;: EasyDict({</span>
+<span class="sd">        ...         &#39;x&#39;: cvalue(4, is_type(int) &gt;&gt; add.by(10)),</span>
+<span class="sd">        ...         &#39;y&#39;: cvalue(crequired(), is_type(int) &amp; interval.LR(0, 10)),</span>
+<span class="sd">        ...     })</span>
+<span class="sd">        ... })</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u</span>
+<span class="sd">        &lt;StructUnit&gt;</span>
+<span class="sd">        └── struct --&gt; dict(a, b, c)</span>
+<span class="sd">            ├── a --&gt; &lt;PipeUnit count: 2&gt;</span>
+<span class="sd">            │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
+<span class="sd">            │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">            │   │   │   └── item --&gt; &#39;a&#39;</span>
+<span class="sd">            │   │   └── 1 --&gt; 1</span>
+<span class="sd">            │   └── 1 --&gt; &lt;NumberUnit&gt;</span>
+<span class="sd">            ├── b --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">            │   └── item --&gt; &#39;b&#39;</span>
+<span class="sd">            └── c --&gt; EasyDict(x, y)</span>
+<span class="sd">                ├── x --&gt; &lt;PipeUnit count: 2&gt;</span>
+<span class="sd">                │   ├── 0 --&gt; &lt;OrUnit count: 2&gt;</span>
+<span class="sd">                │   │   ├── 0 --&gt; &lt;PipeUnit count: 2&gt;</span>
+<span class="sd">                │   │   │   ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">                │   │   │   │   └── item --&gt; &#39;c&#39;</span>
+<span class="sd">                │   │   │   └── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">                │   │   │       └── item --&gt; &#39;x&#39;</span>
+<span class="sd">                │   │   └── 1 --&gt; 4</span>
+<span class="sd">                │   └── 1 --&gt; &lt;PipeUnit count: 2&gt;</span>
+<span class="sd">                │       ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
+<span class="sd">                │       │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
+<span class="sd">                │       └── 1 --&gt; &lt;AddOpUnit&gt;</span>
+<span class="sd">                │           ├── v1 --&gt; &lt;KeepUnit&gt;</span>
+<span class="sd">                │           └── v2 --&gt; 10</span>
+<span class="sd">                └── y --&gt; &lt;PipeUnit count: 3&gt;</span>
+<span class="sd">                    ├── 0 --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">                    │   └── item --&gt; &#39;c&#39;</span>
+<span class="sd">                    ├── 1 --&gt; &lt;GetItemUnit offset: True&gt;</span>
+<span class="sd">                    │   └── item --&gt; &#39;y&#39;</span>
+<span class="sd">                    └── 2 --&gt; &lt;AndUnit count: 2&gt;</span>
+<span class="sd">                        ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
+<span class="sd">                        │   └── type --&gt; &lt;class &#39;int&#39;&gt;</span>
+<span class="sd">                        └── 1 --&gt; &lt;IntervalUnit&gt;</span>
+<span class="sd">                            └── condition --&gt; &lt;ValidityUnit&gt;</span>
+<span class="sd">                                └── unit --&gt; &lt;AndUnit count: 2&gt;</span>
+<span class="sd">                                    ├── 0 --&gt; &lt;GeCheckUnit&gt;</span>
+<span class="sd">                                    │   ├── v1 --&gt; &lt;KeepUnit&gt;</span>
+<span class="sd">                                    │   └── v2 --&gt; 0</span>
+<span class="sd">                                    └── 1 --&gt; &lt;LeCheckUnit&gt;</span>
+<span class="sd">                                        ├── v1 --&gt; &lt;KeepUnit&gt;</span>
+<span class="sd">                                        └── v2 --&gt; 10</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+        <span class="n">gitem</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="fm">__rshift__</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">getitem_</span><span class="p">,</span> <span class="n">path</span><span class="p">))</span> <span class="k">if</span> <span class="n">path</span> <span class="k">else</span> <span class="n">keep</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">_CDefaultValidation</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">udefault</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">gitem</span> <span class="o">|</span> <span class="n">d</span><span class="o">.</span><span class="n">udefault</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">ucheck</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">gitem</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">ucheck</span>
+        <span class="k">elif</span> <span class="n">d</span> <span class="ow">is</span> <span class="n">DEFAULT_REQUIRED</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gitem</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)({</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gitem</span> <span class="o">|</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">struct</span><span class="p">(</span><span class="n">_recursion</span><span class="p">(</span><span class="n">dict_</span><span class="p">,</span> <span class="p">()))</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/cdict
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="structure.html">dev/cdict</a></dd>
+                        <dd><a href="../../../../dmask/index.html">dev/dmask</a></dd>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

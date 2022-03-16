@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.type &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>argsloader.units.type</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for argsloader.units.type</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CalculateUnit</span>
+
+
+<span class="k">def</span> <span class="nf">_type_full_name</span><span class="p">(</span><span class="n">type_</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">module_name</span> <span class="o">=</span> <span class="n">type_</span><span class="o">.</span><span class="vm">__module__</span>
+    <span class="k">if</span> <span class="n">module_name</span> <span class="ow">and</span> <span class="n">module_name</span> <span class="o">!=</span> <span class="s1">&#39;builtins&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="vm">__qualname__</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">type_</span><span class="o">.</span><span class="vm">__qualname__</span>
+
+
+<span class="k">def</span> <span class="nf">_tname</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">type_</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_type_full_name</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_type_full_name</span><span class="p">,</span> <span class="n">type_</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+
+
+<div class="viewcode-block" id="IsTypeUnit"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.IsTypeUnit">[docs]</a><span class="k">class</span> <span class="nc">IsTypeUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for checking the data&#39;s type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="IsTypeUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.IsTypeUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`IsTypeUnit`.</span>
+
+<span class="sd">        :param type_: Type unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">pres</span><span class="p">):</span>
+        <span class="n">type_</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="c1"># noinspection PyTypeHints</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Value type not match - </span><span class="si">{</span><span class="n">_tname</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span><span class="si">}</span><span class="s1"> expected but </span><span class="si">{</span><span class="n">_tname</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_type"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.is_type">[docs]</a><span class="k">def</span> <span class="nf">is_type</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IsTypeUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the input data is an instance of the given type.</span>
+
+<span class="sd">    :param type_: Type or type unit.</span>
+<span class="sd">    :return: A is-type unit object.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(1.0)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">IsTypeUnit</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ToTypeUnit"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.ToTypeUnit">[docs]</a><span class="k">class</span> <span class="nc">ToTypeUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for transforming the input data to the given type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToTypeUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.ToTypeUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`ToTypeUnit`.</span>
+
+<span class="sd">        :param type_: Type unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">pres</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">type_</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">type_</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_type"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.to_type">[docs]</a><span class="k">def</span> <span class="nf">to_type</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToTypeUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Turn the input data to the given type.</span>
+
+<span class="sd">    :param type_: Type or type unit.</span>
+<span class="sd">    :return: A to-type unit object.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import to_type</span>
+<span class="sd">        &gt;&gt;&gt; u = to_type(int)</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(1.2)</span>
+<span class="sd">        1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">ToTypeUnit</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="IsSubclassUnit"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.IsSubclassUnit">[docs]</a><span class="k">class</span> <span class="nc">IsSubclassUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for checking if the object is subclass of the given type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__names__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;type&#39;</span><span class="p">,)</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="IsSubclassUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.IsSubclassUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`IsSubclassUnit`.</span>
+
+<span class="sd">        :param type_: Type unit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">type_</span><span class="p">:</span> <span class="nb">type</span> <span class="o">=</span> <span class="n">pres</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="c1"># noinspection PyTypeHints,PyTypeChecker</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">type_</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Value type not match - </span><span class="si">{</span><span class="n">_tname</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span><span class="si">}</span><span class="se">\&#39;</span><span class="s1">s subclass expected but </span><span class="si">{</span><span class="n">_tname</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_subclass"><a class="viewcode-back" href="../../../api_doc/units/type.html#argsloader.units.type.is_subclass">[docs]</a><span class="k">def</span> <span class="nf">is_subclass</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IsSubclassUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the input is a subclass of the given ``type_``.</span>
+
+<span class="sd">    :param type_: Type unit.</span>
+<span class="sd">    :return: A is-subclass unit object.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_subclass</span>
+<span class="sd">        &gt;&gt;&gt; class A(dict): pass</span>
+<span class="sd">        ...</span>
+<span class="sd">        &gt;&gt;&gt; u = is_subclass(dict)</span>
+<span class="sd">        &gt;&gt;&gt; u(dict)</span>
+<span class="sd">        &lt;class &#39;dict&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u(A)</span>
+<span class="sd">        &lt;class &#39;__main__.A&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; u(int)</span>
+<span class="sd">        TypeParseError: Value type not match - dict&#39;s subclass expected but type found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">type</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">IsSubclassUnit</span><span class="p">(</span><span class="n">type_</span><span class="p">)</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/cdict
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="type.html">dev/cdict</a></dd>
+                        <dd><a href="../../../../dmask/index.html">dev/dmask</a></dd>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

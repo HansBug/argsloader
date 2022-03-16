@@ -429,3 +429,29 @@ class TestUnitsStructure:
             u.call({'b': 2.0, 'c': {'y': 12.0}})
         err = ei.value
         assert len(err.items) == 5
+
+    # noinspection DuplicatedCode
+    def test_cdict_nested(self):
+        ux = cdict({
+            'x': cvalue(3, is_type(int) >> add.by(2)),
+            'y': cvalue(4, is_type(int) & interval.LR(0, 10)),
+        })
+        u = cdict({
+            'a': 1,
+            'b': cvalue(2, is_type(int)),
+            'c': ux,
+        })
+        assert u({}) == {'a': 1, 'b': 2, 'c': {'x': 5, 'y': 4}}
+        assert u({'a': 5, 'b': 4, 'c': {'x': 18}}) == {'a': 5, 'b': 4, 'c': {'x': 20, 'y': 4}}
+
+        with pytest.raises(ParseError) as ei:
+            u({'b': 2.0})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'c': {'x': 3.0}})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)

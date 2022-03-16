@@ -7,7 +7,7 @@ from hbutils.design import SingletonMark
 from hbutils.string import truncate
 
 from .base import BaseUnit, _to_unit, UnitProcessProxy, raw
-from .build import TransformUnit, CalculateUnit
+from .build import TransformUnit, CalculateUnit, WrapperUnit
 from .utils import keep
 from ..base import PValue, ParseResult
 
@@ -469,6 +469,16 @@ def cvalue(default_, ucheck=UNIT_KEEP) -> _CDefaultValidation:
     return _CDefaultValidation(ucheck, udefault)
 
 
+class CDictWrapUnit(WrapperUnit):
+    def __init__(self, data, unit):
+        WrapperUnit.__init__(self, unit)
+        self.__data = data
+
+    @property
+    def data(self):
+        return self.__data
+
+
 def cdict(dict_: dict):
     """
     Overview:
@@ -478,27 +488,78 @@ def cdict(dict_: dict):
     :return: A :func:`struct` unit.
 
     Examples::
-        >>> from easydict import EasyDict
+        - Simple usage
+
         >>> from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number
         >>> u = cdict({
-        ...     'a': cvalue(1, number()),
-        ...     'b': crequired(),
-        ...     'c': EasyDict({
+        ...     'a': cvalue(1, number()),  # default value with validation
+        ...     'b': crequired(),  # required value
+        ...     'c': {
         ...         'x': cvalue(4, is_type(int) >> add.by(10)),
         ...         'y': cvalue(crequired(), is_type(int) & interval.LR(0, 10)),
-        ...     })
+        ...         'z': 5,  # simple default value
+        ...     },
         ... })
-        >>>
         >>> u.call({'a': 5, 'b': 10, 'c': {'x': 7, 'y': 9}})
-        {'a': 5, 'b': 10, 'c': {'x': 17, 'y': 9}}
+        {'a': 5, 'b': 10, 'c': {'x': 17, 'y': 9, 'z': 5}}
         >>> u.call({'a': '0xff', 'b': -2, 'c': {'y': 4}})
-        {'a': 255, 'b': -2, 'c': {'x': 14, 'y': 4}}
+        {'a': 255, 'b': -2, 'c': {'x': 14, 'y': 4, 'z': 5}}
         >>> u.call({'a': '0b101011', 'c': {'x': 6.0, 'y': 100.0}})
         argsloader.base.exception.MultipleParseError: (4 errors)
           <root>: KeyParseError: Item 'b' not found in value.
           <root>.c.x: TypeParseError: Value type not match - int expected but float found.
           <root>.c.y: TypeParseError: Value type not match - int expected but float found.
           <root>.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.
+
+        - Keep the original type
+
+        >>> from easydict import EasyDict
+        >>> from argsloader.units import cdict, cvalue, number
+        >>> u = cdict(EasyDict({
+        ...     'a': cvalue(1, number()),
+        ...     'b': crequired(),
+        ... }))
+        >>> u.call({'a': '0xff', 'b': -2})
+        {'a': 255, 'b': -2}
+        >>> isinstance(u.call({'a': '0xff', 'b': -2}), EasyDict)
+        True
+
+        - Nested usage
+
+        >>> from argsloader.units import cdict, cvalue, is_type, crequired, add, interval, number
+        >>> u = cdict({
+        ...     'a': cvalue(1, number()),
+        ...     'b': crequired(),
+        ...     'c': cdict({  # inner cdict can be used
+        ...         'x': cvalue(4, is_type(int) >> add.by(10)),
+        ...         'y': cvalue(crequired(), is_type(int) & interval.LR(0, 10)),
+        ...         'z': 5,
+        ...     }),
+        ... })
+        >>> u.call({'a': 5, 'b': 10, 'c': {'x': 7, 'y': 9}})
+        {'a': 5, 'b': 10, 'c': {'x': 17, 'y': 9, 'z': 5}}
+        >>> u.call({'a': '0xff', 'b': -2, 'c': {'y': 4}})
+        {'a': 255, 'b': -2, 'c': {'x': 14, 'y': 4, 'z': 5}}
+        >>> u.call({'a': '0b101011', 'c': {'x': 6.0, 'y': 100.0}})
+        argsloader.base.exception.MultipleParseError: (4 errors)
+          <root>: KeyParseError: Item 'b' not found in value.
+          <root>.c.x: TypeParseError: Value type not match - int expected but float found.
+          <root>.c.y: TypeParseError: Value type not match - int expected but float found.
+          <root>.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.
+
+    .. warning::
+        Attention that the value items which not appeared in the ``dict_`` value will be ignored. \
+        This means the parsing result of function :func:`cdict` will have exactly the same structure \
+        as ``dict_``. For example
+
+        >>> from easydict import EasyDict
+        >>> from argsloader.units import cdict, cvalue, number
+        >>> u = cdict(EasyDict({
+        ...     'a': cvalue(1, number()),
+        ...     'b': crequired(),
+        ... }))
+        >>> u.call({'a': '0xff', 'b': -2, 'z': 174})  # z is ignored
+        {'a': 255, 'b': -2}
 
     """
 
@@ -516,7 +577,10 @@ def cdict(dict_: dict):
                 key: _recursion(value, (*path, key))
                 for key, value in d.items()
             })
+        elif isinstance(d, CDictWrapUnit):
+            return _recursion(d.data, path)
         else:
             return gitem | _to_unit(d)
 
-    return struct(_recursion(dict_, ()))
+    unit = struct(_recursion(dict_, ()))
+    return CDictWrapUnit(dict_, unit)

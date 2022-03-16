@@ -7,7 +7,7 @@ import wordninja
 from hbutils.design import SingletonMark
 from hbutils.reflection import fassign
 
-from .base import CalculateUnit
+from .build import CalculateUnit
 from .utils import keep
 from ..base import ParseError
 

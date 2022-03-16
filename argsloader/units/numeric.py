@@ -1,7 +1,8 @@
 import math
 from typing import List, Tuple, Union, Mapping, Any
 
-from .base import UncompletedUnit, CalculateUnit
+from .base import UncompletedUnit
+from .build import CalculateUnit
 from .mathop import le, lt, ge, gt
 
 

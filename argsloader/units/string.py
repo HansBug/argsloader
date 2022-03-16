@@ -4,7 +4,8 @@ from typing import Mapping, Any
 from hbutils.collection import nested_map
 from hbutils.string import env_template, truncate
 
-from .base import CalculateUnit, _to_unit, UncompletedUnit
+from .base import _to_unit, UncompletedUnit
+from .build import CalculateUnit
 from .structure import getitem_, struct
 from .utils import check, CheckUnit
 

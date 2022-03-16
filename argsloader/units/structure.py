@@ -3,7 +3,8 @@ from typing import Mapping, Any, Union, Tuple, List
 from hbutils.collection import nested_map
 from hbutils.string import truncate
 
-from .base import CalculateUnit, BaseUnit, _to_unit, UnitProcessProxy, TransformUnit
+from .base import BaseUnit, _to_unit, UnitProcessProxy
+from .build import TransformUnit, CalculateUnit
 from .utils import keep
 from ..base import PValue, ParseResult
 

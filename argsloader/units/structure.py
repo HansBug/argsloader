@@ -7,7 +7,7 @@ from hbutils.design import SingletonMark
 from hbutils.string import truncate
 
 from .base import BaseUnit, _to_unit, UnitProcessProxy, raw
-from .build import TransformUnit, CalculateUnit, WrapperUnit
+from .build import TransformUnit, CalculateUnit, UnitBuilder
 from .utils import keep
 from ..base import PValue, ParseResult
 
@@ -469,14 +469,18 @@ def cvalue(default_, ucheck=UNIT_KEEP) -> _CDefaultValidation:
     return _CDefaultValidation(ucheck, udefault)
 
 
-class CDictWrapUnit(WrapperUnit):
-    def __init__(self, data, unit):
-        WrapperUnit.__init__(self, unit)
+class CDictBuilder(UnitBuilder):
+    def __init__(self, unit, data):
+        UnitBuilder.__init__(self)
+        self.__unit = unit
         self.__data = data
 
     @property
     def data(self):
         return self.__data
+
+    def _build(self) -> BaseUnit:
+        return self.__unit
 
 
 def cdict(dict_: dict):
@@ -577,10 +581,10 @@ def cdict(dict_: dict):
                 key: _recursion(value, (*path, key))
                 for key, value in d.items()
             })
-        elif isinstance(d, CDictWrapUnit):
+        elif isinstance(d, CDictBuilder):
             return _recursion(d.data, path)
         else:
             return gitem | _to_unit(d)
 
     unit = struct(_recursion(dict_, ()))
-    return CDictWrapUnit(dict_, unit)
+    return CDictBuilder(unit, dict_)

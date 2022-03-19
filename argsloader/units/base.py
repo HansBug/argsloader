@@ -51,7 +51,7 @@ class _UnitModel(_ITreeFormat):
     def __call__(self, v):
         raise NotImplementedError  # pragma: no cover
 
-    def call(self, v, err_mode='first'):
+    def call(self, v, err_mode='ALL'):
         raise NotImplementedError  # pragma: no cover
 
     def log(self, v) -> ParseResult:
@@ -89,7 +89,7 @@ class UncompletedUnit(_UnitModel):
         """
         return self._fail()
 
-    def call(self, v, err_mode='first'):
+    def call(self, v, err_mode='ALL'):
         """
         Calculate with given value, similar to :meth:`__call__`.
 
@@ -374,10 +374,13 @@ def raw(v) -> ValueUnit:
 
 
 def _to_unit(v) -> BaseUnit:
+    from .build import UnitBuilder
     if isinstance(v, UncompletedUnit):
         getattr(v, '_fail')()
     elif isinstance(v, BaseUnit):
         return v
+    elif isinstance(v, UnitBuilder):
+        return v.unit
     else:
         from .func import _FUNC_TYPES
         if isinstance(v, _FUNC_TYPES):

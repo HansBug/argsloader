@@ -4,9 +4,9 @@ from typing import Mapping, Any
 import pytest
 from hbutils.collection import nested_map
 
-from argsloader.base import ParseError, PValue
-from argsloader.units import to_type, is_type
-from argsloader.units.build import TransformUnit, CalculateUnit, WrapperUnit
+from argsloader.base import ParseError, PValue, MultipleParseError
+from argsloader.units import to_type, is_type, add, mul
+from argsloader.units.build import TransformUnit, CalculateUnit, UnitBuilder, BaseUnit
 
 
 @pytest.mark.unittest
@@ -93,15 +93,67 @@ class TestUnitsBuild:
         assert isinstance(err, ValueError)
         assert err.args == ('verr', [-3, 2, -3, -3], 2)
 
-    def test_wrapper_unit(self):
-        original_unit = is_type(int)
-        u = WrapperUnit(original_unit)
-        assert u.wrapped is original_unit
+    def test_unit_builder(self):
+        class LinearFunctionBuilder(UnitBuilder):
+            def __init__(self, k, b_):
+                UnitBuilder.__init__(self)
+                self.__k = k
+                self.__b = b_
 
-        assert u(1) == 1
-        assert u(2) == 2
+            def _build(self) -> BaseUnit:
+                return is_type((float, int)) >> mul.by(self.__k) >> add.by(self.__b)
+
+        b = LinearFunctionBuilder(2, 3)
+        assert b(5) == 13
+        assert b(0.5) == 4.0
         with pytest.raises(ParseError) as ei:
-            u('str')
+            b('dfsj')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        assert b.call(5) == 13
+        assert b.call(0.5) == 4.0
+        with pytest.raises(MultipleParseError) as ei:
+            b.call('dfsj')
+        err = ei.value
+        assert len(err.items) == 1
+
+        r = b.log(5)
+        assert r.result.value == 13
+        assert r.status.valid
+        r = b.log(0.5)
+        assert r.result.value == 4.0
+        assert r.status.valid
+        r = b.log('dfsj')
+        assert r.status.processed
+        assert not r.status.valid
+
+        assert b.validity(5) is True
+        assert b.validity(4.0) is True
+        assert b.validity('sdlfjk') is False
+
+        assert repr(b).strip() == dedent("""
+<LinearFunctionBuilder, unit:
+  <PipeUnit count: 3>
+  ├── 0 --> <IsTypeUnit>
+  │   └── type --> tuple(2)
+  │       ├── 0 --> <class 'float'>
+  │       └── 1 --> <class 'int'>
+  ├── 1 --> <MulOpUnit>
+  │   ├── v1 --> <KeepUnit>
+  │   └── v2 --> 2
+  └── 2 --> <AddOpUnit>
+      ├── v1 --> <KeepUnit>
+      └── v2 --> 3
+>
+        """).strip()
+
+        u = b >> mul.by(-1)
+        assert u(5) == -13
+        assert u(0.5) == -4.0
+        with pytest.raises(ParseError) as ei:
+            u('dfsj')
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, TypeError)

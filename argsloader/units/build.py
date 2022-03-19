@@ -1,9 +1,10 @@
+from textwrap import dedent, indent
 from typing import Mapping, Any
 
 from hbutils.collection import nested_map
 from hbutils.string import plural_word
 
-from .base import BaseUnit, _to_unit, UnitProcessProxy
+from .base import BaseUnit, _to_unit, UnitProcessProxy, _UnitModel
 from ..base import PValue, ParseResult, ParseError
 
 
@@ -116,28 +117,112 @@ class CalculateUnit(TransformUnit):
         raise NotImplementedError  # pragma: no cover
 
 
-class WrapperUnit(TransformUnit):
+class UnitBuilder(_UnitModel):
     """
-    Overview:
-        Simple wrapper unit, .
+    A builder for units.
     """
-    __names__ = ('wrapped',)
 
-    def __init__(self, wrapped: BaseUnit):
+    def __init__(self):
         """
-        Constructor of :class:`WrapperUnit`.
+        Constructor of class :class:`UnitBuilder`.
+        """
+        self.__cached_unit = None
 
-        :param wrapped: Wrapped unit.
+    def _rinfo(self):
         """
-        TransformUnit.__init__(self, _to_unit(wrapped))
-        self.__wrapped = wrapped
+        .. warning::
+            Method :meth:`_rinfo` is useless for :class:`UnitBuilder`.
+        """
+        assert False, 'Should not reach here!'  # pragma: no cover
 
     @property
-    def wrapped(self) -> BaseUnit:
+    def unit(self) -> BaseUnit:
         """
-        Wrapped unit.
+        Get built unit from this builder.
         """
-        return self.__wrapped
+        if self.__cached_unit is None:
+            self.__cached_unit = self._build()
+        return self.__cached_unit
 
-    def _transform(self, v: PValue, pres: Mapping[str, Any]) -> PValue:
-        return pres['wrapped']
+    def _build(self) -> BaseUnit:
+        """
+        Build a unit by the given variables.
+        :return: A built unit.
+
+        .. note::
+            This method will be only executed once. \
+            The built unit will be cached in class :class:`UnitBuilder`.
+        """
+        raise NotImplementedError  # pragma: no cover
+
+    def __call__(self, v):
+        """
+        Calculate with given value.
+
+        See :meth:`argsloader.units.base.BaseUnit.__call__`.
+        """
+        return self.unit.__call__(v)
+
+    def call(self, v, err_mode='ALL'):
+        """
+        Calculate with given value, similar to :meth:`__call__`.
+
+        See :meth:`argsloader.units.based.BaseUnit.call`.
+        """
+        return self.unit.call(v, err_mode)
+
+    def log(self, v) -> ParseResult:
+        """
+        Get full log of this parsing process.
+
+        See :meth:`argsloader.units.based.BaseUnit.log`.
+        """
+        return self.unit.log(v)
+
+    @property
+    def validity(self) -> 'BaseUnit':
+        """
+        Validity of this unit.
+
+        See :attr:`argsloader.units.based.BaseUnit.validity`.
+        """
+        return self.unit.validity
+
+    def __repr__(self):
+        """
+        Get representation format of this builder.
+
+        Examples::
+            >>> from argsloader.units import is_type, mul, add
+            >>> from argsloader.units.base import BaseUnit
+            >>> from argsloader.units.build import UnitBuilder
+            >>>
+            >>> class LinearFunctionBuilder(UnitBuilder):
+            ...     def __init__(self, k, b_):
+            ...         UnitBuilder.__init__(self)
+            ...         self.__k = k
+            ...         self.__b = b_
+            ...
+            ...     def _build(self) -> BaseUnit:
+            ...         return is_type((float, int)) >> mul.by(self.__k) >> add.by(self.__b)
+            ...
+            >>> LinearFunctionBuilder(2, 3)
+            <LinearFunctionBuilder, unit:
+              <PipeUnit count: 3>
+              ├── 0 --> <IsTypeUnit>
+              │   └── type --> tuple(2)
+              │       ├── 0 --> <class 'float'>
+              │       └── 1 --> <class 'int'>
+              ├── 1 --> <MulOpUnit>
+              │   ├── v1 --> <KeepUnit>
+              │   └── v2 --> 2
+              └── 2 --> <AddOpUnit>
+                  ├── v1 --> <KeepUnit>
+                  └── v2 --> 3
+            >
+        """
+        return dedent(f"""
+<{type(self).__name__}, unit:
+{indent(repr(self.unit), "  ").rstrip()}
+>
+""").lstrip()

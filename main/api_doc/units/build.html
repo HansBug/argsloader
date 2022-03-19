@@ -1,0 +1,396 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.build &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.units.enum" href="enum.html" />
+    <link rel="prev" title="argsloader.units.base" href="base.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.build</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#transformunit">TransformUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#calculateunit">CalculateUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wrapperunit">WrapperUnit</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numeric.html">argsloader.units.numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator.html">argsloader.units.operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">argsloader.units.resource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="status.html">argsloader.units.status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html">argsloader.units.string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html">argsloader.units.structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type.html">argsloader.units.type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">argsloader.units.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.units</a> &raquo;</li>
+        
+      <li>argsloader.units.build</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/units/build.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.units.build">
+<span id="argsloader-units-build"></span><h1>argsloader.units.build<a class="headerlink" href="#module-argsloader.units.build" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="transformunit">
+<h2>TransformUnit<a class="headerlink" href="#transformunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.build.TransformUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.build.</code><code class="sig-name descname">TransformUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#TransformUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.TransformUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Common transform unit.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.build.TransformUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#TransformUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.TransformUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.base.TransformUnit</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>values</strong> – Values need to be pre-processed, should be mapped one-to-one with <code class="docutils literal notranslate"><span class="pre">__names__</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.TransformUnit._easy_process">
+<code class="sig-name descname">_easy_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">proxy</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy">argsloader.units.base.UnitProcessProxy</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/build.html#TransformUnit._easy_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.TransformUnit._easy_process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Easy process method, <code class="docutils literal notranslate"><span class="pre">proxy</span></code> can be used to quickly build parse result object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>proxy</strong> – Proxy object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Parse result object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.TransformUnit._transform">
+<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/build.html#TransformUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.TransformUnit._transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="calculateunit">
+<h2>CalculateUnit<a class="headerlink" href="#calculateunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.build.CalculateUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.build.</code><code class="sig-name descname">CalculateUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#CalculateUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.CalculateUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Simple value calculation unit.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.build.CalculateUnit._calculate">
+<code class="sig-name descname">_calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">object</span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; object<a class="reference internal" href="../../_modules/argsloader/units/build.html#CalculateUnit._calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.CalculateUnit._calculate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original value.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned value.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.CalculateUnit._transform">
+<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/build.html#CalculateUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.CalculateUnit._transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
+<li><p><strong>pres</strong> – Pre-processed values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="wrapperunit">
+<h2>WrapperUnit<a class="headerlink" href="#wrapperunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.build.WrapperUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.build.</code><code class="sig-name descname">WrapperUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrapped</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#WrapperUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.WrapperUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Simple wrapper unit, .</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.build.WrapperUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrapped</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#WrapperUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.WrapperUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.build.WrapperUnit" title="argsloader.units.build.WrapperUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapperUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>wrapped</strong> – Wrapped unit.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.WrapperUnit.wrapped">
+<em class="property">property </em><code class="sig-name descname">wrapped</code><a class="headerlink" href="#argsloader.units.build.WrapperUnit.wrapped" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapped unit.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="enum.html" class="btn btn-neutral float-right" title="argsloader.units.enum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="base.html" class="btn btn-neutral float-left" title="argsloader.units.base" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: main
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="build.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="argsloader.units.enum" href="enum.html" />
+    <link rel="next" title="argsloader.units.build" href="build.html" />
     <link rel="prev" title="argsloader.units" href="index.html" /> 
 </head>
 
@@ -103,10 +103,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#unitprocessproxy">UnitProcessProxy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#valueunit">ValueUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#raw">raw</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformunit">TransformUnit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#calculateunit">CalculateUnit</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">argsloader.units.build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
@@ -615,118 +614,6 @@
 </dd></dl>
 
 </div>
-<div class="section" id="transformunit">
-<h2>TransformUnit<a class="headerlink" href="#transformunit" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="argsloader.units.base.TransformUnit">
-<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">TransformUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Common transform unit.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="argsloader.units.base.TransformUnit.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.base.TransformUnit" title="argsloader.units.base.TransformUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">argsloader.units.base.TransformUnit</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>values</strong> – Values need to be pre-processed, should be mapped one-to-one with <code class="docutils literal notranslate"><span class="pre">__names__</span></code>.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="argsloader.units.base.TransformUnit._easy_process">
-<code class="sig-name descname">_easy_process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">proxy</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#argsloader.units.base.UnitProcessProxy" title="argsloader.units.base.UnitProcessProxy">argsloader.units.base.UnitProcessProxy</a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit._easy_process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit._easy_process" title="Permalink to this definition">¶</a></dt>
-<dd><p>Easy process method, <code class="docutils literal notranslate"><span class="pre">proxy</span></code> can be used to quickly build parse result object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> – <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
-<li><p><strong>proxy</strong> – Proxy object.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Parse result object.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="argsloader.units.base.TransformUnit._transform">
-<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#TransformUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.TransformUnit._transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
-<li><p><strong>pres</strong> – Pre-processed values.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="calculateunit">
-<h2>CalculateUnit<a class="headerlink" href="#calculateunit" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="argsloader.units.base.CalculateUnit">
-<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.base.</code><code class="sig-name descname">CalculateUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">values</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Simple value calculation unit.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt id="argsloader.units.base.CalculateUnit._calculate">
-<code class="sig-name descname">_calculate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">object</span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; object<a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit._calculate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit._calculate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculation method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> – Original value.</p></li>
-<li><p><strong>pres</strong> – Pre-processed values.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returned value.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt id="argsloader.units.base.CalculateUnit._transform">
-<code class="sig-name descname">_transform</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n"><a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a></span></em>, <em class="sig-param"><span class="n">pres</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/value.html#argsloader.base.value.PValue" title="argsloader.base.value.PValue">argsloader.base.value.PValue</a><a class="reference internal" href="../../_modules/argsloader/units/base.html#CalculateUnit._transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.base.CalculateUnit._transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Transform method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>v</strong> – Original <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p></li>
-<li><p><strong>pres</strong> – Pre-processed values.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Returned <code class="docutils literal notranslate"><span class="pre">PValue</span></code> object.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><strong>Exception</strong> – Raised exception which is instance of <code class="docutils literal notranslate"><span class="pre">__errors__</span></code> will be processed.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
 </div>
 
 
@@ -738,7 +625,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="enum.html" class="btn btn-neutral float-right" title="argsloader.units.enum" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="build.html" class="btn btn-neutral float-right" title="argsloader.units.build" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="index.html" class="btn btn-neutral float-left" title="argsloader.units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -774,8 +661,6 @@
         <div class="rst-other-versions">
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/cdict/api_doc/units/base.html">dev/cdict</a></dd>
-                        <dd><a href="../../../dev/dmask/api_doc/units/base.html">dev/dmask</a></dd>
                         <dd><a href="base.html">main</a></dd>
                 </dl>
         </div>

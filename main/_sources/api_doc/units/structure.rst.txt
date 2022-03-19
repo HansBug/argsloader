@@ -97,4 +97,28 @@ contains
 .. autofunction:: contains
 
 
+.. _argsloader-units-structure-cdict:
+
+cdict
+------------------------------
+
+.. autofunction:: cdict
+
+
+.. _argsloader-units-structure-cvalue:
+
+cvalue
+------------------------------
+
+.. autofunction:: cvalue
+
+
+.. _argsloader-units-structure-crequired:
+
+crequired
+------------------------------
+
+.. autofunction:: crequired
+
+
 

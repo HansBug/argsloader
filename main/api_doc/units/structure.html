@@ -98,6 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">argsloader.units.build</a></li>
 <li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
@@ -119,6 +120,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#in">in_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#isin">isin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#contains">contains</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cdict">cdict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cvalue">cvalue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#crequired">crequired</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="type.html">argsloader.units.type</a></li>
@@ -678,6 +682,150 @@
 </dd></dl>
 
 </div>
+<div class="section" id="cdict">
+<span id="argsloader-units-structure-cdict"></span><h2>cdict<a class="headerlink" href="#cdict" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.structure.cdict">
+<code class="sig-prename descclassname">argsloader.units.structure.</code><code class="sig-name descname">cdict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/structure.html#cdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.structure.cdict" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Build a <a class="reference internal" href="#argsloader.units.structure.struct" title="argsloader.units.structure.struct"><code class="xref py py-func docutils literal notranslate"><span class="pre">struct()</span></code></a> unit to parse dict-based data, with some slight validations.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dict</strong> – Dict-based metadata.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#argsloader.units.structure.struct" title="argsloader.units.structure.struct"><code class="xref py py-func docutils literal notranslate"><span class="pre">struct()</span></code></a> unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>  <span class="c1"># default value with validation</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>  <span class="c1"># required value</span>
+<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="n">crequired</span><span class="p">(),</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="c1"># simple default value</span>
+<span class="gp">... </span>    <span class="p">},</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0b101011&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">}})</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (4 errors)</span>
+<span class="go">  &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
+<span class="go">  &lt;root&gt;.c.x: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Keep the original type</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easydict</span> <span class="kn">import</span> <span class="n">EasyDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="n">EasyDict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
+<span class="gp">... </span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">})</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}),</span> <span class="n">EasyDict</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">crequired</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="n">cdict</span><span class="p">({</span>  <span class="c1"># inner cdict can be used</span>
+<span class="gp">... </span>        <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="n">crequired</span><span class="p">(),</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+<span class="gp">... </span>        <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}),</span>
+<span class="gp">... </span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">9</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 5, &#39;b&#39;: 10, &#39;c&#39;: {&#39;x&#39;: 17, &#39;y&#39;: 9, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}})</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2, &#39;c&#39;: {&#39;x&#39;: 14, &#39;y&#39;: 4, &#39;z&#39;: 5}}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0b101011&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mf">6.0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">}})</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (4 errors)</span>
+<span class="go">  &lt;root&gt;: KeyParseError: Item &#39;b&#39; not found in value.</span>
+<span class="go">  &lt;root&gt;.c.x: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;.c.y: ValueParseError: Value not in interval - [0, 10] expected but 100.0 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Attention that the value items which not appeared in the <code class="docutils literal notranslate"><span class="pre">dict_</span></code> value will be ignored.         This means the parsing result of function <a class="reference internal" href="#argsloader.units.structure.cdict" title="argsloader.units.structure.cdict"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdict()</span></code></a> will have exactly the same structure         as <code class="docutils literal notranslate"><span class="pre">dict_</span></code>. For example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">easydict</span> <span class="kn">import</span> <span class="n">EasyDict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="n">EasyDict</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
+<span class="gp">... </span>    <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="n">crequired</span><span class="p">(),</span>
+<span class="gp">... </span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="s1">&#39;0xff&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="mi">174</span><span class="p">})</span>  <span class="c1"># z is ignored</span>
+<span class="go">{&#39;a&#39;: 255, &#39;b&#39;: -2}</span>
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="cvalue">
+<span id="argsloader-units-structure-cvalue"></span><h2>cvalue<a class="headerlink" href="#cvalue" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.structure.cvalue">
+<code class="sig-prename descclassname">argsloader.units.structure.</code><code class="sig-name descname">cvalue</code><span class="sig-paren">(</span><em class="sig-param">default_</em>, <em class="sig-param">ucheck=&lt;SingletonMark 'CVALUE_UNIT_KEEP'&gt;</em><span class="sig-paren">)</span> &#x2192; argsloader.units.structure._CDefaultValidation<a class="reference internal" href="../../_modules/argsloader/units/structure.html#cvalue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.structure.cvalue" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get a value validation mark which means this value item has a default value and some validations.</p>
+<p>See <a class="reference internal" href="#argsloader.units.structure.cdict" title="argsloader.units.structure.cdict"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdict()</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default</strong> – Default value of this item.</p></li>
+<li><p><strong>ucheck</strong> – Check unit for this item, default means just do not do any validation.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The validation will be processed after item’s getting and default value’s applying.         This means the given <code class="docutils literal notranslate"><span class="pre">default_</span></code> will be processed by <code class="docutils literal notranslate"><span class="pre">ucheck</span></code> as well.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use unit object in <code class="docutils literal notranslate"><span class="pre">default_</span></code> parameter,         which will be processed with <a class="reference internal" href="base.html#argsloader.units.base.raw" title="argsloader.units.base.raw"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.base.raw()</span></code></a>.         Some unexpected result will be caused due to this misuse.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="crequired">
+<span id="argsloader-units-structure-crequired"></span><h2>crequired<a class="headerlink" href="#crequired" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.structure.crequired">
+<code class="sig-prename descclassname">argsloader.units.structure.</code><code class="sig-name descname">crequired</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/structure.html#crequired"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.structure.crequired" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get a mark which means this value is required.</p>
+<p>See <a class="reference internal" href="#argsloader.units.structure.cdict" title="argsloader.units.structure.cdict"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdict()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -725,8 +873,6 @@
         <div class="rst-other-versions">
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/cdict/api_doc/units/structure.html">dev/cdict</a></dd>
-                        <dd><a href="../../../dev/dmask/api_doc/units/structure.html">dev/dmask</a></dd>
                         <dd><a href="structure.html">main</a></dd>
                 </dl>
         </div>

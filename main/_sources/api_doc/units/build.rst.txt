@@ -20,10 +20,10 @@ CalculateUnit
     :members: _transform, _calculate
 
 
-WrapperUnit
+UnitBuilder
 --------------------------
 
-.. autoclass:: WrapperUnit
-    :members: __init__, wrapped
+.. autoclass:: UnitBuilder
+    :members: __init__, _rinfo, unit, _build, __call__, call, log, validity, __repr__
 
 

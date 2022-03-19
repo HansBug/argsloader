@@ -101,7 +101,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.build</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#transformunit">TransformUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#calculateunit">CalculateUnit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#wrapperunit">WrapperUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#unitbuilder">UnitBuilder</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
@@ -300,30 +300,108 @@
 </dd></dl>
 
 </div>
-<div class="section" id="wrapperunit">
-<h2>WrapperUnit<a class="headerlink" href="#wrapperunit" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="unitbuilder">
+<h2>UnitBuilder<a class="headerlink" href="#unitbuilder" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="argsloader.units.build.WrapperUnit">
-<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.build.</code><code class="sig-name descname">WrapperUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrapped</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#WrapperUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.WrapperUnit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Simple wrapper unit, .</p>
-</dd>
-</dl>
+<dt id="argsloader.units.build.UnitBuilder">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.build.</code><code class="sig-name descname">UnitBuilder</code><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>A builder for units.</p>
 <dl class="py method">
-<dt id="argsloader.units.build.WrapperUnit.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wrapped</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#WrapperUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.WrapperUnit.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.build.WrapperUnit" title="argsloader.units.build.WrapperUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">WrapperUnit</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>wrapped</strong> – Wrapped unit.</p>
+<dt id="argsloader.units.build.UnitBuilder.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value.</p>
+<p>See <a class="reference internal" href="base.html#argsloader.units.base.BaseUnit.__call__" title="argsloader.units.base.BaseUnit.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argsloader.units.base.BaseUnit.__call__()</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of class <a class="reference internal" href="#argsloader.units.build.UnitBuilder" title="argsloader.units.build.UnitBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitBuilder</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get representation format of this builder.</p>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">add</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units.base</span> <span class="kn">import</span> <span class="n">BaseUnit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units.build</span> <span class="kn">import</span> <span class="n">UnitBuilder</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">LinearFunctionBuilder</span><span class="p">(</span><span class="n">UnitBuilder</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">b_</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="n">UnitBuilder</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__k</span> <span class="o">=</span> <span class="n">k</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__b</span> <span class="o">=</span> <span class="n">b_</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_build</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseUnit</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">is_type</span><span class="p">((</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__k</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__b</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">LinearFunctionBuilder</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;LinearFunctionBuilder, unit:</span>
+<span class="go">  &lt;PipeUnit count: 3&gt;</span>
+<span class="go">  ├── 0 --&gt; &lt;IsTypeUnit&gt;</span>
+<span class="go">  │   └── type --&gt; tuple(2)</span>
+<span class="go">  │       ├── 0 --&gt; &lt;class &#39;float&#39;&gt;</span>
+<span class="go">  │       └── 1 --&gt; &lt;class &#39;int&#39;&gt;</span>
+<span class="go">  ├── 1 --&gt; &lt;MulOpUnit&gt;</span>
+<span class="go">  │   ├── v1 --&gt; &lt;KeepUnit&gt;</span>
+<span class="go">  │   └── v2 --&gt; 2</span>
+<span class="go">  └── 2 --&gt; &lt;AddOpUnit&gt;</span>
+<span class="go">      ├── v1 --&gt; &lt;KeepUnit&gt;</span>
+<span class="go">      └── v2 --&gt; 3</span>
+<span class="go">&gt;</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="argsloader.units.build.WrapperUnit.wrapped">
-<em class="property">property </em><code class="sig-name descname">wrapped</code><a class="headerlink" href="#argsloader.units.build.WrapperUnit.wrapped" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrapped unit.</p>
+<dt id="argsloader.units.build.UnitBuilder._build">
+<code class="sig-name descname">_build</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder._build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder._build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a unit by the given variables.
+:return: A built unit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method will be only executed once.             The built unit will be cached in class <a class="reference internal" href="#argsloader.units.build.UnitBuilder" title="argsloader.units.build.UnitBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitBuilder</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder._rinfo">
+<code class="sig-name descname">_rinfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder._rinfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder._rinfo" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Method <a class="reference internal" href="#argsloader.units.build.UnitBuilder._rinfo" title="argsloader.units.build.UnitBuilder._rinfo"><code class="xref py py-meth docutils literal notranslate"><span class="pre">_rinfo()</span></code></a> is useless for <a class="reference internal" href="#argsloader.units.build.UnitBuilder" title="argsloader.units.build.UnitBuilder"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnitBuilder</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">err_mode</span><span class="o">=</span><span class="default_value">'ALL'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder.call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate with given value, similar to <a class="reference internal" href="#argsloader.units.build.UnitBuilder.__call__" title="argsloader.units.build.UnitBuilder.__call__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code></a>.</p>
+<p>See <code class="xref py py-meth docutils literal notranslate"><span class="pre">argsloader.units.based.BaseUnit.call()</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="../base/result.html#argsloader.base.result.ParseResult" title="argsloader.base.result.ParseResult">argsloader.base.result.ParseResult</a><a class="reference internal" href="../../_modules/argsloader/units/build.html#UnitBuilder.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.build.UnitBuilder.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get full log of this parsing process.</p>
+<p>See <code class="xref py py-meth docutils literal notranslate"><span class="pre">argsloader.units.based.BaseUnit.log()</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.unit">
+<em class="property">property </em><code class="sig-name descname">unit</code><a class="headerlink" href="#argsloader.units.build.UnitBuilder.unit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get built unit from this builder.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="argsloader.units.build.UnitBuilder.validity">
+<em class="property">property </em><code class="sig-name descname">validity</code><a class="headerlink" href="#argsloader.units.build.UnitBuilder.validity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validity of this unit.</p>
+<p>See <code class="xref py py-attr docutils literal notranslate"><span class="pre">argsloader.units.based.BaseUnit.validity</span></code>.</p>
 </dd></dl>
 
 </dd></dl>

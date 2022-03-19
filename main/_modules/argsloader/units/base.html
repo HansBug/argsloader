@@ -214,7 +214,7 @@
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
 
-    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;ALL&#39;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
 
     <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
@@ -252,7 +252,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fail</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="UncompletedUnit.call"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="UncompletedUnit.call"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.UncompletedUnit.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">err_mode</span><span class="o">=</span><span class="s1">&#39;ALL&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate with given value, similar to :meth:`__call__`.</span>
 
@@ -537,10 +537,13 @@
 
 
 <span class="k">def</span> <span class="nf">_to_unit</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseUnit</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.build</span> <span class="kn">import</span> <span class="n">UnitBuilder</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">UncompletedUnit</span><span class="p">):</span>
         <span class="nb">getattr</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s1">&#39;_fail&#39;</span><span class="p">)()</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">BaseUnit</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">v</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">UnitBuilder</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">unit</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="kn">from</span> <span class="nn">.func</span> <span class="kn">import</span> <span class="n">_FUNC_TYPES</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">_FUNC_TYPES</span><span class="p">):</span>

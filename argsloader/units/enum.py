@@ -4,10 +4,10 @@ from functools import reduce
 from operator import __or__
 from typing import Type
 
-import inflection
 from deprecated.sphinx import deprecated
 
 from .base import BaseUnit, UnitProcessProxy
+from .common import _string_formal
 from ..base import PValue, ParseResult
 
 
@@ -118,10 +118,6 @@ def schoice(sch, case_sensitive: bool = False) -> SChoiceUnit:
     return SChoiceUnit(sch, case_sensitive)
 
 
-def _name_align(name: str):
-    return inflection.underscore(name.strip()).lower()
-
-
 ENUM_SPLITTER = re.compile('[,;:| \\t]+')
 
 
@@ -139,7 +135,7 @@ class EnumUnit(BaseUnit):
         """
         self._enum_cls = enum_cls
         self._name_to_enums = {
-            _name_align(name): value
+            _string_formal(name): value
             for name, value in self._enum_cls.__members__.items()
         }
         self._is_flag = issubclass(enum_cls, Flag)
@@ -152,7 +148,7 @@ class EnumUnit(BaseUnit):
                 return self._enum_cls(v)
             except (TypeError, ValueError):
                 if isinstance(v, str):
-                    _name = _name_align(v)
+                    _name = _string_formal(v)
                     if _name in self._name_to_enums:
                         return self._name_to_enums[_name]
 

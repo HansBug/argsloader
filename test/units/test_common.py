@@ -19,7 +19,7 @@ class TestUnitsCommon:
         assert isinstance(err, ValueError)
         earg0, = err.args
         assert len(err.args) == 1
-        assert re.fullmatch('Value expected to be 1\\(0x[\\da-f]{12}\\), but 2\\(0x[\\da-f]{12}\\) found\\.', earg0)
+        assert re.fullmatch('Value expected to be 1\\(0x[\\da-f]+\\), but 2\\(0x[\\da-f]+\\) found\\.', earg0)
 
     def test_none(self):
         u = none()
@@ -31,7 +31,7 @@ class TestUnitsCommon:
         assert isinstance(err, ValueError)
         earg0, = err.args
         assert len(err.args) == 1
-        assert re.fullmatch('Value expected to be None\\(0x[\\da-f]{12}\\), but 2\\(0x[\\da-f]{12}\\) found\\.', earg0)
+        assert re.fullmatch('Value expected to be None\\(0x[\\da-f]+\\), but 2\\(0x[\\da-f]+\\) found\\.', earg0)
 
     def test_yesno(self):
         u = yesno()

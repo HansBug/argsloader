@@ -19,6 +19,7 @@ configuration file's structure and their versions.
     :maxdepth: 2
     :caption: Best Practice
 
+    best_practice/subprocess_env_manager/index
 
 .. toctree::
     :maxdepth: 2

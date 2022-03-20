@@ -167,10 +167,10 @@
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="fm">__or__</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
 
-<span class="kn">import</span> <span class="nn">inflection</span>
 <span class="kn">from</span> <span class="nn">deprecated.sphinx</span> <span class="kn">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="n">UnitProcessProxy</span>
+<span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">_string_formal</span>
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">ParseResult</span>
 
 
@@ -281,10 +281,6 @@
     <span class="k">return</span> <span class="n">SChoiceUnit</span><span class="p">(</span><span class="n">sch</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_name_align</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">inflection</span><span class="o">.</span><span class="n">underscore</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-
-
 <span class="n">ENUM_SPLITTER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[,;:| </span><span class="se">\\</span><span class="s1">t]+&#39;</span><span class="p">)</span>
 
 
@@ -302,7 +298,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_enum_cls</span> <span class="o">=</span> <span class="n">enum_cls</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_name_to_enums</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="n">_name_align</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> <span class="n">value</span>
+            <span class="n">_string_formal</span><span class="p">(</span><span class="n">name</span><span class="p">):</span> <span class="n">value</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enum_cls</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
         <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_is_flag</span> <span class="o">=</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">enum_cls</span><span class="p">,</span> <span class="n">Flag</span><span class="p">)</span></div>
@@ -315,7 +311,7 @@
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enum_cls</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                    <span class="n">_name</span> <span class="o">=</span> <span class="n">_name_align</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="n">_name</span> <span class="o">=</span> <span class="n">_string_formal</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_to_enums</span><span class="p">:</span>
                         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_name_to_enums</span><span class="p">[</span><span class="n">_name</span><span class="p">]</span>
 

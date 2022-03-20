@@ -1,4 +1,4 @@
-from functools import reduce
+from functools import reduce, partial
 from operator import __rshift__
 from typing import Mapping, Any, Union, Tuple, List
 
@@ -45,12 +45,12 @@ class GetItemUnit(TransformUnit):
         return [('offset', self._offset)], children
 
 
-def getitem_(item, offset: bool = True) -> 'GetItemUnit':
+def getitem_(*items, offset: bool = True):
     """
     Overview:
         Getting item from list, tuple and dict, based on ``__getitem__``.
 
-    :param item: Item to be got, units are supported.
+    :param items: Items to be got, units are supported, multiple items are also supported.
     :param offset: Enable offset or not, default is ``True``.
     :return: A unit for getting item.
 
@@ -75,6 +75,16 @@ def getitem_(item, offset: bool = True) -> 'GetItemUnit':
         24
         >>> u({'a': 12, 'c': 23})
         KeyParseError: "Item 'b' not found in value."
+
+        - Multiple levels
+
+        >>> u = getitem_('a', 2)
+        >>> u({'a': [2, 3, 5, 7], 'b': 2})
+        5
+        >>> u({'a': [2, 3], 'b': 2})
+        IndexParseError: Item 2 not found in value.
+        >>> u({'aa': [2, 3, 5, 7], 'b': 2})
+        KeyParseError: "Item 'a' not found in value."
 
     .. note::
         When :func:`getitem_` is used, the position of value will be switched to child-level. \
@@ -105,7 +115,10 @@ def getitem_(item, offset: bool = True) -> 'GetItemUnit':
         argsloader.base.exception.MultipleParseError: (1 error)
           <root>: TypeParseError: Value type not match - int expected but float found.
     """
-    return GetItemUnit(item, not not offset)
+    if not items:
+        return keep()
+    else:
+        return reduce(__rshift__, map(partial(GetItemUnit, offset=not not offset), items))
 
 
 class GetAttrUnit(CalculateUnit):

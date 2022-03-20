@@ -31,6 +31,25 @@ class TestUnitsStructure:
         assert isinstance(err, IndexError)
         assert err.args == ("Item 2 not found in value.",)
 
+    def test_getitem_multiple(self):
+        u = getitem_('a', 2)
+        assert u({'a': [3, 5, 7, 9], 'b': 34}) == 7
+        with pytest.raises(ParseError) as ei:
+            u({'a': [3, 5], 'b': 34})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, IndexError)
+
+        with pytest.raises(ParseError) as ei:
+            u({'aa': [3, 5, 7, 9], 'b': 34})
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, KeyError)
+
+        u = getitem_()
+        assert u({'a': [3, 5, 7, 9], 'b': 34}) == {'a': [3, 5, 7, 9], 'b': 34}
+        assert u(1) == 1
+
     def test_getitem_position(self):
         u = getitem_('a')
         result = u.log({'a': 1, 'b': 2})

@@ -171,6 +171,7 @@
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">UncompletedUnit</span>
 <span class="kn">from</span> <span class="nn">.build</span> <span class="kn">import</span> <span class="n">CalculateUnit</span>
 <span class="kn">from</span> <span class="nn">.mathop</span> <span class="kn">import</span> <span class="n">le</span><span class="p">,</span> <span class="n">lt</span><span class="p">,</span> <span class="n">ge</span><span class="p">,</span> <span class="n">gt</span>
+<span class="kn">from</span> <span class="nn">.type</span> <span class="kn">import</span> <span class="n">is_type</span>
 
 
 <span class="c1"># noinspection PyPep8Naming</span>
@@ -434,6 +435,55 @@
 <span class="sd">        nan</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_NUMBER_UNIT</span></div>
+
+
+<div class="viewcode-block" id="IntLikedUnit"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.IntLikedUnit">[docs]</a><span class="k">class</span> <span class="nc">IntLikedUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for parsing int-liked number to int.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__errors__</span> <span class="o">=</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,)</span>
+
+<div class="viewcode-block" id="IntLikedUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.IntLikedUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`IntLikedUnit`.</span>
+
+<span class="sd">        :param eps: Eps tolerance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CalculateUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__eps</span> <span class="o">=</span> <span class="n">eps</span></div>
+
+    <span class="k">def</span> <span class="nf">_calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">pres</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">d</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eps</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Value expected to be an int-liked number, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">children</span> <span class="o">=</span> <span class="n">CalculateUnit</span><span class="o">.</span><span class="n">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;eps&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__eps</span><span class="p">)],</span> <span class="n">children</span></div>
+
+
+<div class="viewcode-block" id="int_like"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.int_like">[docs]</a><span class="k">def</span> <span class="nf">int_like</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the given value is an int-liked value.</span>
+
+<span class="sd">    :param eps: Eps tolerance, default is ``1e-8``.</span>
+<span class="sd">    :return: A unit for parsing this kind of number.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import int_like</span>
+<span class="sd">        &gt;&gt;&gt; u = int_like()</span>
+<span class="sd">        &gt;&gt;&gt; u(233)</span>
+<span class="sd">        233</span>
+<span class="sd">        &gt;&gt;&gt; u(233.0)</span>
+<span class="sd">        233</span>
+<span class="sd">        &gt;&gt;&gt; u(233.002)</span>
+<span class="sd">        ValueParseError: Value expected to be an int-liked number, but 233.002 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">((</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="n">IntLikedUnit</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span></div>
 </pre></div>
 
 

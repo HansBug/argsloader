@@ -112,6 +112,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#interval">interval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#numberunit">NumberUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#number">number</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#intlikedunit">IntLikedUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#int-like">int_like</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="operator.html">argsloader.units.operator</a></li>
@@ -437,6 +439,62 @@
 <span class="go">-inf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;nan&#39;</span><span class="p">)</span>  <span class="c1"># not a number</span>
 <span class="go">nan</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="intlikedunit">
+<h2>IntLikedUnit<a class="headerlink" href="#intlikedunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.numeric.IntLikedUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">IntLikedUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">1e-08</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#IntLikedUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.IntLikedUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unit for parsing int-liked number to int.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.numeric.IntLikedUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">1e-08</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#IntLikedUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.IntLikedUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.numeric.IntLikedUnit" title="argsloader.units.numeric.IntLikedUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntLikedUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>eps</strong> – Eps tolerance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="int-like">
+<span id="argsloader-units-numeric-int-like"></span><h2>int_like<a class="headerlink" href="#int-like" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.int_like">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">int_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">1e-08</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#int_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.int_like" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given value is an int-liked value.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>eps</strong> – Eps tolerance, default is <code class="docutils literal notranslate"><span class="pre">1e-8</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A unit for parsing this kind of number.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">int_like</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">int_like</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">233</span><span class="p">)</span>
+<span class="go">233</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">233.0</span><span class="p">)</span>
+<span class="go">233</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">233.002</span><span class="p">)</span>
+<span class="go">ValueParseError: Value expected to be an int-liked number, but 233.002 found.</span>
 </pre></div>
 </div>
 </dd>

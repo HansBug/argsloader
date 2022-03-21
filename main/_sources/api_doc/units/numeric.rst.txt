@@ -37,3 +37,18 @@ number
 .. autofunction:: number
 
 
+IntLikedUnit
+--------------------
+
+.. autoclass:: IntLikedUnit
+    :members: __init__
+
+
+.. _argsloader-units-numeric-int_like:
+
+int_like
+--------------------
+
+.. autofunction:: int_like
+
+

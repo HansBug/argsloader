@@ -115,7 +115,7 @@ def wrap_exception(ex: Exception, unit, value) -> ParseError:
         (2, 3, 4)
     """
     # noinspection PyCallingNonCallable
-    return wrap_exception_class(type(ex))(ex, unit, value)
+    return wrap_exception_class(type(ex))(ex, unit, value).with_traceback(ex.__traceback__)
 
 
 class MultipleParseError(BaseParseError):

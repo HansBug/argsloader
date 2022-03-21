@@ -92,6 +92,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Best Practice</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
@@ -364,6 +365,192 @@
 <span class="sd">    &gt;&gt;&gt; u(3)</span>
 <span class="sd">    ValueParseError: Value not in interval - (3, 10] | [12, +inf] expected but 3 found.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="positive"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.positive">[docs]</a><span class="k">def</span> <span class="nf">positive</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the value is positive.</span>
+
+<span class="sd">        Similar to ``interval.l(0)``. See :func:`interval`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Simple usage</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import positive</span>
+<span class="sd">        &gt;&gt;&gt; u = positive()</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(0.25)</span>
+<span class="sd">        0.25</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        ValueParseError: Value not in interval - (0, +inf] expected but 0 found.</span>
+
+<span class="sd">        - Positive integer</span>
+
+<span class="sd">        &gt;&gt;&gt; u = positive.int()</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(0.25)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        ValueParseError: Value not in interval - (0, +inf] expected but 0 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">interval</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_int_positive</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">positive</span><span class="p">()</span>
+
+
+<span class="n">positive</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">_int_positive</span>
+
+
+<div class="viewcode-block" id="negative"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.negative">[docs]</a><span class="k">def</span> <span class="nf">negative</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the value is negative.</span>
+
+<span class="sd">        Similar to ``interval.r(0)``. See :func:`interval`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Simple usage</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import negative</span>
+<span class="sd">        &gt;&gt;&gt; u = negative()</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        -1</span>
+<span class="sd">        &gt;&gt;&gt; u(-0.25)</span>
+<span class="sd">        -0.25</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.</span>
+
+<span class="sd">        - Negative integer</span>
+
+<span class="sd">        &gt;&gt;&gt; u = negative.int()</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        -1</span>
+<span class="sd">        &gt;&gt;&gt; u(-0.25)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">interval</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_int_negative</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">negative</span><span class="p">()</span>
+
+
+<span class="n">negative</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">_int_negative</span>
+
+
+<div class="viewcode-block" id="non_positive"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.non_positive">[docs]</a><span class="k">def</span> <span class="nf">non_positive</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the value is non-positive.</span>
+
+<span class="sd">        Similar to ``interval.R(0)``. See :func:`interval`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Simple usage</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import non_positive</span>
+<span class="sd">        &gt;&gt;&gt; u = non_positive()</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        -1</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(-0.25)</span>
+<span class="sd">        -0.25</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.</span>
+
+<span class="sd">        - Non-positive integer</span>
+
+<span class="sd">        &gt;&gt;&gt; u = non_positive.int()</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        -1</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(-0.25)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">interval</span><span class="o">.</span><span class="n">R</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_int_non_positive</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">non_positive</span><span class="p">()</span>
+
+
+<span class="n">non_positive</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">_int_non_positive</span>
+
+
+<div class="viewcode-block" id="non_negative"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.non_negative">[docs]</a><span class="k">def</span> <span class="nf">non_negative</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the value is non-negative.</span>
+
+<span class="sd">        Similar to ``interval.L(0)``. See :func:`interval`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Simple usage</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import non_negative</span>
+<span class="sd">        &gt;&gt;&gt; u = non_negative()</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(0.25)</span>
+<span class="sd">        0.25</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
+
+<span class="sd">        - Non-negative integer</span>
+
+<span class="sd">        &gt;&gt;&gt; u = non_negative.int()</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(0.25)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">interval</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_int_non_negative</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">non_negative</span><span class="p">()</span>
+
+
+<span class="n">non_negative</span><span class="o">.</span><span class="n">int</span> <span class="o">=</span> <span class="n">_int_non_negative</span>
+
+
+<div class="viewcode-block" id="nature"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.nature">[docs]</a><span class="k">def</span> <span class="nf">nature</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Check if the given value is a natural number.</span>
+
+<span class="sd">        The same as ``non_negative.int``, see :func:`non_negative`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import nature</span>
+<span class="sd">        &gt;&gt;&gt; u = nature()</span>
+<span class="sd">        &gt;&gt;&gt; u(1)</span>
+<span class="sd">        1</span>
+<span class="sd">        &gt;&gt;&gt; u(0)</span>
+<span class="sd">        0</span>
+<span class="sd">        &gt;&gt;&gt; u(0.25)</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(-1)</span>
+<span class="sd">        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_int_non_negative</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="NumberUnit"><a class="viewcode-back" href="../../../api_doc/units/numeric.html#argsloader.units.numeric.NumberUnit">[docs]</a><span class="k">class</span> <span class="nc">NumberUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>

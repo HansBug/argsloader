@@ -94,6 +94,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Best Practice</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
@@ -110,6 +111,11 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.numeric</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#intervalunit">IntervalUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#interval">interval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#positive">positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#negative">negative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-positive">non_positive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-negative">non_negative</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nature">nature</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#numberunit">NumberUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#number">number</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#intlikedunit">IntLikedUnit</a></li>
@@ -379,6 +385,196 @@
 <span class="go">12</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">ValueParseError: Value not in interval - (3, 10] | [12, +inf] expected but 3 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="positive">
+<span id="argsloader-units-numeric-positive"></span><h2>positive<a class="headerlink" href="#positive" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.positive">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.positive" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Check if the value is positive.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">interval.l(0)</span></code>. See <a class="reference internal" href="#argsloader.units.numeric.interval" title="argsloader.units.numeric.interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">interval()</span></code></a>.</p>
+</dd>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">positive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">positive</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (0, +inf] expected but 0 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Positive integer</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (0, +inf] expected but 0 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="negative">
+<span id="argsloader-units-numeric-negative"></span><h2>negative<a class="headerlink" href="#negative" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.negative">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">negative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#negative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.negative" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Check if the value is negative.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">interval.r(0)</span></code>. See <a class="reference internal" href="#argsloader.units.numeric.interval" title="argsloader.units.numeric.interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">interval()</span></code></a>.</p>
+</dd>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">negative</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">negative</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">-0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Negative integer</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">negative</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="non-positive">
+<span id="argsloader-units-numeric-non-positive"></span><h2>non_positive<a class="headerlink" href="#non-positive" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.non_positive">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">non_positive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#non_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.non_positive" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Check if the value is non-positive.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">interval.R(0)</span></code>. See <a class="reference internal" href="#argsloader.units.numeric.interval" title="argsloader.units.numeric.interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">interval()</span></code></a>.</p>
+</dd>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">non_positive</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">non_positive</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">-0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Non-positive integer</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">non_positive</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">-1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="non-negative">
+<span id="argsloader-units-numeric-non-negative"></span><h2>non_negative<a class="headerlink" href="#non-negative" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.non_negative">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">non_negative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#non_negative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.non_negative" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Check if the value is non-negative.</p>
+<p>Similar to <code class="docutils literal notranslate"><span class="pre">interval.L(0)</span></code>. See <a class="reference internal" href="#argsloader.units.numeric.interval" title="argsloader.units.numeric.interval"><code class="xref py py-func docutils literal notranslate"><span class="pre">interval()</span></code></a>.</p>
+</dd>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">non_negative</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">non_negative</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">0.25</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Non-negative integer</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">non_negative</span><span class="o">.</span><span class="n">int</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="nature">
+<span id="argsloader-units-numeric-nature"></span><h2>nature<a class="headerlink" href="#nature" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.numeric.nature">
+<code class="sig-prename descclassname">argsloader.units.numeric.</code><code class="sig-name descname">nature</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/numeric.html#nature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.numeric.nature" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Check if the given value is a natural number.</p>
+<p>The same as <code class="docutils literal notranslate"><span class="pre">non_negative.int</span></code>, see <a class="reference internal" href="#argsloader.units.numeric.non_negative" title="argsloader.units.numeric.non_negative"><code class="xref py py-func docutils literal notranslate"><span class="pre">non_negative()</span></code></a>.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">nature</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">nature</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - [0, +inf] expected but -1 found.</span>
 </pre></div>
 </div>
 </dd>

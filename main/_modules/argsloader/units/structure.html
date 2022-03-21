@@ -92,6 +92,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Best Practice</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Documentation</span></p>
@@ -606,6 +607,19 @@
     <span class="k">return</span> <span class="n">DEFAULT_REQUIRED</span></div>
 
 
+<span class="k">class</span> <span class="nc">_CFreeValidation</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">_to_unit</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="cfree"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.cfree">[docs]</a><span class="k">def</span> <span class="nf">cfree</span><span class="p">(</span><span class="n">unit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Processing values freely in :func:`cdict`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_CFreeValidation</span><span class="p">(</span><span class="n">unit</span><span class="p">)</span></div>
+
+
 <span class="k">class</span> <span class="nc">_CDefaultValidation</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ucheck</span><span class="p">,</span> <span class="n">udefault</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ucheck</span> <span class="o">=</span> <span class="n">ucheck</span>
@@ -741,6 +755,10 @@
                 <span class="k">return</span> <span class="p">(</span><span class="n">gitem</span> <span class="o">|</span> <span class="n">d</span><span class="o">.</span><span class="n">udefault</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">ucheck</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">gitem</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">ucheck</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">_CFreeValidation</span><span class="p">):</span>
+            <span class="n">ppath</span> <span class="o">=</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">pgitem</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="fm">__rshift__</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">getitem_</span><span class="p">,</span> <span class="n">ppath</span><span class="p">))</span> <span class="k">if</span> <span class="n">ppath</span> <span class="k">else</span> <span class="n">keep</span><span class="p">()</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">pgitem</span> <span class="o">|</span> <span class="n">raw</span><span class="p">({}))</span> <span class="o">&gt;&gt;</span> <span class="n">d</span><span class="o">.</span><span class="n">unit</span>
         <span class="k">elif</span> <span class="n">d</span> <span class="ow">is</span> <span class="n">DEFAULT_REQUIRED</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">gitem</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>

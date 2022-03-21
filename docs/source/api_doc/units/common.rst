@@ -38,4 +38,9 @@ yesno
 .. autofunction:: yesno
 
 
+onoff
+-------------------------
+
+.. autofunction:: onoff
+
 

@@ -4,7 +4,7 @@ from textwrap import dedent
 import pytest
 
 from argsloader.base import ParseError
-from argsloader.units import interval, add, number, int_like
+from argsloader.units import interval, add, number, int_like, positive, negative, non_positive, non_negative, nature
 
 
 # noinspection DuplicatedCode,PyPep8Naming,PyUnresolvedReferences
@@ -274,3 +274,119 @@ class TestUnitsNumeric:
             │       └── 1 --> <class 'float'>
             └── 1 --> <IntLikedUnit eps: 1e-08>
         """).strip()
+
+    def test_positive(self):
+        u = positive()
+        assert u(1) == 1
+        assert u(0.25) == 0.25
+        with pytest.raises(ParseError) as ei:
+            u(0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        u = positive.int()
+        assert u(1) == 1
+        with pytest.raises(ParseError) as ei:
+            u(0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+    def test_negative(self):
+        u = negative()
+        assert u(-1) == -1
+        assert u(-0.25) == -0.25
+        with pytest.raises(ParseError) as ei:
+            u(0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        u = negative.int()
+        assert u(-1) == -1
+        with pytest.raises(ParseError) as ei:
+            u(-0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(0)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+    def test_non_positive(self):
+        u = non_positive()
+        assert u(-1) == -1
+        assert u(-0.25) == -0.25
+        assert u(0) == 0
+        with pytest.raises(ParseError) as ei:
+            u(0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        u = non_positive.int()
+        assert u(-1) == -1
+        assert u(0) == 0
+        with pytest.raises(ParseError) as ei:
+            u(-0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(1)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+    def test_non_negative(self):
+        u = non_negative()
+        assert u(1) == 1
+        assert u(0.25) == 0.25
+        assert u(0) == 0
+        with pytest.raises(ParseError) as ei:
+            u(-0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        u = non_negative.int()
+        assert u(1) == 1
+        assert u(0) == 0
+        with pytest.raises(ParseError) as ei:
+            u(0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(-1)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+    def test_nature(self):
+        u = nature()
+        assert u(1) == 1
+        assert u(0) == 0
+        with pytest.raises(ParseError) as ei:
+            u(0.25)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+
+        with pytest.raises(ParseError) as ei:
+            u(-1)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)

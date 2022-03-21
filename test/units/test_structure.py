@@ -1,3 +1,4 @@
+from enum import Enum, unique
 from textwrap import dedent
 
 import pytest
@@ -5,7 +6,7 @@ from easydict import EasyDict
 
 from argsloader.base import ParseError, MultipleParseError, PValue
 from argsloader.units import getitem_, getattr_, struct, number, interval, mapping, check, add, in_, isin, contains, \
-    mul, sub, to_type, is_type, cdict, cvalue, crequired
+    mul, sub, to_type, is_type, cdict, cvalue, crequired, enum, cfree, positive, timespan
 
 
 @pytest.mark.unittest
@@ -455,3 +456,53 @@ class TestUnitsStructure:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, TypeError)
+
+    def test_cdict_with_cfree(self):
+        @unique
+        class MyType(Enum):
+            SAMPLE = 1
+            STEP = 2
+            EPISODE = 3
+
+        u = cdict({
+            'n': {
+                'type': cfree(
+                    (
+                            (getitem_('n_sample') & 'sample') |
+                            (getitem_('n_step') & 'step') |
+                            (getitem_('n_episode') & 'episode') |
+                            'sample'
+                    ) >> enum(MyType),
+                ),
+                'number': cfree(
+                    (
+                            getitem_('n_sample') |
+                            getitem_('n_step') |
+                            getitem_('n_episode') |
+                            12
+                    ) >> number() >> positive()
+                )
+            },
+            'time': cvalue(12, timespan()),
+        })
+        assert u({'n': {'n_episode': 77}, 'time': '8min'}) == {
+            'n': {
+                'type': MyType.EPISODE,
+                'number': 77,
+            },
+            'time': 480.0,
+        }
+        assert u({}) == {
+            'n': {
+                'type': MyType.SAMPLE,
+                'number': 12,
+            },
+            'time': 12,
+        }
+        assert u({'time': '1day'}) == {
+            'n': {
+                'type': MyType.SAMPLE,
+                'number': 12,
+            },
+            'time': 86400.0,
+        }

@@ -105,6 +105,14 @@ cdict
 .. autofunction:: cdict
 
 
+.. _argsloader-units-structure-cfree:
+
+cfree
+------------------------------
+
+.. autofunction:: cfree
+
+
 .. _argsloader-units-structure-cvalue:
 
 cvalue

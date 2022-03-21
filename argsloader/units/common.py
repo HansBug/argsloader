@@ -171,3 +171,13 @@ def yesno(yes='yes', no='no') -> YesNoUnit:
         ValueParseError: Value expected to be 'yes' or 'no', but 'xxx' found.
     """
     return YesNoUnit(yes, no)
+
+
+def onoff():
+    """
+    Overview:
+        Parse on-or-off option.
+
+        The same as ``yesno('on', 'off')``, see :func:`yesno`.
+    """
+    return yesno('on', 'off')

@@ -3,7 +3,7 @@ from .common import is_, none, yesno
 from .enum import enum, schoice
 from .func import proc, ufunc
 from .mathop import *
-from .numeric import interval, number
+from .numeric import interval, number, int_like
 from .resource import timespan, memory_
 from .status import parent, child
 from .string import template, regexp

@@ -4,6 +4,7 @@ from typing import List, Tuple, Union, Mapping, Any
 from .base import UncompletedUnit
 from .build import CalculateUnit
 from .mathop import le, lt, ge, gt
+from .type import is_type
 
 
 # noinspection PyPep8Naming
@@ -267,3 +268,52 @@ def number() -> NumberUnit:
         nan
     """
     return _NUMBER_UNIT
+
+
+class IntLikedUnit(CalculateUnit):
+    """
+    Overview:
+        Unit for parsing int-liked number to int.
+    """
+    __errors__ = (ValueError,)
+
+    def __init__(self, eps=1e-8):
+        """
+        Constructor of :class:`IntLikedUnit`.
+
+        :param eps: Eps tolerance.
+        """
+        CalculateUnit.__init__(self)
+        self.__eps = eps
+
+    def _calculate(self, v: Union[float, int], pres: Mapping[str, Any]) -> object:
+        d = int(round(v))
+        if abs(d - v) < self.__eps:
+            return d
+        else:
+            raise ValueError(f'Value expected to be an int-liked number, but {repr(v)} found.')
+
+    def _rinfo(self):
+        _, children = CalculateUnit._rinfo(self)
+        return [('eps', self.__eps)], children
+
+
+def int_like(eps=1e-8):
+    """
+    Overview:
+        Check if the given value is an int-liked value.
+
+    :param eps: Eps tolerance, default is ``1e-8``.
+    :return: A unit for parsing this kind of number.
+
+    Examples::
+        >>> from argsloader.units import int_like
+        >>> u = int_like()
+        >>> u(233)
+        233
+        >>> u(233.0)
+        233
+        >>> u(233.002)
+        ValueParseError: Value expected to be an int-liked number, but 233.002 found.
+    """
+    return is_type((int, float)) >> IntLikedUnit(eps)

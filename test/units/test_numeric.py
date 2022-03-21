@@ -4,7 +4,7 @@ from textwrap import dedent
 import pytest
 
 from argsloader.base import ParseError
-from argsloader.units import interval, add, number
+from argsloader.units import interval, add, number, int_like
 
 
 # noinspection DuplicatedCode,PyPep8Naming,PyUnresolvedReferences
@@ -253,3 +253,24 @@ class TestUnitsNumeric:
         assert isinstance(err, ParseError)
         assert isinstance(err, TypeError)
         assert err.args == ('Value type not match - int, float or str expected but NoneType found.',)
+
+    def test_int_like(self):
+        u = int_like()
+        assert u(233) == 233
+        assert u(233.0) == 233
+        assert isinstance(u(233.0), int)
+        assert u(233 + 1e-9) == 233
+        with pytest.raises(ParseError) as ei:
+            u(233.00001)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+
+        assert repr(u).strip() == dedent("""
+            <PipeUnit count: 2>
+            ├── 0 --> <IsTypeUnit>
+            │   └── type --> tuple(2)
+            │       ├── 0 --> <class 'int'>
+            │       └── 1 --> <class 'float'>
+            └── 1 --> <IntLikedUnit eps: 1e-08>
+        """).strip()

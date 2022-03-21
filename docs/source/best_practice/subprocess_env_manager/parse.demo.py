@@ -3,7 +3,7 @@ import platform
 from enum import Enum, unique
 from pprint import pprint
 
-from argsloader.units import cdict, cvalue, number, is_type, ge, enum, timespan, none, yesno
+from argsloader.units import cdict, cvalue, number, enum, timespan, none, yesno, non_negative
 
 
 @unique
@@ -27,7 +27,7 @@ class ContextType(Enum):
 
 config_loader = cdict(dict(
     episode_num=cvalue(math.inf, number()),  # should be a number
-    max_retry=cvalue(5, number() >> is_type(int) >> ge.than(0)),  # should be an int number, >= 0
+    max_retry=cvalue(5, number() >> non_negative.int()),  # should be an int number, >= 0
     step_timeout=cvalue(None, timespan() | none()),  # a timespan or None
     auto_reset=cvalue(True, yesno()),  # is boolean value
     retry_type=cvalue('reset', enum(RetryType)),  # retry type
@@ -37,7 +37,7 @@ config_loader = cdict(dict(
     # subprocess specified args
     shared_memory=cvalue(True, yesno()),  # should be a yes/no value
     context=cvalue(ContextType.default(), enum(ContextType)),  # context type
-    wait_num=cvalue(2, number() >> is_type(int) >> ge.than(0)),  # should be an int number, >=0
+    wait_num=cvalue(2, number() >> non_negative.int()),  # should be an int number, >=0
     step_wait_timeout=cvalue(0.01, timespan()),  # a timespan in seconds
     connect_timeout=cvalue(60, timespan()),  # a timespan in seconds
     reset_inplace=cvalue(False, yesno()),  # should be a yes/no value

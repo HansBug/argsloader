@@ -254,10 +254,14 @@
 <span class="normal">78</span>
 <span class="normal">79</span>
 <span class="normal">80</span>
-<span class="normal">81</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">unique</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Flag</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">unique</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Flag</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
-<span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">nature</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">is_type</span>
+<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">quick_import_object</span>
+
+<span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">nature</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">getitem_</span>
 
 
 <span class="nd">@unique</span>
@@ -281,8 +285,8 @@
 <span class="n">config_loader</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
     <span class="n">league_type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;one_vs_one&#39;</span><span class="p">,</span> <span class="n">enum</span><span class="p">(</span><span class="n">LeagueType</span><span class="p">)),</span>
     <span class="n">import_names</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;ding.league&quot;</span><span class="p">],</span>
-        <span class="n">mapping</span><span class="p">(</span><span class="n">is_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)),</span>
+        <span class="p">[</span><span class="s2">&quot;pprint.pprint&quot;</span><span class="p">,</span> <span class="s1">&#39;json.loads&#39;</span><span class="p">,</span> <span class="s1">&#39;argsloader.units&#39;</span><span class="p">],</span>
+        <span class="n">mapping</span><span class="p">(</span><span class="n">is_type</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">quick_import_object</span> <span class="o">&gt;&gt;</span> <span class="n">getitem_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
     <span class="p">),</span>
     <span class="c1"># ---player----</span>
     <span class="c1"># &quot;player_category&quot; is just a name. Depends on the env.</span>
@@ -355,8 +359,12 @@
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{   &#39;active_players&#39;: {&#39;naive_sp_player&#39;: 1},
-    &#39;import_names&#39;: [&#39;ding.league&#39;],
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{   &#39;active_players&#39;: {&#39;naive_sp_player&#39;: 1},
+    &#39;import_names&#39;: [   &lt;function pprint at 0x7f330fe48170&gt;,
+                        &lt;function loads at 0x7f330fc214d0&gt;,
+                        &lt;module &#39;argsloader.units&#39; from &#39;/tmp/tmp8tl9luqu/b39d1a3c4f92d40ba0e86e64e8bebb31dd39c21c/argsloader/units/__init__.py&#39;&gt;],
     &#39;league_type&#39;: &lt;LeagueType.ONE_VS_ONE: 1&gt;,
     &#39;metric&#39;: {   &#39;beta&#39;: 4.166666666666667,
                   &#39;draw_probability&#39;: 0.02,

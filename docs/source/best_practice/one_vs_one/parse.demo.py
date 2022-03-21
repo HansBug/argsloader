@@ -1,7 +1,9 @@
 from enum import unique, Enum, Flag
 from pprint import pprint
 
-from argsloader.units import cdict, enum, cvalue, number, nature, yesno, mapping, is_type
+from hbutils.reflection import quick_import_object
+
+from argsloader.units import cdict, enum, cvalue, number, nature, yesno, mapping, is_type, getitem_
 
 
 @unique
@@ -25,8 +27,8 @@ class PayoffType(Enum):
 config_loader = cdict(dict(
     league_type=cvalue('one_vs_one', enum(LeagueType)),
     import_names=cvalue(
-        ["ding.league"],
-        mapping(is_type(str)),
+        ["pprint.pprint", 'json.loads', 'argsloader.units'],
+        mapping(is_type(str) >> quick_import_object >> getitem_(0, offset=False)),
     ),
     # ---player----
     # "player_category" is just a name. Depends on the env.

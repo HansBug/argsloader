@@ -284,7 +284,7 @@
 <span class="sd">        (2, 3, 4)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># noinspection PyCallingNonCallable</span>
-    <span class="k">return</span> <span class="n">wrap_exception_class</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ex</span><span class="p">))(</span><span class="n">ex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">wrap_exception_class</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ex</span><span class="p">))(</span><span class="n">ex</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">ex</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MultipleParseError"><a class="viewcode-back" href="../../../api_doc/base/exception.html#argsloader.base.exception.MultipleParseError">[docs]</a><span class="k">class</span> <span class="nc">MultipleParseError</span><span class="p">(</span><span class="n">BaseParseError</span><span class="p">):</span>

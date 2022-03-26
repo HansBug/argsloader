@@ -167,7 +167,7 @@
     
     
   <h1>Source code for argsloader.units.structure</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span><span class="p">,</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="fm">__rshift__</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
 
@@ -214,12 +214,12 @@
         <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;offset&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">)],</span> <span class="n">children</span></div>
 
 
-<div class="viewcode-block" id="getitem_"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.getitem_">[docs]</a><span class="k">def</span> <span class="nf">getitem_</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;GetItemUnit&#39;</span><span class="p">:</span>
+<div class="viewcode-block" id="getitem_"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.getitem_">[docs]</a><span class="k">def</span> <span class="nf">getitem_</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Getting item from list, tuple and dict, based on ``__getitem__``.</span>
 
-<span class="sd">    :param item: Item to be got, units are supported.</span>
+<span class="sd">    :param items: Items to be got, units are supported, multiple items are also supported.</span>
 <span class="sd">    :param offset: Enable offset or not, default is ``True``.</span>
 <span class="sd">    :return: A unit for getting item.</span>
 
@@ -244,6 +244,16 @@
 <span class="sd">        24</span>
 <span class="sd">        &gt;&gt;&gt; u({&#39;a&#39;: 12, &#39;c&#39;: 23})</span>
 <span class="sd">        KeyParseError: &quot;Item &#39;b&#39; not found in value.&quot;</span>
+
+<span class="sd">        - Multiple levels</span>
+
+<span class="sd">        &gt;&gt;&gt; u = getitem_(&#39;a&#39;, 2)</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;a&#39;: [2, 3, 5, 7], &#39;b&#39;: 2})</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;a&#39;: [2, 3], &#39;b&#39;: 2})</span>
+<span class="sd">        IndexParseError: Item 2 not found in value.</span>
+<span class="sd">        &gt;&gt;&gt; u({&#39;aa&#39;: [2, 3, 5, 7], &#39;b&#39;: 2})</span>
+<span class="sd">        KeyParseError: &quot;Item &#39;a&#39; not found in value.&quot;</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        When :func:`getitem_` is used, the position of value will be switched to child-level. \</span>
@@ -274,7 +284,10 @@
 <span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
 <span class="sd">          &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">GetItemUnit</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="ow">not</span> <span class="ow">not</span> <span class="n">offset</span><span class="p">)</span></div>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">keep</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">reduce</span><span class="p">(</span><span class="fm">__rshift__</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">GetItemUnit</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="ow">not</span> <span class="ow">not</span> <span class="n">offset</span><span class="p">),</span> <span class="n">items</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="GetAttrUnit"><a class="viewcode-back" href="../../../api_doc/units/structure.html#argsloader.units.structure.GetAttrUnit">[docs]</a><span class="k">class</span> <span class="nc">GetAttrUnit</span><span class="p">(</span><span class="n">CalculateUnit</span><span class="p">):</span>

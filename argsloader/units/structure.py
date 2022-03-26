@@ -452,6 +452,19 @@ def crequired():
     return DEFAULT_REQUIRED
 
 
+class _CFreeValidation:
+    def __init__(self, unit):
+        self.unit = _to_unit(unit)
+
+
+def cfree(unit):
+    """
+    Overview:
+        Processing values freely in :func:`cdict`.
+    """
+    return _CFreeValidation(unit)
+
+
 class _CDefaultValidation:
     def __init__(self, ucheck, udefault):
         self.ucheck = ucheck
@@ -587,6 +600,10 @@ def cdict(dict_: dict):
                 return (gitem | d.udefault) >> d.ucheck
             else:
                 return gitem >> d.ucheck
+        elif isinstance(d, _CFreeValidation):
+            ppath = path[:-1]
+            pgitem = reduce(__rshift__, map(getitem_, ppath)) if ppath else keep()
+            return (pgitem | raw({})) >> d.unit
         elif d is DEFAULT_REQUIRED:
             return gitem
         elif isinstance(d, dict):

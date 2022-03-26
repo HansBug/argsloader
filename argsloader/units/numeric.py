@@ -4,6 +4,7 @@ from typing import List, Tuple, Union, Mapping, Any
 from .base import UncompletedUnit
 from .build import CalculateUnit
 from .mathop import le, lt, ge, gt
+from .type import is_type
 
 
 # noinspection PyPep8Naming
@@ -198,6 +199,192 @@ Examples::
 """
 
 
+def positive():
+    """
+    Overview:
+        Check if the value is positive.
+
+        Similar to ``interval.l(0)``. See :func:`interval`.
+
+    Examples::
+        - Simple usage
+
+        >>> from argsloader.units import positive
+        >>> u = positive()
+        >>> u(1)
+        1
+        >>> u(0.25)
+        0.25
+        >>> u(0)
+        ValueParseError: Value not in interval - (0, +inf] expected but 0 found.
+
+        - Positive integer
+
+        >>> u = positive.int()
+        >>> u(1)
+        1
+        >>> u(0.25)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u(0)
+        ValueParseError: Value not in interval - (0, +inf] expected but 0 found.
+    """
+    return interval.l(0)
+
+
+def _int_positive():
+    return is_type(int) & positive()
+
+
+positive.int = _int_positive
+
+
+def negative():
+    """
+    Overview:
+        Check if the value is negative.
+
+        Similar to ``interval.r(0)``. See :func:`interval`.
+
+    Examples::
+        - Simple usage
+
+        >>> from argsloader.units import negative
+        >>> u = negative()
+        >>> u(-1)
+        -1
+        >>> u(-0.25)
+        -0.25
+        >>> u(0)
+        ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.
+
+        - Negative integer
+
+        >>> u = negative.int()
+        >>> u(-1)
+        -1
+        >>> u(-0.25)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u(0)
+        ValueParseError: Value not in interval - [-inf, 0) expected but 0 found.
+    """
+    return interval.r(0)
+
+
+def _int_negative():
+    return is_type(int) & negative()
+
+
+negative.int = _int_negative
+
+
+def non_positive():
+    """
+    Overview:
+        Check if the value is non-positive.
+
+        Similar to ``interval.R(0)``. See :func:`interval`.
+
+    Examples::
+        - Simple usage
+
+        >>> from argsloader.units import non_positive
+        >>> u = non_positive()
+        >>> u(-1)
+        -1
+        >>> u(0)
+        0
+        >>> u(-0.25)
+        -0.25
+        >>> u(1)
+        ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.
+
+        - Non-positive integer
+
+        >>> u = non_positive.int()
+        >>> u(-1)
+        -1
+        >>> u(0)
+        0
+        >>> u(-0.25)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u(1)
+        ValueParseError: Value not in interval - [-inf, 0] expected but 1 found.
+    """
+    return interval.R(0)
+
+
+def _int_non_positive():
+    return is_type(int) & non_positive()
+
+
+non_positive.int = _int_non_positive
+
+
+def non_negative():
+    """
+    Overview:
+        Check if the value is non-negative.
+
+        Similar to ``interval.L(0)``. See :func:`interval`.
+
+    Examples::
+        - Simple usage
+
+        >>> from argsloader.units import non_negative
+        >>> u = non_negative()
+        >>> u(1)
+        1
+        >>> u(0)
+        0
+        >>> u(0.25)
+        0.25
+        >>> u(-1)
+        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.
+
+        - Non-negative integer
+
+        >>> u = non_negative.int()
+        >>> u(1)
+        1
+        >>> u(0)
+        0
+        >>> u(0.25)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u(-1)
+        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.
+    """
+    return interval.L(0)
+
+
+def _int_non_negative():
+    return is_type(int) & non_negative()
+
+
+non_negative.int = _int_non_negative
+
+
+def nature():
+    """
+    Overview:
+        Check if the given value is a natural number.
+
+        The same as ``non_negative.int``, see :func:`non_negative`.
+
+    Examples::
+        >>> from argsloader.units import nature
+        >>> u = nature()
+        >>> u(1)
+        1
+        >>> u(0)
+        0
+        >>> u(0.25)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u(-1)
+        ValueParseError: Value not in interval - [0, +inf] expected but -1 found.
+    """
+    return _int_non_negative()
+
+
 class NumberUnit(CalculateUnit):
     """
     Overview:
@@ -267,3 +454,52 @@ def number() -> NumberUnit:
         nan
     """
     return _NUMBER_UNIT
+
+
+class IntLikedUnit(CalculateUnit):
+    """
+    Overview:
+        Unit for parsing int-liked number to int.
+    """
+    __errors__ = (ValueError,)
+
+    def __init__(self, eps=1e-8):
+        """
+        Constructor of :class:`IntLikedUnit`.
+
+        :param eps: Eps tolerance.
+        """
+        CalculateUnit.__init__(self)
+        self.__eps = eps
+
+    def _calculate(self, v: Union[float, int], pres: Mapping[str, Any]) -> object:
+        d = int(round(v))
+        if abs(d - v) < self.__eps:
+            return d
+        else:
+            raise ValueError(f'Value expected to be an int-liked number, but {repr(v)} found.')
+
+    def _rinfo(self):
+        _, children = CalculateUnit._rinfo(self)
+        return [('eps', self.__eps)], children
+
+
+def int_like(eps=1e-8):
+    """
+    Overview:
+        Check if the given value is an int-liked value.
+
+    :param eps: Eps tolerance, default is ``1e-8``.
+    :return: A unit for parsing this kind of number.
+
+    Examples::
+        >>> from argsloader.units import int_like
+        >>> u = int_like()
+        >>> u(233)
+        233
+        >>> u(233.0)
+        233
+        >>> u(233.002)
+        ValueParseError: Value expected to be an int-liked number, but 233.002 found.
+    """
+    return is_type((int, float)) >> IntLikedUnit(eps)

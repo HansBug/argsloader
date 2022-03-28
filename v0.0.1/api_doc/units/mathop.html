@@ -1,0 +1,1827 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.mathop &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.units.numeric" href="numeric.html" />
+    <link rel="prev" title="argsloader.units.func" href="func.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/one_vs_one/index.html">Demo of One vs One Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">argsloader.units.build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">argsloader.units.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.mathop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#abs">abs_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inv">inv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#invert">invert</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pos">pos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#neg">neg</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#not">not_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add">add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#plus">plus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sub">sub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minus">minus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mul">mul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matmul">matmul</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#truediv">truediv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#floordiv">floordiv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mod">mod</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pow">pow_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lshift">lshift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rshift">rshift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#and">and_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#or">or_</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#band">band</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bor">bor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bxor">bxor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eq">eq</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ne">ne</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ge">ge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gt">gt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#le">le</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lt">lt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="numeric.html">argsloader.units.numeric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operator.html">argsloader.units.operator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">argsloader.units.resource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="status.html">argsloader.units.status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html">argsloader.units.string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html">argsloader.units.structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type.html">argsloader.units.type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">argsloader.units.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.units</a> &raquo;</li>
+        
+      <li>argsloader.units.mathop</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/units/mathop.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.units.mathop">
+<span id="argsloader-units-mathop"></span><h1>argsloader.units.mathop<a class="headerlink" href="#module-argsloader.units.mathop" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abs">
+<span id="argsloader-units-mathop-abs"></span><h2>abs_<a class="headerlink" href="#abs" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.abs_">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">abs_</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.abs_" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the abs unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Abs operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">abs_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">abs_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">abs_</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">abs_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="inv">
+<span id="argsloader-units-mathop-inv"></span><h2>inv<a class="headerlink" href="#inv" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.inv">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">inv</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.inv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the invert unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Invert operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">invert</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">invert</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">invert</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">invert</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="invert">
+<span id="argsloader-units-mathop-invert"></span><h2>invert<a class="headerlink" href="#invert" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.invert">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">invert</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.invert" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the invert unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Invert operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">invert</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">invert</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">invert</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">invert</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">-1</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pos">
+<span id="argsloader-units-mathop-pos"></span><h2>pos<a class="headerlink" href="#pos" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.pos">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">pos</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.pos" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the pos unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pos operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">pos</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">pos</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">pos</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">pos</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="neg">
+<span id="argsloader-units-mathop-neg"></span><h2>neg<a class="headerlink" href="#neg" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.neg">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">neg</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.neg" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the neg unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Neg operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">neg</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">neg</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">-10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">neg</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">neg</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">-10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="not">
+<span id="argsloader-units-mathop-not"></span><h2>not_<a class="headerlink" href="#not" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.not_">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">not_</code><span class="sig-paren">(</span><em class="sig-param">v1=&lt;SingletonMark 'math_op_self'&gt;</em><span class="sig-paren">)</span> &#x2192; _UnaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.not_" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:s</dt><dd><p>Get the not unary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v1</strong> – First value, default means the <a class="reference internal" href="utils.html#argsloader.units.utils.keep" title="argsloader.units.utils.keep"><code class="xref py py-func docutils literal notranslate"><span class="pre">argsloader.units.utils.keep()</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Not operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">not_</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">not_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Inner nested usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">not_</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Prefix usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">not_</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="add">
+<span id="argsloader-units-mathop-add"></span><h2>add<a class="headerlink" href="#add" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.add">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.add" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the add binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Add operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 + 3</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 + 3 + (23 * 2)</span>
+<span class="go">72</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 + 23</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 + 3</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="plus">
+<span id="argsloader-units-mathop-plus"></span><h2>plus<a class="headerlink" href="#plus" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.plus">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">plus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.plus" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the add binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Add operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 + 3</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 + 3 + (23 * 2)</span>
+<span class="go">72</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 + 23</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 + 3</span>
+<span class="go">26</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="sub">
+<span id="argsloader-units-mathop-sub"></span><h2>sub<a class="headerlink" href="#sub" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.sub">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">sub</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.sub" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the sub binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sub operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">sub</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">sub</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 - 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">sub</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 - 23</span>
+<span class="go">-20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">sub</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 - 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="minus">
+<span id="argsloader-units-mathop-minus"></span><h2>minus<a class="headerlink" href="#minus" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.minus">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">minus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.minus" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the sub binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Sub operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">sub</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">sub</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 - 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">sub</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 - 23</span>
+<span class="go">-20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">sub</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 - 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="mul">
+<span id="argsloader-units-mathop-mul"></span><h2>mul<a class="headerlink" href="#mul" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.mul">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">mul</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.mul" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the mul binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mul operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">mul</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 * 3</span>
+<span class="go">69</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mul</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 * 3 * (23 * 2)</span>
+<span class="go">3174</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">mul</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 * 23</span>
+<span class="go">69</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 * 3</span>
+<span class="go">69</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="matmul">
+<span id="argsloader-units-mathop-matmul"></span><h2>matmul<a class="headerlink" href="#matmul" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.matmul">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">matmul</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.matmul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Similar to <a class="reference internal" href="#argsloader.units.mathop.mul" title="argsloader.units.mathop.mul"><code class="xref py py-func docutils literal notranslate"><span class="pre">mul()</span></code></a>, it can be used when matrices are multiplied together.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="truediv">
+<span id="argsloader-units-mathop-truediv"></span><h2>truediv<a class="headerlink" href="#truediv" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.truediv">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">truediv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.truediv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the truediv binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Truediv operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">truediv</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">truediv</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 / 3</span>
+<span class="go">7.666666666666667</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">truediv</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 / 23</span>
+<span class="go">0.13043478260869565</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">truediv</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 / 3</span>
+<span class="go">7.666666666666667</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="floordiv">
+<span id="argsloader-units-mathop-floordiv"></span><h2>floordiv<a class="headerlink" href="#floordiv" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.floordiv">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">floordiv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.floordiv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the floordiv binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Floordiv operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">floordiv</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">floordiv</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 // 3</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">floordiv</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 // 23</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">floordiv</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 // 3</span>
+<span class="go">7</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="mod">
+<span id="argsloader-units-mathop-mod"></span><h2>mod<a class="headerlink" href="#mod" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.mod">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">mod</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.mod" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the mod binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mod operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">mod</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 % 3</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">mod</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 % 23</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">mod</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 % 3</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="pow">
+<span id="argsloader-units-mathop-pow"></span><h2>pow_<a class="headerlink" href="#pow" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.pow_">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">pow_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.pow_" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the pow binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pow operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">pow_</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">pow_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 ** 3</span>
+<span class="go">12167</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">pow_</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 ** 23</span>
+<span class="go">94143178827</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">pow_</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 ** 3</span>
+<span class="go">12167</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="lshift">
+<span id="argsloader-units-mathop-lshift"></span><h2>lshift<a class="headerlink" href="#lshift" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.lshift">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">lshift</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.lshift" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the lshift binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lshift operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">lshift</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">lshift</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &lt;&lt; 3</span>
+<span class="go">184</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">lshift</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 &lt;&lt; 23</span>
+<span class="go">25165824</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">lshift</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &lt;&lt; 3</span>
+<span class="go">184</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="rshift">
+<span id="argsloader-units-mathop-rshift"></span><h2>rshift<a class="headerlink" href="#rshift" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.rshift">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">rshift</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.rshift" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the rshift binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Rshift operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">rshift</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">rshift</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &gt;&gt; 3</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">rshift</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 &gt;&gt; 23</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">rshift</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &gt;&gt; 3</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="and">
+<span id="argsloader-units-mathop-and"></span><h2>and_<a class="headerlink" href="#and" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.and_">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">and_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.and_" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the and binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>And operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">and_</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">and_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 and 3</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">and_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 and 3 and (23 * 2)</span>
+<span class="go">46</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">and_</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 and 23</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">and_</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 and 3</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="or">
+<span id="argsloader-units-mathop-or"></span><h2>or_<a class="headerlink" href="#or" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.or_">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">or_</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.or_" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the or binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Or operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">or_</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">or_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 or 3</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">or_</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 or 3 or (23 * 2)</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">or_</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 or 23</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">or_</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 or 3</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="band">
+<span id="argsloader-units-mathop-band"></span><h2>band<a class="headerlink" href="#band" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.band">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">band</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.band" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the band binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Band operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">band</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">band</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &amp; 3</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">band</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 &amp; 3 &amp; (23 * 2)</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">band</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 &amp; 23</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">band</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 &amp; 3</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="bor">
+<span id="argsloader-units-mathop-bor"></span><h2>bor<a class="headerlink" href="#bor" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.bor">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">bor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.bor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the bor binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bor operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">bor</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">bor</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 | 3</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">bor</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 | 3 | (23 * 2)</span>
+<span class="go">63</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">bor</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 | 23</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">bor</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 | 3</span>
+<span class="go">23</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="bxor">
+<span id="argsloader-units-mathop-bxor"></span><h2>bxor<a class="headerlink" href="#bxor" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.bxor">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">bxor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">vs</span></em><span class="sig-paren">)</span> &#x2192; _BinaryOpUnit<a class="headerlink" href="#argsloader.units.mathop.bxor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the bxor binary operation unit.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>vs</strong> – Other units, multiple units are supported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bxor operation unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">bxor</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">bxor</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 ^ 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Multiple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">bxor</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">3</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 23 ^ 3 ^ (23 * 2)</span>
+<span class="go">58</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix from usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">bxor</span><span class="o">.</span><span class="n">from_</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 3 ^ 23</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix by usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">bxor</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># 23 ^ 3</span>
+<span class="go">20</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="eq">
+<span id="argsloader-units-mathop-eq"></span><h2>eq<a class="headerlink" href="#eq" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.eq">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">eq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.eq" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the eq binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">==</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Eq comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">eq</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">eq</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 1 != 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 == 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 3 != 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">eq</span><span class="o">.</span><span class="n">to_</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 0 != 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) == 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) == 2</span>
+<span class="go">ValueParseError: Expected v1 == v2, but 4 != 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="ne">
+<span id="argsloader-units-mathop-ne"></span><h2>ne<a class="headerlink" href="#ne" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.ne">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ne</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ne" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the ne binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">!=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Ne comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">ne</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">ne</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 != 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 != 2</span>
+<span class="go">ValueParseError: Expected v1 != v2, but 2 == 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 != 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ne</span><span class="o">.</span><span class="n">to_</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) != 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) != 2</span>
+<span class="go">ValueParseError: Expected v1 != v2, but 2 == 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) != 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="ge">
+<span id="argsloader-units-mathop-ge"></span><h2>ge<a class="headerlink" href="#ge" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.ge">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">ge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.ge" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the ge binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&gt;=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Ge comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">ge</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">ge</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &gt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &gt;= v2, but 1 &lt; 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &gt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &gt;= 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">ge</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &gt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &gt;= v2, but 0 &lt; 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &gt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &gt;= 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="gt">
+<span id="argsloader-units-mathop-gt"></span><h2>gt<a class="headerlink" href="#gt" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.gt">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">gt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.gt" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the gt binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&gt;</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Gt comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">gt</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">gt</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 1 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 2 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &gt; 2</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">gt</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 0 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &gt; 2</span>
+<span class="go">ValueParseError: Expected v1 &gt; v2, but 2 &lt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &gt; 2</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="le">
+<span id="argsloader-units-mathop-le"></span><h2>le<a class="headerlink" href="#le" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.le">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">le</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.le" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the le binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&lt;=</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Le comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">le</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">le</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &lt;= 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &lt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &lt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &lt;= v2, but 3 &gt; 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">le</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &lt;= 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &lt;= 2</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &lt;= 2</span>
+<span class="go">ValueParseError: Expected v1 &lt;= v2, but 4 &gt; 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="lt">
+<span id="argsloader-units-mathop-lt"></span><h2>lt<a class="headerlink" href="#lt" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.mathop.lt">
+<code class="sig-prename descclassname">argsloader.units.mathop.</code><code class="sig-name descname">lt</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v1</span></em>, <em class="sig-param"><span class="n">v2</span></em><span class="sig-paren">)</span> &#x2192; _BinaryCheckUnit<a class="headerlink" href="#argsloader.units.mathop.lt" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the lt binary comparison check unit.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">v1</span> <span class="pre">&lt;</span> <span class="pre">v2</span></code> is satisfied, the inputted value will be returned without any change,             or <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v1</strong> – First unit.</p></li>
+<li><p><strong>v2</strong> – Second unit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lt comparison unit.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – When comparison failed, <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> will be raised.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple comparison check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">lt</span><span class="p">,</span> <span class="n">keep</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">lt</span><span class="p">(</span><span class="n">keep</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1 &lt; 2</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 2 &gt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># 3 &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 3 &gt;= 2 is found.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Suffix check</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">lt</span><span class="o">.</span><span class="n">than</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># (0 * 2) &lt; 2</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (1 * 2) &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 2 &gt;= 2 is found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># (2 * 2) &lt; 2</span>
+<span class="go">ValueParseError: Expected v1 &lt; v2, but 4 &gt;= 2 is found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="numeric.html" class="btn btn-neutral float-right" title="argsloader.units.numeric" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="func.html" class="btn btn-neutral float-left" title="argsloader.units.func" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.0.1
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="mathop.html">v0.0.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../main/api_doc/units/mathop.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

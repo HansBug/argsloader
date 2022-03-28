@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.operator &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="argsloader.units.resource" href="resource.html" />
+    <link rel="prev" title="argsloader.units.numeric" href="numeric.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../best_practice/one_vs_one/index.html">Demo of One vs One Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">argsloader.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">argsloader.units</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">argsloader.units.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build.html">argsloader.units.build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="common.html">argsloader.units.common</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html">argsloader.units.enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="func.html">argsloader.units.func</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mathop.html">argsloader.units.mathop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numeric.html">argsloader.units.numeric</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">argsloader.units.operator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pipeunit">PipeUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#operator">&gt;&gt; operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#andunit">AndUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argsloader-units-operator-cand">&amp; operator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#orunit">OrUnit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argsloader-units-operator-cor">| operator</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="resource.html">argsloader.units.resource</a></li>
+<li class="toctree-l2"><a class="reference internal" href="status.html">argsloader.units.status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html">argsloader.units.string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structure.html">argsloader.units.structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="type.html">argsloader.units.type</a></li>
+<li class="toctree-l2"><a class="reference internal" href="utils.html">argsloader.units.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">argsloader.units</a> &raquo;</li>
+        
+      <li>argsloader.units.operator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/units/operator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-argsloader.units.operator">
+<span id="argsloader-units-operator"></span><h1>argsloader.units.operator<a class="headerlink" href="#module-argsloader.units.operator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pipeunit">
+<h2>PipeUnit<a class="headerlink" href="#pipeunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.operator.PipeUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">PipeUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#PipeUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.PipeUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unit for pipe all the units together.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.operator.PipeUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#PipeUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.PipeUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.operator.PipeUnit" title="argsloader.units.operator.PipeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipeUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Unit to be piped together.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="operator">
+<span id="argsloader-units-operator-cpipe"></span><h2>&gt;&gt; operator<a class="headerlink" href="#operator" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.operator._cpipe">
+<code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">_cpipe</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.operator.PipeUnit" title="argsloader.units.operator.PipeUnit">argsloader.units.operator.PipeUnit</a><a class="reference internal" href="../../_modules/argsloader/units/operator.html#_cpipe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator._cpipe" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Pipe the units together, and latter one will receive the former one’s output result.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Units to be piped together, should be no less than 1 unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A piped unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple pipe usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">mul</span><span class="p">,</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># (x + 2) * 3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">36</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Use with a check unit</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span> <span class="c1"># x + 2, then check (3, 11]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (3, 11] expected but 12 found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The function <a class="reference internal" href="#argsloader.units.operator._cpipe" title="argsloader.units.operator._cpipe"><code class="xref py py-func docutils literal notranslate"><span class="pre">_cpipe()</span></code></a> is not recommended being used directly,         operator <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> should be used instead.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="andunit">
+<h2>AndUnit<a class="headerlink" href="#andunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.operator.AndUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">AndUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#AndUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.AndUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unit for chain all the units with <code class="docutils literal notranslate"><span class="pre">and</span></code> logic together.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.operator.AndUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#AndUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.AndUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.operator.PipeUnit" title="argsloader.units.operator.PipeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipeUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Unit to be chained with <code class="docutils literal notranslate"><span class="pre">and</span></code> logic together.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="argsloader-units-operator-cand">
+<span id="id1"></span><h2>&amp; operator<a class="headerlink" href="#argsloader-units-operator-cand" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.operator._cand">
+<code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">_cand</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.operator.AndUnit" title="argsloader.units.operator.AndUnit">argsloader.units.operator.AndUnit</a><a class="reference internal" href="../../_modules/argsloader/units/operator.html#_cand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator._cand" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Chain the units with <code class="docutils literal notranslate"><span class="pre">and</span></code> logic together, all the units will be checked together.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Units to be chained together, should be no less than 1 unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A and-chained unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If all the units in <a class="reference internal" href="#argsloader.units.operator.AndUnit" title="argsloader.units.operator.AndUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">AndUnit</span></code></a> have succeeded, the last unit’s result will be the final         result of this <a class="reference internal" href="#argsloader.units.operator.AndUnit" title="argsloader.units.operator.AndUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">AndUnit</span></code></a>. For example,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">add</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">12</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All the units in <a class="reference internal" href="#argsloader.units.operator.AndUnit" title="argsloader.units.operator.AndUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">AndUnit</span></code></a> will be executed, and all the errors will be displayed when         method <a class="reference internal" href="base.html#argsloader.units.base.BaseUnit.call" title="argsloader.units.base.BaseUnit.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argsloader.units.base.BaseUnit.call()</span></code></a> is called. For example,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="go">  &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (2 errors)</span>
+<span class="go">  &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The function <a class="reference internal" href="#argsloader.units.operator._cand" title="argsloader.units.operator._cand"><code class="xref py py-func docutils literal notranslate"><span class="pre">_cand()</span></code></a> is not recommended being used directly,         operator <code class="docutils literal notranslate"><span class="pre">&amp;</span></code> should be used instead.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="orunit">
+<h2>OrUnit<a class="headerlink" href="#orunit" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="argsloader.units.operator.OrUnit">
+<em class="property">class </em><code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">OrUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#OrUnit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.OrUnit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unit for chain all the units with <code class="docutils literal notranslate"><span class="pre">or</span></code> logic together.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="argsloader.units.operator.OrUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n"><a class="reference internal" href="base.html#argsloader.units.base.BaseUnit" title="argsloader.units.base.BaseUnit">argsloader.units.base.BaseUnit</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/operator.html#OrUnit.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator.OrUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#argsloader.units.operator.PipeUnit" title="argsloader.units.operator.PipeUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipeUnit</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Unit to be chained with <code class="docutils literal notranslate"><span class="pre">or</span></code> logic together.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="argsloader-units-operator-cor">
+<span id="id2"></span><h2>| operator<a class="headerlink" href="#argsloader-units-operator-cor" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.operator._cor">
+<code class="sig-prename descclassname">argsloader.units.operator.</code><code class="sig-name descname">_cor</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">units</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#argsloader.units.operator.OrUnit" title="argsloader.units.operator.OrUnit">argsloader.units.operator.OrUnit</a><a class="reference internal" href="../../_modules/argsloader/units/operator.html#_cor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.operator._cor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Chain the units with <code class="docutils literal notranslate"><span class="pre">or</span></code> logic together, all the units will be checked together.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>units</strong> – Units to be chained together, should be no less than 1 unit.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A or-chained unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">|</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The processing process will be terminated once one unit has succeeded, the latter units will be         skipped, and the success unit’s return value will be used as the final result. For example,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">mul</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="p">(</span><span class="n">mul</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">add</span><span class="o">.</span><span class="n">by</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># 10 * 3</span>
+<span class="go">30</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">6.0</span><span class="p">)</span>  <span class="c1"># 6.0 + 2</span>
+<span class="go">8.0</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If all the units in <a class="reference internal" href="#argsloader.units.operator.AndUnit" title="argsloader.units.operator.AndUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">AndUnit</span></code></a> have failed, all the errors will be displayed when         method <a class="reference internal" href="base.html#argsloader.units.base.BaseUnit.call" title="argsloader.units.base.BaseUnit.call"><code class="xref py py-meth docutils literal notranslate"><span class="pre">argsloader.units.base.BaseUnit.call()</span></code></a> is called. For example,</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">interval</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">|</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">argsloader.base.exception.MultipleParseError: (2 errors)</span>
+<span class="go">  &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="go">  &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The function <a class="reference internal" href="#argsloader.units.operator._cor" title="argsloader.units.operator._cor"><code class="xref py py-func docutils literal notranslate"><span class="pre">_cor()</span></code></a> is not recommended being used directly,         operator <code class="docutils literal notranslate"><span class="pre">|</span></code> should be used instead.</p>
+</div>
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="resource.html" class="btn btn-neutral float-right" title="argsloader.units.resource" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="numeric.html" class="btn btn-neutral float-left" title="argsloader.units.numeric" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.0.1
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="operator.html">v0.0.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../main/api_doc/units/operator.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

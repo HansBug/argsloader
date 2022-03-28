@@ -77,7 +77,7 @@ After the unit is built, it can be used to transform and validate the given valu
 
 ### Full Validation
 
-Sometimes, there may be multiple errors in the given value, but if you just use the `__call__` method, only the first error will be raised.
+Sometimes, there may be multiple errors in the given value, but if you directly call corresponding loader (i.e. call the pre-defined `__call__` method), only the first error will be raised.
 
 ```python
 from argsloader.units import is_type, interval

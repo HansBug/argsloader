@@ -21,6 +21,14 @@
 
 Configuration Parsing and Management Based on [chainloader](https://github.com/HansBug/chainloader).
 
+The argsloader library's main goal is to extract and change configuration data before implementing it using its computational mechanism:
+
+* Reusability of local configuration modules
+
+* Scalability and composition of configuration components
+
+* Constructing complicated configuration data validation quickly
+
 
 ## Installation
 
@@ -69,7 +77,44 @@ After the unit is built, it can be used to transform and validate the given valu
 
 ### Full Validation
 
-Sometimes, there may be multiple errors in the given value, you can use method `call` to show them all.
+Sometimes, there may be multiple errors in the given value, but if you just use the `__call__` method, only the first error will be raised.
+
+```python
+from argsloader.units import is_type, interval
+
+if __name__ == '__main__':
+    in_ = is_type(int) & interval.LR(0, 10)  # int within [0, 10]
+    print(in_(1))  # OK
+    print(in_(10))  # OK
+    print(in_(11.2))  # not an int, not in [0, 10] neither
+```
+
+The output should be
+
+```
+1
+10
+Traceback (most recent call last):
+  File "test_main.py", line 7, in <module>
+    print(in_(11.2))  # not an int, not in [0, 10] neither
+  File "/home/hansbug/projects/argsloader/argsloader/units/base.py", line 237, in __call__
+    return self.call(v, 'FIRST')
+  File "/home/hansbug/projects/argsloader/argsloader/units/base.py", line 249, in call
+    return self._process(PValue(v, ())).act(err_mode)
+  File "/home/hansbug/projects/argsloader/argsloader/base/result.py", line 264, in act
+    raise self._first_error()
+  File "/home/hansbug/projects/argsloader/argsloader/units/build.py", line 80, in _easy_process
+    pres = self._transform(v, pvalues)
+  File "/home/hansbug/projects/argsloader/argsloader/units/build.py", line 105, in _transform
+    v.value, nested_map(lambda x: x.value, pres)
+  File "/home/hansbug/projects/argsloader/argsloader/units/type.py", line 43, in _calculate
+    raise TypeError(f'Value type not match - {_tname(type_)} expected but {_tname(type(v))} found.')
+TypeParseError: Value type not match - int expected but float found.
+```
+
+
+
+To resolve this problem, you can use method `call` to show them all.
 
 ```python
 from argsloader.units import is_type, interval
@@ -90,9 +135,9 @@ The output should be
 Traceback (most recent call last):
   File "test_main.py", line 7, in <module>
     print(in_.call(11.2))
-  File "/home/hansbug/sensetime-projects/argsloader/argsloader/units/base.py", line 249, in call
+  File "/home/hansbug/projects/argsloader/argsloader/units/base.py", line 249, in call
     return self._process(PValue(v, ())).act(err_mode)
-  File "/home/hansbug/sensetime-projects/argsloader/argsloader/base/result.py", line 268, in act
+  File "/home/hansbug/projects/argsloader/argsloader/base/result.py", line 268, in act
     raise self._full_error()
 argsloader.base.exception.MultipleParseError: (2 errors)
   <root>: TypeParseError: Value type not match - int expected but float found.
@@ -100,6 +145,13 @@ argsloader.base.exception.MultipleParseError: (2 errors)
 ```
 
 
+
+For further examples and best practice, see
+
+* [Cheat Sheet of Units (still under developing)](https://hansbug.github.io/argsloader/main/tutorials/cheat_sheet/index.html)
+* [Example of C51 Configuration](https://hansbug.github.io/argsloader/main/best_practice/c51/index.html)
+* [Example of Subprocess Env Manager](https://hansbug.github.io/argsloader/main/best_practice/subprocess_env_manager/index.html)
+* [Example of One vs One Configuration](https://hansbug.github.io/argsloader/main/best_practice/one_vs_one/index.html)
 
 ## Contributing
 

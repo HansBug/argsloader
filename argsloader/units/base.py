@@ -126,6 +126,11 @@ class UncompletedUnit(_UnitModel):
         """
         return self._fail()
 
+    @property
+    def optional(self) -> 'BaseUnit':
+        from .common import optional
+        return optional(self)
+
     @classmethod
     def _cname(cls):
         return f'(X){cls.__name__}'

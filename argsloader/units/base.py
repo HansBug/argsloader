@@ -2,6 +2,8 @@ from functools import lru_cache
 from operator import itemgetter
 from textwrap import indent
 
+from hbutils.collection import nested_walk
+
 from ..base import ParseResult, wrap_exception, ParseError, ResultStatus, PValue
 from ..utils import format_tree
 
@@ -230,6 +232,34 @@ class BaseUnit(_UnitModel):
         :return: Skipped parse result object.
         """
         return UnitProcessProxy(self, v).skipped()
+
+    @classmethod
+    def _iter_errors(cls, children, iter_):
+        """
+        Error iterator function for the given unit class.
+        All the errors here will be used when ``ErrMode.ALL`` is used.
+
+        :param children: Children data, may be structured.
+        :param iter_: Iterator function from :class:`argsloader.base.result.ParseResult`.
+        :return: Iterator of errors.
+        """
+        for _, v in nested_walk(children):
+            if isinstance(v, ParseResult):
+                yield from iter_(v)
+
+    @classmethod
+    def _iter_first_error(cls, children, iter_):
+        """
+        Error iterator function for the given unit class.
+        The first error will be used when ``ErrMode.FIRST`` is used.
+
+        :param children: Children data, may be structured.
+        :param iter_: Iterator function from :class:`argsloader.base.result.ParseResult`.
+        :return: Iterator of errors.
+        """
+        for _, v in nested_walk(children):
+            if isinstance(v, ParseResult):
+                yield from iter_(v)
 
     def __call__(self, v):
         """

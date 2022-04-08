@@ -102,7 +102,7 @@ class TestUnitsCommon:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, ValueError)
-        assert err.args == ("Value expected to be 'yes' or 'no', but 'y e s' found.",)
+        assert err.args == ("Value expected to be 'Accept' or 'Deny', but 'y e s' found.",)
 
     def test_onoff(self):
         u = onoff()

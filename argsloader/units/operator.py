@@ -206,6 +206,15 @@ class OrUnit(_IChainUnit):
         else:
             return proxy.error(None, rs)
 
+    @classmethod
+    def _iter_first_error(cls, children, iter_):
+        """
+        Special override implement for :class:`OrUnit`.
+        """
+        if children:
+            for c in reversed(children):
+                yield from iter_(c)
+
 
 # noinspection PyProtectedMember
 def _cor(*units) -> OrUnit:

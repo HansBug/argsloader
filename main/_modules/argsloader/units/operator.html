@@ -375,7 +375,16 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">invalid</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">firstv</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_iter_first_error</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">iter_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Special override implement for :class:`OrUnit`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">iter_</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
 
 
 <span class="c1"># noinspection PyProtectedMember</span>
@@ -469,8 +478,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/order/index.html">dev/order</a></dd>
                         <dd><a href="operator.html">main</a></dd>
+                        <dd><a href="../../../../dev/optional/index.html">dev/optional</a></dd>
                 </dl>
         </div>
     </div>

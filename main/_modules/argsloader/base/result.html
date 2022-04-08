@@ -169,11 +169,10 @@
     
     
   <h1>Source code for argsloader.base.result</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">unique</span>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">unique</span><span class="p">,</span> <span class="n">auto</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">enum_tools</span>
-<span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_walk</span>
 <span class="kn">from</span> <span class="nn">hbutils.model</span> <span class="kn">import</span> <span class="n">get_repr_info</span><span class="p">,</span> <span class="n">int_enum_loads</span><span class="p">,</span> <span class="n">raw_support</span><span class="p">,</span> <span class="n">asitems</span><span class="p">,</span> <span class="n">hasheq</span>
 
 <span class="kn">from</span> <span class="nn">.exception</span> <span class="kn">import</span> <span class="n">ParseError</span><span class="p">,</span> <span class="n">MultipleParseError</span><span class="p">,</span> <span class="n">SkippedParseError</span>
@@ -301,9 +300,8 @@
 <span class="nd">@int_enum_loads</span><span class="p">(</span><span class="n">name_preprocess</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
 <span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">ErrMode</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="n">FIRST</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># doc: Raise first error.</span>
-    <span class="n">TRY_ALL</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># doc: Try raise all errors, if only one error is found, raise it.</span>
-    <span class="n">ALL</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># doc: Raise all errors, with :class:`argsloader.base.exception.MultipleParseError`.</span></div>
+    <span class="n">FIRST</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># doc: Raise first error.</span>
+    <span class="n">ALL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>  <span class="c1"># doc: Raise all errors, with :class:`argsloader.base.exception.MultipleParseError`.</span></div>
 
 
 <div class="viewcode-block" id="ParseResult"><a class="viewcode-back" href="../../../api_doc/base/result.html#argsloader.base.result.ParseResult">[docs]</a><span class="k">class</span> <span class="nc">ParseResult</span><span class="p">(</span><span class="n">_BaseChildProxy</span><span class="p">):</span>
@@ -384,29 +382,34 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error</span>
 
     <span class="k">def</span> <span class="nf">_iter_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PValue</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate errors.</span>
+<span class="sd">        All the errors here will be used when ``ErrMode.ALL`` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__status</span><span class="o">.</span><span class="n">processed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
 
-            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nested_walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">):</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ParseResult</span><span class="p">):</span>
-                    <span class="k">yield from</span> <span class="n">v</span><span class="o">.</span><span class="n">_iter_errors</span><span class="p">()</span>
+            <span class="c1"># noinspection PyProtectedMember</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">_iter_errors</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">,</span> <span class="n">ParseResult</span><span class="o">.</span><span class="n">_iter_errors</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_iter_first_error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">PValue</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate errors in order.</span>
+<span class="sd">        The first error will be used when ``ErrMode.FIRST`` is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__status</span><span class="o">.</span><span class="n">processed</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
+
+            <span class="c1"># noinspection PyProtectedMember</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span><span class="o">.</span><span class="n">_iter_first_error</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_children</span><span class="p">,</span> <span class="n">ParseResult</span><span class="o">.</span><span class="n">_iter_first_error</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_first_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">pval</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_errors</span><span class="p">())</span>
+            <span class="n">pval</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_first_error</span><span class="p">())</span>
             <span class="k">return</span> <span class="n">error</span>
         <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-            <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># pragma: no cover</span>
-
-    <span class="k">def</span> <span class="nf">_try_full_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">all_errors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iter_errors</span><span class="p">())</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">MultipleParseError</span><span class="p">(</span><span class="n">all_errors</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_errors</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">pval</span><span class="p">,</span> <span class="n">error</span> <span class="o">=</span> <span class="n">all_errors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">error</span>
-        <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># pragma: no cover</span>
 
     <span class="k">def</span> <span class="nf">_full_error</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -433,8 +436,6 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">err_mode</span> <span class="o">==</span> <span class="n">ErrMode</span><span class="o">.</span><span class="n">FIRST</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_first_error</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">err_mode</span> <span class="o">==</span> <span class="n">ErrMode</span><span class="o">.</span><span class="n">TRY_ALL</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_try_full_error</span><span class="p">()</span>
                 <span class="k">elif</span> <span class="n">err_mode</span> <span class="o">==</span> <span class="n">ErrMode</span><span class="o">.</span><span class="n">ALL</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">_full_error</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -480,8 +481,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/order/index.html">dev/order</a></dd>
                         <dd><a href="result.html">main</a></dd>
+                        <dd><a href="../../../../dev/optional/index.html">dev/optional</a></dd>
                 </dl>
         </div>
     </div>

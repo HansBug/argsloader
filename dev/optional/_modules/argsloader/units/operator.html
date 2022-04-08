@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>argsloader.units.operator &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/c51/index.html">Demo of C51 Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/one_vs_one/index.html">Demo of One vs One Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/base_learner/index.html">Demo of BaseLearner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../best_practice/ddpg/index.html">Demo of DDPG Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>argsloader.units.operator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for argsloader.units.operator</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Iterator</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="n">UnitProcessProxy</span><span class="p">,</span> <span class="n">_to_unit</span>
+<span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ParseResult</span><span class="p">,</span> <span class="n">PValue</span>
+
+
+<span class="k">class</span> <span class="nc">_IChainUnit</span><span class="p">(</span><span class="n">BaseUnit</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">BaseUnit</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_to_unit</span><span class="p">,</span> <span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">_rinfo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">))],</span> <span class="p">[(</span><span class="n">i</span><span class="p">,</span> <span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">u</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_chain_iter</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">BaseUnit</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">units</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">cls</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_chain_iter</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">_units</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">units</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="n">units</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                <span class="k">yield</span> <span class="n">unit</span>
+
+
+<div class="viewcode-block" id="PipeUnit"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.PipeUnit">[docs]</a><span class="k">class</span> <span class="nc">PipeUnit</span><span class="p">(</span><span class="n">_IChainUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for pipe all the units together.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PipeUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.PipeUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`PipeUnit`.</span>
+
+<span class="sd">        :param units: Unit to be piped together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_IChainUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">curv</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">v</span><span class="p">,</span> <span class="p">[],</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">unit</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+                <span class="n">curres</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">curv</span><span class="p">)</span>
+                <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curres</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">curres</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                    <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">curv</span> <span class="o">=</span> <span class="n">curres</span><span class="o">.</span><span class="n">result</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">_skip</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">curv</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyProtectedMember</span>
+<div class="viewcode-block" id="_cpipe"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator._cpipe">[docs]</a><span class="k">def</span> <span class="nf">_cpipe</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PipeUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Pipe the units together, and latter one will receive the former one&#39;s output result.</span>
+
+<span class="sd">    :param units: Units to be piped together, should be no less than 1 unit.</span>
+<span class="sd">    :return: A piped unit.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        - Simple pipe usage</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import add, mul, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = add.by(2) &gt;&gt; mul.by(3)  # (x + 2) * 3</span>
+<span class="sd">        &gt;&gt;&gt; u(3)</span>
+<span class="sd">        15</span>
+<span class="sd">        &gt;&gt;&gt; u(10)</span>
+<span class="sd">        36</span>
+
+<span class="sd">        - Use with a check unit</span>
+
+<span class="sd">        &gt;&gt;&gt; u = add.by(2) &gt;&gt; interval.lR(3, 11) # x + 2, then check (3, 11]</span>
+<span class="sd">        &gt;&gt;&gt; u(3)</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; u(10)</span>
+<span class="sd">        ValueParseError: Value not in interval - (3, 11] expected but 12 found.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        The function :func:`_cpipe` is not recommended being used directly, \</span>
+<span class="sd">        operator ``&gt;&gt;`` should be used instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">PipeUnit</span><span class="p">(</span><span class="o">*</span><span class="n">PipeUnit</span><span class="o">.</span><span class="n">_chain_iter</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="AndUnit"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.AndUnit">[docs]</a><span class="k">class</span> <span class="nc">AndUnit</span><span class="p">(</span><span class="n">_IChainUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for chain all the units with ``and`` logic together.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AndUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.AndUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`PipeUnit`.</span>
+
+<span class="sd">        :param units: Unit to be chained with ``and`` logic together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_IChainUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">lastv</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">:</span>
+            <span class="n">curres</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curres</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">curres</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                <span class="n">valid</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">lastv</span> <span class="o">=</span> <span class="n">curres</span><span class="o">.</span><span class="n">result</span>
+
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">lastv</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyProtectedMember</span>
+<div class="viewcode-block" id="_cand"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator._cand">[docs]</a><span class="k">def</span> <span class="nf">_cand</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AndUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Chain the units with ``and`` logic together, all the units will be checked together.</span>
+
+<span class="sd">    :param units: Units to be chained together, should be no less than 1 unit.</span>
+<span class="sd">    :return: A and-chained unit.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int) &amp; interval.lR(3, 10)</span>
+<span class="sd">        &gt;&gt;&gt; u(3)</span>
+<span class="sd">        ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
+<span class="sd">        &gt;&gt;&gt; u(10)</span>
+<span class="sd">        10</span>
+<span class="sd">        &gt;&gt;&gt; u(3.0)  # the first error will be raised</span>
+<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        If all the units in :class:`AndUnit` have succeeded, the last unit&#39;s result will be the final \</span>
+<span class="sd">        result of this :class:`AndUnit`. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval, add</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int) &amp; (add.by(2) &gt;&gt; interval.lR(5, 12))</span>
+<span class="sd">        &gt;&gt;&gt; u(10)</span>
+<span class="sd">        12</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        All the units in :class:`AndUnit` will be executed, and all the errors will be displayed when \</span>
+<span class="sd">        method :meth:`argsloader.units.base.BaseUnit.call` is called. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int) &amp; interval.lR(3, 10)</span>
+<span class="sd">        &gt;&gt;&gt; u.call(3)</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (1 error)</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
+<span class="sd">        &gt;&gt;&gt; u.call(10)</span>
+<span class="sd">        10</span>
+<span class="sd">        &gt;&gt;&gt; u.call(3.0)</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (2 errors)</span>
+<span class="sd">          &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        The function :func:`_cand` is not recommended being used directly, \</span>
+<span class="sd">        operator ``&amp;`` should be used instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">AndUnit</span><span class="p">(</span><span class="o">*</span><span class="n">AndUnit</span><span class="o">.</span><span class="n">_chain_iter</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="OrUnit"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.OrUnit">[docs]</a><span class="k">class</span> <span class="nc">OrUnit</span><span class="p">(</span><span class="n">_IChainUnit</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Unit for chain all the units with ``or`` logic together.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="OrUnit.__init__"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator.OrUnit.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">:</span> <span class="n">BaseUnit</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`PipeUnit`.</span>
+
+<span class="sd">        :param units: Unit to be chained with ``or`` logic together.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_IChainUnit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">units</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_easy_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">PValue</span><span class="p">,</span> <span class="n">proxy</span><span class="p">:</span> <span class="n">UnitProcessProxy</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParseResult</span><span class="p">:</span>
+        <span class="n">firstv</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="n">invalid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[],</span> <span class="kc">True</span>
+        <span class="k">for</span> <span class="n">unit</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+                <span class="n">curres</span> <span class="o">=</span> <span class="n">unit</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curres</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">curres</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+                    <span class="n">invalid</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">firstv</span> <span class="o">=</span> <span class="n">curres</span><span class="o">.</span><span class="n">result</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unit</span><span class="o">.</span><span class="n">_skip</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="n">firstv</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">proxy</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_iter_first_error</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">iter_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Special override implement for :class:`OrUnit`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">children</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">iter_</span><span class="p">(</span><span class="n">c</span><span class="p">)</span></div>
+
+
+<span class="c1"># noinspection PyProtectedMember</span>
+<div class="viewcode-block" id="_cor"><a class="viewcode-back" href="../../../api_doc/units/operator.html#argsloader.units.operator._cor">[docs]</a><span class="k">def</span> <span class="nf">_cor</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrUnit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Chain the units with ``or`` logic together, all the units will be checked together.</span>
+
+<span class="sd">    :param units: Units to be chained together, should be no less than 1 unit.</span>
+<span class="sd">    :return: A or-chained unit.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int) | interval.lR(3, 10)</span>
+<span class="sd">        &gt;&gt;&gt; u(3)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; u(10.0)</span>
+<span class="sd">        10.0</span>
+<span class="sd">        &gt;&gt;&gt; u(3.0)  # the last error will be raised</span>
+<span class="sd">        ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The processing process will be terminated once one unit has succeeded, the latter units will be \</span>
+<span class="sd">        skipped, and the success unit&#39;s return value will be used as the final result. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval, add, mul</span>
+<span class="sd">        &gt;&gt;&gt; u = (mul.by(3) &gt;&gt; is_type(int)) | (add.by(2) &gt;&gt; interval.lR(5, 12))</span>
+<span class="sd">        &gt;&gt;&gt; u(10)  # 10 * 3</span>
+<span class="sd">        30</span>
+<span class="sd">        &gt;&gt;&gt; u(6.0)  # 6.0 + 2</span>
+<span class="sd">        8.0</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        If all the units in :class:`AndUnit` have failed, all the errors will be displayed when \</span>
+<span class="sd">        method :meth:`argsloader.units.base.BaseUnit.call` is called. For example,</span>
+
+<span class="sd">        &gt;&gt;&gt; from argsloader.units import is_type, interval</span>
+<span class="sd">        &gt;&gt;&gt; u = is_type(int) | interval.lR(3, 10)</span>
+<span class="sd">        &gt;&gt;&gt; u.call(3)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; u.call(10)</span>
+<span class="sd">        10</span>
+<span class="sd">        &gt;&gt;&gt; u.call(3.0)</span>
+<span class="sd">        argsloader.base.exception.MultipleParseError: (2 errors)</span>
+<span class="sd">          &lt;root&gt;: TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">          &lt;root&gt;: ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        The function :func:`_cor` is not recommended being used directly, \</span>
+<span class="sd">        operator ``|`` should be used instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">OrUnit</span><span class="p">(</span><span class="o">*</span><span class="n">OrUnit</span><span class="o">.</span><span class="n">_chain_iter</span><span class="p">(</span><span class="o">*</span><span class="n">units</span><span class="p">))</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/optional
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                        <dd><a href="operator.html">dev/optional</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

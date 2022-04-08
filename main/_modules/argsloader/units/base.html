@@ -173,6 +173,8 @@
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">itemgetter</span>
 <span class="kn">from</span> <span class="nn">textwrap</span> <span class="kn">import</span> <span class="n">indent</span>
 
+<span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_walk</span>
+
 <span class="kn">from</span> <span class="nn">..base</span> <span class="kn">import</span> <span class="n">ParseResult</span><span class="p">,</span> <span class="n">wrap_exception</span><span class="p">,</span> <span class="n">ParseError</span><span class="p">,</span> <span class="n">ResultStatus</span><span class="p">,</span> <span class="n">PValue</span>
 <span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">format_tree</span>
 
@@ -397,6 +399,34 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">UnitProcessProxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">skipped</span><span class="p">()</span></div>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_iter_errors</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">iter_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Error iterator function for the given unit class.</span>
+<span class="sd">        All the errors here will be used when ``ErrMode.ALL`` is used.</span>
+
+<span class="sd">        :param children: Children data, may be structured.</span>
+<span class="sd">        :param iter_: Iterator function from :class:`argsloader.base.result.ParseResult`.</span>
+<span class="sd">        :return: Iterator of errors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nested_walk</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ParseResult</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">iter_</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_iter_first_error</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">children</span><span class="p">,</span> <span class="n">iter_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Error iterator function for the given unit class.</span>
+<span class="sd">        The first error will be used when ``ErrMode.FIRST`` is used.</span>
+
+<span class="sd">        :param children: Children data, may be structured.</span>
+<span class="sd">        :param iter_: Iterator function from :class:`argsloader.base.result.ParseResult`.</span>
+<span class="sd">        :return: Iterator of errors.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nested_walk</span><span class="p">(</span><span class="n">children</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ParseResult</span><span class="p">):</span>
+                <span class="k">yield from</span> <span class="n">iter_</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
 <div class="viewcode-block" id="BaseUnit.__call__"><a class="viewcode-back" href="../../../api_doc/units/base.html#argsloader.units.base.BaseUnit.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate with given value.</span>
@@ -600,8 +630,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/order/index.html">dev/order</a></dd>
                         <dd><a href="base.html">main</a></dd>
+                        <dd><a href="../../../../dev/optional/index.html">dev/optional</a></dd>
                 </dl>
         </div>
     </div>

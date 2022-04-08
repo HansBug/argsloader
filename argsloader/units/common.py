@@ -79,8 +79,13 @@ def optional(u):
         >>> from argsloader.units import optional, is_type
         >>> u = optional(is_type(int))
         >>> u(12)
+        12
+        >>> u(None)
+        None
         >>> u(12.0)
+        TypeParseError: Value type not match - int expected but float found.
         >>> u('abc')
+        TypeParseError: Value type not match - int expected but str found.
     """
     return none() | _to_unit(u)
 

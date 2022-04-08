@@ -63,6 +63,10 @@ class _UnitModel(_ITreeFormat):
     def validity(self) -> 'BaseUnit':
         raise NotImplementedError  # pragma: no cover
 
+    @property
+    def optional(self) -> 'BaseUnit':
+        raise NotImplementedError  # pragma: no cover
+
 
 class UncompletedUnit(_UnitModel):
     """
@@ -121,7 +125,7 @@ class UncompletedUnit(_UnitModel):
         """
         Validity of this unit.
 
-        See: :func:`argsloader.units.utils.validity`.
+        See :func:`argsloader.units.utils.validity`.
 
         .. warning::
             This will fail due to its incompleteness.
@@ -130,8 +134,15 @@ class UncompletedUnit(_UnitModel):
 
     @property
     def optional(self) -> 'BaseUnit':
-        from .common import optional
-        return optional(self)
+        """
+        Optional unit of this unit.
+
+        See :func:`argsloader.units.common.optional`.
+
+        .. warning::
+            This will fail due to its incompleteness.
+        """
+        return self._fail()
 
     @classmethod
     def _cname(cls):
@@ -297,10 +308,20 @@ class BaseUnit(_UnitModel):
         """
         Validity of this unit.
 
-        See: :func:`argsloader.units.utils.validity`.
+        See :func:`argsloader.units.utils.validity`.
         """
         from .utils import validity
         return validity(self)
+
+    @property
+    def optional(self) -> 'BaseUnit':
+        """
+        Optional unit of this unit.
+
+        See :func:`argsloader.units.common.optional`.
+        """
+        from .common import optional
+        return optional(self)
 
     def __rshift__(self, other) -> 'BaseUnit':
         """

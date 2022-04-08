@@ -10,14 +10,14 @@ UncompletedUnit
 -----------------------
 
 .. autoclass:: UncompletedUnit
-    :members: _fail, __call__, call, log, validity
+    :members: _fail, __call__, call, log, validity, optional
 
 
 BaseUnit
 -----------------------
 
 .. autoclass:: BaseUnit
-    :members: __call__, call, log, validity, _process, _skip, _easy_process, __rshift__, __rrshift__, __and__, __rand__, __or__, __ror__
+    :members: __call__, call, log, validity, optional, _process, _skip, _easy_process, __rshift__, __rrshift__, __and__, __rand__, __or__, __ror__
 
 
 UnitProcessProxy

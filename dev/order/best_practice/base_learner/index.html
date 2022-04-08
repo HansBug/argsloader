@@ -1,0 +1,325 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Demo of BaseLearner &mdash; argsloader 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Demo of DDPG Configuration" href="../ddpg/index.html" />
+    <link rel="prev" title="Demo of One vs One Configuration" href="../one_vs_one/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> argsloader
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/quick_start/index.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/cheat_sheet/index.html">Cheat Sheet of Units</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Best Practice</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../c51/index.html">Demo of C51 Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../one_vs_one/index.html">Demo of One vs One Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Demo of BaseLearner</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ddpg/index.html">Demo of DDPG Configuration</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/base/index.html">argsloader.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/config/index.html">argsloader.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/units/index.html">argsloader.units</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_doc/utils/index.html">argsloader.utils</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">argsloader</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>Demo of BaseLearner</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/best_practice/base_learner/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="demo-of-baselearner">
+<h1>Demo of BaseLearner<a class="headerlink" href="#demo-of-baselearner" title="Permalink to this headline">¶</a></h1>
+<p>This is <a class="reference external" href="https://github.com/opendilab/DI-engine/blob/69abe5cfb50be3014f3fe3c2fc0f666df4d218bf/ding/worker/learner/base_learner.py#L35">the original code</a>.</p>
+<p>This is the version based on <code class="docutils literal notranslate"><span class="pre">argsloader</span></code>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">non_negative</span><span class="p">,</span> <span class="n">regexp</span><span class="p">,</span> <span class="n">positive</span>
+
+
+<span class="n">config_loader</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+    <span class="n">train_iterations</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e9</span><span class="p">),</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+    <span class="n">dataloader</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">num_workers</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">non_negative</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span> <span class="p">),</span>
+    <span class="n">log_policy</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
+    <span class="c1"># --- Hooks ---</span>
+    <span class="n">hook</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">load_ckpt_before_run</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">regexp</span><span class="p">(</span><span class="s1">&#39;^$|.*\.pth\.tar$&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="o">.</span><span class="n">check</span><span class="p">),</span>
+        <span class="n">log_show_after_iter</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+        <span class="n">save_ckpt_after_iter</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+        <span class="n">save_ckpt_after_run</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
+    <span class="p">),</span>
+<span class="p">))</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">config_loader</span><span class="o">.</span><span class="n">call</span><span class="p">({</span>
+        <span class="s1">&#39;train_iterations&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e10</span><span class="p">),</span>
+        <span class="s1">&#39;dataloader&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;num_workers&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;hook&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;load_ckpt_before_run&#39;</span> <span class="p">:</span> <span class="s1">&#39;./expert/ckpt/ckpt_best.pth.tar&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;log_show_after_iter&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The result should be</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{   &#39;dataloader&#39;: {&#39;num_workers&#39;: 1},
+    &#39;hook&#39;: {   &#39;load_ckpt_before_run&#39;: &#39;./expert/ckpt/ckpt_best.pth.tar&#39;,
+                &#39;log_show_after_iter&#39;: 1000,
+                &#39;save_ckpt_after_iter&#39;: 10000,
+                &#39;save_ckpt_after_run&#39;: True},
+    &#39;log_policy&#39;: True,
+    &#39;train_iterations&#39;: 10000000000}
+</pre></div>
+</td></tr></table></div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ddpg/index.html" class="btn btn-neutral float-right" title="Demo of DDPG Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../one_vs_one/index.html" class="btn btn-neutral float-left" title="Demo of One vs One Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/order
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="index.html">dev/order</a></dd>
+                        <dd><a href="../../../../main/best_practice/base_learner/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,8 +1,7 @@
-from enum import IntEnum, unique
+from enum import IntEnum, unique, auto
 from typing import Optional, Union, Iterator, Tuple
 
 import enum_tools
-from hbutils.collection import nested_walk
 from hbutils.model import get_repr_info, int_enum_loads, raw_support, asitems, hasheq
 
 from .exception import ParseError, MultipleParseError, SkippedParseError
@@ -130,9 +129,8 @@ class ResultStatus(IntEnum):
 @int_enum_loads(name_preprocess=str.upper)
 @unique
 class ErrMode(IntEnum):
-    FIRST = 1  # doc: Raise first error.
-    TRY_ALL = 2  # doc: Try raise all errors, if only one error is found, raise it.
-    ALL = 3  # doc: Raise all errors, with :class:`argsloader.base.exception.MultipleParseError`.
+    FIRST = auto()  # doc: Raise first error.
+    ALL = auto()  # doc: Raise all errors, with :class:`argsloader.base.exception.MultipleParseError`.
 
 
 class ParseResult(_BaseChildProxy):
@@ -213,29 +211,34 @@ class ParseResult(_BaseChildProxy):
         return self.__error
 
     def _iter_errors(self) -> Iterator[Tuple[PValue, ParseError]]:
+        """
+        Iterate errors.
+        All the errors here will be used when ``ErrMode.ALL`` is used.
+        """
         if self.__status.processed and not self.__status.valid:
             if self.error is not None:
                 yield self.input, self.error
 
-            for _, v in nested_walk(self._children):
-                if isinstance(v, ParseResult):
-                    yield from v._iter_errors()
+            # noinspection PyProtectedMember
+            yield from self.unit._iter_errors(self._children, ParseResult._iter_errors)
+
+    def _iter_first_error(self) -> Iterator[Tuple[PValue, ParseError]]:
+        """
+        Iterate errors in order.
+        The first error will be used when ``ErrMode.FIRST`` is used.
+        """
+        if self.__status.processed and not self.__status.valid:
+            if self.error is not None:
+                yield self.input, self.error
+
+            # noinspection PyProtectedMember
+            yield from self.unit._iter_first_error(self._children, ParseResult._iter_first_error)
 
     def _first_error(self):
         try:
-            pval, error = next(self._iter_errors())
+            pval, error = next(self._iter_first_error())
             return error
         except StopIteration:  # pragma: no cover
-            return None  # pragma: no cover
-
-    def _try_full_error(self):
-        all_errors = list(self._iter_errors())
-        if len(all_errors) > 1:
-            return MultipleParseError(all_errors)
-        elif len(all_errors) == 1:
-            pval, error = all_errors[0]
-            return error
-        else:
             return None  # pragma: no cover
 
     def _full_error(self):
@@ -262,8 +265,6 @@ class ParseResult(_BaseChildProxy):
             else:
                 if err_mode == ErrMode.FIRST:
                     raise self._first_error()
-                elif err_mode == ErrMode.TRY_ALL:
-                    raise self._try_full_error()
                 elif err_mode == ErrMode.ALL:
                     raise self._full_error()
         else:

@@ -318,7 +318,7 @@
 <span class="go">ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="go">10</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>  <span class="c1"># the first error will be raised</span>
 <span class="go">TypeParseError: Value type not match - int expected but float found.</span>
 </pre></div>
 </div>
@@ -403,10 +403,10 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">|</span> <span class="n">interval</span><span class="o">.</span><span class="n">lR</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">3</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="go">10</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
-<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="go">10.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>  <span class="c1"># the last error will be raised</span>
+<span class="go">ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
 </pre></div>
 </div>
 </dd>
@@ -497,7 +497,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/optional/api_doc/units/operator.html">dev/optional</a></dd>
                         <dd><a href="operator.html">main</a></dd>
                 </dl>
         </div>

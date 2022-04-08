@@ -311,7 +311,7 @@
 <span class="sd">        ValueParseError: Value not in interval - (3, 10] expected but 3 found.</span>
 <span class="sd">        &gt;&gt;&gt; u(10)</span>
 <span class="sd">        10</span>
-<span class="sd">        &gt;&gt;&gt; u(3.0)</span>
+<span class="sd">        &gt;&gt;&gt; u(3.0)  # the first error will be raised</span>
 <span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
 
 <span class="sd">    .. note::</span>
@@ -401,10 +401,10 @@
 <span class="sd">        &gt;&gt;&gt; u = is_type(int) | interval.lR(3, 10)</span>
 <span class="sd">        &gt;&gt;&gt; u(3)</span>
 <span class="sd">        3</span>
-<span class="sd">        &gt;&gt;&gt; u(10)</span>
-<span class="sd">        10</span>
-<span class="sd">        &gt;&gt;&gt; u(3.0)</span>
-<span class="sd">        TypeParseError: Value type not match - int expected but float found.</span>
+<span class="sd">        &gt;&gt;&gt; u(10.0)</span>
+<span class="sd">        10.0</span>
+<span class="sd">        &gt;&gt;&gt; u(3.0)  # the last error will be raised</span>
+<span class="sd">        ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        The processing process will be terminated once one unit has succeeded, the latter units will be \</span>
@@ -478,7 +478,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/optional/index.html">dev/optional</a></dd>
                         <dd><a href="operator.html">main</a></dd>
                 </dl>
         </div>

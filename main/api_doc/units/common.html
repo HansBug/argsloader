@@ -111,6 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#isunit">IsUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#is">is_</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#none">none</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional">optional</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yesnounit">YesNoUnit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#yesno">yesno</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#onoff">onoff</a></li>
@@ -269,6 +270,38 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># None is None</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 2 is None</span>
 <span class="go">ValueParseError: Value expected to be None(0x7fb77990a110), but 2(0x7fb7799546e0) found.</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="optional">
+<h2>optional<a class="headerlink" href="#optional" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="argsloader.units.common.optional">
+<code class="sig-prename descclassname">argsloader.units.common.</code><code class="sig-name descname">optional</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/argsloader/units/common.html#optional"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#argsloader.units.common.optional" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given value is none or satisfy the given <code class="docutils literal notranslate"><span class="pre">u</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>u</strong> – Original unit.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">optional</span><span class="p">,</span> <span class="n">is_type</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span> <span class="o">=</span> <span class="n">optional</span><span class="p">(</span><span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="go">12</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="mf">12.0</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but float found.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">u</span><span class="p">(</span><span class="s1">&#39;abc&#39;</span><span class="p">)</span>
+<span class="go">TypeParseError: Value type not match - int expected but str found.</span>
 </pre></div>
 </div>
 </dd>
@@ -452,7 +485,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/optional/api_doc/units/common.html">dev/optional</a></dd>
                         <dd><a href="common.html">main</a></dd>
                 </dl>
         </div>

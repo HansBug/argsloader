@@ -2,6 +2,7 @@ import pytest
 
 from argsloader.base import ResultStatus, ParseResult, PValue, wrap_exception, raw_res, SkippedParseError, ParseError, \
     MultipleParseError, ParseResultChildProxy
+from argsloader.units import is_type
 
 
 @pytest.mark.unittest
@@ -19,15 +20,16 @@ class TestBaseResult:
         assert not ResultStatus.ERROR.valid
 
     def test_parse_result_common(self):
-        r = ParseResult(PValue(233, ()), 'this is unit', 'success', PValue(234, ()), None)
+        unit_ = is_type(int)
+        r = ParseResult(PValue(233, ()), unit_, 'success', PValue(234, ()), None)
         assert r.input == PValue(233, ())
-        assert r.unit == 'this is unit'
+        assert r.unit is unit_
         assert r.status == ResultStatus.SUCCESS
         assert r.result == PValue(234, ())
         assert r.error is None
 
     def test_parse_result_repr(self):
-        val_, unit_ = PValue(233, ()), 'this is unit'
+        val_, unit_ = PValue(233, ()), is_type(int)
 
         r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
         assert repr(r) == '<ParseResult input: <PValue value: 233, position: ()>, ' \
@@ -41,7 +43,7 @@ class TestBaseResult:
         assert repr(r) == '<ParseResult status: SKIPPED>'
 
     def test_parse_result_children(self):
-        val_, unit_ = PValue(233, ()), 'this is unit'
+        val_, unit_ = PValue(233, ()), is_type(int)
 
         r = ParseResult(val_, unit_, 'success', PValue(234, ()), None, [
             {'a': 1, 'b': raw_res([3, 4]), 'c': {'x': 1}},
@@ -79,7 +81,7 @@ class TestBaseResult:
             _ = ParseResult(val_, unit_, 'success', PValue(234, ()), None, 'dsfj')
 
     def test_parse_result_no_children(self):
-        val_, unit_ = PValue(233, ()), 'this is unit'
+        val_, unit_ = PValue(233, ()), is_type(int)
         r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
         with pytest.raises(KeyError):
             _ = r[0]
@@ -88,7 +90,7 @@ class TestBaseResult:
         assert sorted(r.items()) == []
 
     def test_parse_result_act_1(self):
-        val_, unit_ = PValue(233, ()), 'this is unit'
+        val_, unit_ = PValue(233, ()), is_type(int)
 
         r = ParseResult(val_, unit_, 'success', PValue(234, ()), None)
         assert r.act('all') == 234
@@ -100,11 +102,6 @@ class TestBaseResult:
         r = ParseResult(val_, unit_, 'error', None, wrap_exception(ValueError('errmsg'), unit_, val_))
         with pytest.raises(ParseError) as ei:
             r.act('first')
-        assert isinstance(ei.value, ValueError)
-        assert ei.value.message == 'errmsg'
-
-        with pytest.raises(ParseError) as ei:
-            r.act('try_all')
         assert isinstance(ei.value, ValueError)
         assert ei.value.message == 'errmsg'
 
@@ -121,11 +118,6 @@ class TestBaseResult:
             r2.act('first')
         assert isinstance(ei.value, ValueError)
         assert ei.value.message == 'errmsg'
-
-        with pytest.raises(MultipleParseError) as ei:
-            r2.act('try_all')
-        err: MultipleParseError = ei.value
-        assert len(err.items) == 2
 
         with pytest.raises(MultipleParseError) as ei:
             r2.act('all')

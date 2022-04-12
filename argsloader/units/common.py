@@ -2,7 +2,7 @@ from typing import Mapping, Any
 
 from inflection import underscore
 
-from .base import UnitProcessProxy
+from .base import UnitProcessProxy, _to_unit
 from .build import CalculateUnit, BaseUnit
 from ..base import PValue, ParseResult
 
@@ -66,6 +66,28 @@ def none():
         ValueParseError: Value expected to be None(0x7fb77990a110), but 2(0x7fb7799546e0) found.
     """
     return is_(None)
+
+
+def optional(u):
+    """
+    Overview:
+        Check if the given value is none or satisfy the given ``u``.
+
+    :param u: Original unit.
+
+    Examples::
+        >>> from argsloader.units import optional, is_type
+        >>> u = optional(is_type(int))
+        >>> u(12)
+        12
+        >>> u(None)
+        None
+        >>> u(12.0)
+        TypeParseError: Value type not match - int expected but float found.
+        >>> u('abc')
+        TypeParseError: Value type not match - int expected but str found.
+    """
+    return none() | _to_unit(u)
 
 
 def _string_formal(s: str):

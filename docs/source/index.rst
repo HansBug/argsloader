@@ -21,6 +21,7 @@ configuration file's structure and their versions.
 
     best_practice/c51/index
     best_practice/sql/index
+    best_practice/rainbow/index
     best_practice/subprocess_env_manager/index
     best_practice/one_vs_one/index
     best_practice/base_learner/index

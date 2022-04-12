@@ -39,6 +39,8 @@ class TestUnitsBase:
         with pytest.raises(SyntaxError):
             _ = UUnit().validity
         with pytest.raises(SyntaxError):
+            _ = UUnit().optional
+        with pytest.raises(SyntaxError):
             # noinspection PyUnresolvedReferences
             _ = UUnit() >> raw(2)
 
@@ -81,7 +83,6 @@ class TestUnitsBase:
         assert ures.input == PValue(3, ())
         assert ures.result == PValue(5, ())
         assert ures['x'] == 2
-
         with pytest.raises(ParseError) as ei:
             u(-10)
         err = ei.value
@@ -94,6 +95,18 @@ class TestUnitsBase:
         assert u.call(3) is True
         assert u(-10) is False
         assert u.call(-10) is False
+
+        u = MyUnit(2).optional
+        assert u(3) == 5
+        assert u.call(3) == 5
+        assert u(None) is None
+        assert u.call(None) is None
+        with pytest.raises(ParseError) as ei:
+            u(-10)
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, ValueError)
+        assert err.args == ('verr', -10)
 
         u = MyUnit(-2) >> MyUnit(-5)
         assert u(10) == 3

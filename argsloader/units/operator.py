@@ -140,7 +140,7 @@ def _cand(*units) -> AndUnit:
         ValueParseError: Value not in interval - (3, 10] expected but 3 found.
         >>> u(10)
         10
-        >>> u(3.0)
+        >>> u(3.0)  # the first error will be raised
         TypeParseError: Value type not match - int expected but float found.
 
     .. note::
@@ -206,6 +206,15 @@ class OrUnit(_IChainUnit):
         else:
             return proxy.error(None, rs)
 
+    @classmethod
+    def _iter_first_error(cls, children, iter_):
+        """
+        Special override implement for :class:`OrUnit`.
+        """
+        if children:
+            for c in reversed(children):
+                yield from iter_(c)
+
 
 # noinspection PyProtectedMember
 def _cor(*units) -> OrUnit:
@@ -221,10 +230,10 @@ def _cor(*units) -> OrUnit:
         >>> u = is_type(int) | interval.lR(3, 10)
         >>> u(3)
         3
-        >>> u(10)
-        10
-        >>> u(3.0)
-        TypeParseError: Value type not match - int expected but float found.
+        >>> u(10.0)
+        10.0
+        >>> u(3.0)  # the last error will be raised
+        ValueParseError: Value not in interval - (3, 10] expected but 3.0 found.
 
     .. note::
         The processing process will be terminated once one unit has succeeded, the latter units will be \

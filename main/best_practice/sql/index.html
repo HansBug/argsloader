@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Demo of C51 Configuration &mdash; argsloader 0.0.1 documentation</title>
+  <title>Demo of SQL Configuration &mdash; argsloader 0.0.1 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Demo of SQL Configuration" href="../sql/index.html" />
-    <link rel="prev" title="Cheat Sheet of Units" href="../../tutorials/cheat_sheet/index.html" /> 
+    <link rel="next" title="Demo of DDPG Configuration" href="../rainbow/index.html" />
+    <link rel="prev" title="Demo of C51 Configuration" href="../c51/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -94,8 +94,8 @@
 </ul>
 <p class="caption"><span class="caption-text">Best Practice</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Demo of C51 Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../sql/index.html">Demo of SQL Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../c51/index.html">Demo of C51 Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Demo of SQL Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../rainbow/index.html">Demo of DDPG Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../subprocess_env_manager/index.html">Demo of Subprocess Env Manager</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../one_vs_one/index.html">Demo of One vs One Configuration</a></li>
@@ -153,13 +153,13 @@
     
       <li><a href="../../index.html">Docs</a> &raquo;</li>
         
-      <li>Demo of C51 Configuration</li>
+      <li>Demo of SQL Configuration</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/best_practice/c51/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/best_practice/sql/index.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,9 +174,9 @@
             
     
     
-  <div class="section" id="demo-of-c51-configuration">
-<h1>Demo of C51 Configuration<a class="headerlink" href="#demo-of-c51-configuration" title="Permalink to this headline">¶</a></h1>
-<p>This is <a class="reference external" href="https://github.com/opendilab/DI-engine/blob/main/ding/policy/c51.py#L52">the original code</a>.</p>
+  <div class="section" id="demo-of-sql-configuration">
+<h1>Demo of SQL Configuration<a class="headerlink" href="#demo-of-sql-configuration" title="Permalink to this headline">¶</a></h1>
+<p>This is <a class="reference external" href="https://github.com/opendilab/DI-engine/blob/main/ding/policy/sql.py#L24">the original code</a>.</p>
 <p>This is the version based on <code class="docutils literal notranslate"><span class="pre">argsloader</span></code>.</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
 <span class="normal">  2</span>
@@ -279,11 +279,7 @@
 <span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
-<span class="normal">102</span>
-<span class="normal">103</span>
-<span class="normal">104</span>
-<span class="normal">105</span>
-<span class="normal">106</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="normal">102</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
 <span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">cfree</span><span class="p">,</span> <span class="n">getitem_</span><span class="p">,</span> <span class="n">onoff</span><span class="p">,</span> <span class="n">nature</span><span class="p">,</span> \
@@ -292,7 +288,7 @@
 
 <span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">PolicyType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="n">C51</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">SQL</span> <span class="o">=</span> <span class="mi">1</span>
 
 
 <span class="nd">@unique</span>
@@ -308,9 +304,10 @@
     <span class="n">EPISODE</span> <span class="o">=</span> <span class="mi">3</span>
 
 
+
 <span class="n">config_loader</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
     <span class="c1"># (str) RL policy register name (refer to function &quot;POLICY_REGISTRY&quot;).</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;c51&#39;</span><span class="p">,</span> <span class="n">enum</span><span class="p">(</span><span class="n">PolicyType</span><span class="p">)),</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="n">enum</span><span class="p">(</span><span class="n">PolicyType</span><span class="p">)),</span>
     <span class="c1"># (bool) Whether to use cuda for network.</span>
     <span class="n">cuda</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()</span> <span class="o">|</span> <span class="n">onoff</span><span class="p">()),</span>
     <span class="c1"># (bool) Whether the RL algorithm is on-policy or off-policy.</span>
@@ -321,11 +318,6 @@
     <span class="n">discount_factor</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
     <span class="c1"># (int) N-step reward for target q_value estimation</span>
     <span class="n">nstep</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">nature</span><span class="p">()),</span>
-    <span class="n">model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="n">v_min</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
-        <span class="n">v_max</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
-        <span class="n">n_atom</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
-    <span class="p">),</span>
     <span class="n">learn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="c1"># (bool) Whether to use multi gpu</span>
         <span class="n">multi_gpu</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
@@ -342,11 +334,12 @@
         <span class="n">target_update_freq</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
         <span class="c1"># (bool) Whether ignore done(usually for max step termination env)</span>
         <span class="n">ignore_done</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
+        <span class="n">alpha</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">number</span><span class="p">()),</span>
     <span class="p">),</span>
     <span class="c1"># collect_mode config</span>
     <span class="n">collect</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="c1"># (int) Only one of [n_sample, n_step, n_episode] should be set</span>
-        <span class="c1"># n_sample=8,</span>
+        <span class="c1"># n_sample=8, collect 8 samples and put them in collector</span>
         <span class="n">collect_element_type</span><span class="o">=</span><span class="n">cfree</span><span class="p">(</span>
             <span class="p">(</span>
                     <span class="p">(</span><span class="n">getitem_</span><span class="p">(</span><span class="s1">&#39;n_sample&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="s1">&#39;sample&#39;</span><span class="p">)</span> <span class="o">|</span>
@@ -385,7 +378,6 @@
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">pprint</span><span class="p">(</span><span class="n">config_loader</span><span class="o">.</span><span class="n">call</span><span class="p">({</span>
         <span class="s1">&#39;collect&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;n_episode&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
         <span class="p">},</span>
         <span class="s1">&#39;cuda&#39;</span><span class="p">:</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span>
     <span class="p">}),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
@@ -413,19 +405,19 @@
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{   &#39;collect&#39;: {   &#39;collect_element_type&#39;: &lt;CollectElementType.EPISODE: 3&gt;,
-                   &#39;collect_number&#39;: 13,
+<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>{   &#39;collect&#39;: {   &#39;collect_element_type&#39;: &lt;CollectElementType.SAMPLE: 2&gt;,
+                   &#39;collect_number&#39;: 8,
                    &#39;unroll_len&#39;: 1},
     &#39;cuda&#39;: True,
     &#39;discount_factor&#39;: 0.97,
     &#39;eval&#39;: {},
-    &#39;learn&#39;: {   &#39;batch_size&#39;: 64,
+    &#39;learn&#39;: {   &#39;alpha&#39;: 0.1,
+                 &#39;batch_size&#39;: 64,
                  &#39;ignore_done&#39;: False,
                  &#39;learning_rate&#39;: 0.001,
                  &#39;multi_gpu&#39;: False,
                  &#39;target_update_freq&#39;: 100,
                  &#39;update_per_collect&#39;: 3},
-    &#39;model&#39;: {&#39;n_atom&#39;: 51, &#39;v_max&#39;: 10, &#39;v_min&#39;: -10},
     &#39;nstep&#39;: 1,
     &#39;on_policy&#39;: False,
     &#39;other&#39;: {   &#39;eps&#39;: {   &#39;decay&#39;: 10000,
@@ -434,7 +426,7 @@
                             &#39;type&#39;: &lt;DecayType.EXP: 1&gt;},
                  &#39;replay_buffer&#39;: {&#39;replay_buffer_size&#39;: 10000}},
     &#39;priority&#39;: False,
-    &#39;type&#39;: &lt;PolicyType.C51: 1&gt;}
+    &#39;type&#39;: &lt;PolicyType.SQL: 1&gt;}
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -448,10 +440,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../sql/index.html" class="btn btn-neutral float-right" title="Demo of SQL Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../rainbow/index.html" class="btn btn-neutral float-right" title="Demo of DDPG Configuration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../../tutorials/cheat_sheet/index.html" class="btn btn-neutral float-left" title="Cheat Sheet of Units" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../c51/index.html" class="btn btn-neutral float-left" title="Demo of C51 Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -484,7 +476,7 @@
         <div class="rst-other-versions">
                 <dl>
                     <dt>Tags</dt>
-                        <dd><a href="../../../v0.0.1/best_practice/c51/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../v0.0.1/index.html">v0.0.1</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>

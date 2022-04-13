@@ -1,8 +1,7 @@
 from enum import Enum, unique
 from pprint import pprint
 
-from argsloader.units import cdict, enum, cvalue, yesno, number, is_type, cfree, getitem_, onoff, nature, \
-    positive, interval, none, optional
+from argsloader.units import cdict, enum, cvalue, yesno, number, onoff, positive, interval, optional
 
 
 @unique
@@ -67,7 +66,7 @@ config_loader = cdict(dict(
         adv_norm=cvalue(True, yesno()),
         value_norm=cvalue(True, yesno()),
         ppo_param_init=cvalue(True, yesno()),
-        grad_clip_type=cvalue('clip_norm',  optional(enum(GradClipType))),
+        grad_clip_type=cvalue('clip_norm', optional(enum(GradClipType))),
         grad_clip_value=cvalue(0.5, number()),
         ignore_done=cvalue(False, yesno()),
     ),
@@ -86,7 +85,6 @@ config_loader = cdict(dict(
     ),
     eval=dict(),
 ))
-
 
 if __name__ == '__main__':
     pprint(config_loader.call({

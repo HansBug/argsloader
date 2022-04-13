@@ -1,8 +1,6 @@
-import math
 from pprint import pprint
 
 from argsloader.units import cdict, cvalue, number, yesno, non_negative, regexp, positive
-
 
 config_loader = cdict(dict(
     train_iterations=cvalue(int(1e9), number() >> positive.int()),
@@ -24,7 +22,7 @@ if __name__ == '__main__':
             'num_workers': 1,
         },
         'hook': {
-            'load_ckpt_before_run' : './expert/ckpt/ckpt_best.pth.tar',
+            'load_ckpt_before_run': './expert/ckpt/ckpt_best.pth.tar',
             'log_show_after_iter': 1000,
         },
     }), indent=4)

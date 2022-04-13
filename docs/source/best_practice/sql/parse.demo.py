@@ -23,7 +23,6 @@ class CollectElementType(Enum):
     EPISODE = 3
 
 
-
 config_loader = cdict(dict(
     # (str) RL policy register name (refer to function "POLICY_REGISTRY").
     type=cvalue('sql', enum(PolicyType)),

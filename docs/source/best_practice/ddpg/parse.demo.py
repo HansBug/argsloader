@@ -8,10 +8,12 @@ from argsloader.units import cdict, cvalue, number, enum, yesno, onoff, positive
 class PolicyType(Enum):
     DDPG = 1
 
+
 @unique
 class ActionSpaceType(Enum):
     CONTINUOUS = 1
     HYBRID = 2
+
 
 config_loader = cdict(dict(
     # (str) RL policy register name (refer to function "POLICY_REGISTRY").

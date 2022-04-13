@@ -25,6 +25,12 @@ none
 .. autofunction:: none
 
 
+optional
+-------------------------
+
+.. autofunction:: optional
+
+
 YesNoUnit
 -------------------------
 

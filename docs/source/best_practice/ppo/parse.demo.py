@@ -2,7 +2,7 @@ from enum import Enum, unique
 from pprint import pprint
 
 from argsloader.units import cdict, enum, cvalue, yesno, number, is_type, cfree, getitem_, onoff, nature, \
-    positive, interval, none
+    positive, interval, none, optional
 
 
 @unique
@@ -67,7 +67,7 @@ config_loader = cdict(dict(
         adv_norm=cvalue(True, yesno()),
         value_norm=cvalue(True, yesno()),
         ppo_param_init=cvalue(True, yesno()),
-        grad_clip_type=cvalue('clip_norm', enum(GradClipType) | none()),
+        grad_clip_type=cvalue('clip_norm',  optional(enum(GradClipType))),
         grad_clip_value=cvalue(0.5, number()),
         ignore_done=cvalue(False, yesno()),
     ),

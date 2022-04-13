@@ -1,5 +1,5 @@
 from .base import raw
-from .common import is_, none, yesno, onoff
+from .common import is_, none, yesno, onoff, optional
 from .enum import enum, schoice
 from .func import proc, ufunc
 from .mathop import *

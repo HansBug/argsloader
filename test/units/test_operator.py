@@ -75,6 +75,8 @@ class TestUnitsOperator:
         err = ei.value
         assert isinstance(err, TypeError)
         assert isinstance(err, ParseError)
+        assert err.args == ('Value type not match - test.units.test_operator.B expected '
+                            'but test.units.test_operator.A found.',)
 
         o3 = B()
         with pytest.raises(ParseError) as ei:
@@ -83,6 +85,26 @@ class TestUnitsOperator:
         err = ei.value
         assert isinstance(err, TypeError)
         assert isinstance(err, ParseError)
+        assert err.args == ('Value type not match - test.units.test_operator.A expected '
+                            'but test.units.test_operator.B found.',)
+
+        with pytest.raises(ParseError) as ei:
+            _ = it(1)
+
+        err = ei.value
+        assert isinstance(err, TypeError)
+        assert isinstance(err, ParseError)
+        assert err.args == ('Value type not match - test.units.test_operator.A expected but int found.',)
+
+        with pytest.raises(MultipleParseError) as ei:
+            it.call(A(), 'all')
+        err = ei.value
+        assert len(err.items) == 1
+
+        with pytest.raises(MultipleParseError) as ei:
+            it.call(B(), 'all')
+        err = ei.value
+        assert len(err.items) == 1
 
         with pytest.raises(MultipleParseError) as ei:
             it.call(1, 'all')
@@ -116,6 +138,7 @@ class TestUnitsOperator:
         err = ei.value
         assert isinstance(err, TypeError)
         assert isinstance(err, ParseError)
+        assert err.args == ('Value type not match - float expected but str found.',)
 
         with pytest.raises(MultipleParseError) as ei:
             it.call('jksdflkdjs', 'all')

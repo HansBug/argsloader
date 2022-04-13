@@ -4,7 +4,7 @@ from textwrap import dedent
 import pytest
 
 from argsloader.base import ParseError
-from argsloader.units import is_, none, yesno, onoff
+from argsloader.units import is_, none, yesno, onoff, optional, is_type
 
 
 @pytest.mark.unittest
@@ -32,6 +32,18 @@ class TestUnitsCommon:
         earg0, = err.args
         assert len(err.args) == 1
         assert re.fullmatch('Value expected to be None\\(0x[\\da-f]+\\), but 2\\(0x[\\da-f]+\\) found\\.', earg0)
+
+    def test_optional(self):
+        u = optional(is_type(int))
+        assert u(None) is None
+        assert u(12) == 12
+
+        with pytest.raises(ParseError) as ei:
+            _ = u('str')
+        err = ei.value
+        assert isinstance(err, ParseError)
+        assert isinstance(err, TypeError)
+        assert err.args == ('Value type not match - int expected but str found.',)
 
     def test_yesno(self):
         u = yesno()
@@ -102,7 +114,7 @@ class TestUnitsCommon:
         err = ei.value
         assert isinstance(err, ParseError)
         assert isinstance(err, ValueError)
-        assert err.args == ("Value expected to be 'yes' or 'no', but 'y e s' found.",)
+        assert err.args == ("Value expected to be 'Accept' or 'Deny', but 'y e s' found.",)
 
     def test_onoff(self):
         u = onoff()

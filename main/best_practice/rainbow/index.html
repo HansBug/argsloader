@@ -291,29 +291,10 @@
 <span class="normal">110</span>
 <span class="normal">111</span>
 <span class="normal">112</span>
-<span class="normal">113</span>
-<span class="normal">114</span>
-<span class="normal">115</span>
-<span class="normal">116</span>
-<span class="normal">117</span>
-<span class="normal">118</span>
-<span class="normal">119</span>
-<span class="normal">120</span>
-<span class="normal">121</span>
-<span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
-<span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">onoff</span><span class="p">,</span> <span class="n">positive</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">is_type</span><span class="p">,</span> <span class="n">nature</span>
+<span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">onoff</span><span class="p">,</span> <span class="n">positive</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">is_type</span>
 
 
 <span class="nd">@unique</span>
@@ -338,8 +319,7 @@
         <span class="c1"># (str) RL policy register name (refer to function &quot;POLICY_REGISTRY&quot;).</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span> <span class="n">enum</span><span class="p">(</span><span class="n">PolicyType</span><span class="p">)),</span>
         <span class="c1"># (bool) Whether to use cuda for network.</span>
-        <span class="n">cuda</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span>
-                    <span class="n">yesno</span><span class="p">()</span> <span class="o">|</span> <span class="n">onoff</span><span class="p">()),</span>
+        <span class="n">cuda</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()</span> <span class="o">|</span> <span class="n">onoff</span><span class="p">()),</span>
         <span class="c1"># (bool) Whether the RL algorithm is on-policy or off-policy.</span>
         <span class="n">on_policy</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
         <span class="c1"># (bool) Whether use priority(priority sample, IS weight, update priority)</span>
@@ -351,41 +331,32 @@
         <span class="n">model</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
             <span class="c1"># (float) Value of the smallest atom in the support set.</span>
             <span class="c1"># Default to -10.0.</span>
-            <span class="n">v_min</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span>
-                         <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
+            <span class="n">v_min</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
             <span class="c1"># (float) Value of the smallest atom in the support set.</span>
             <span class="c1"># Default to 10.0.</span>
-            <span class="n">v_max</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span>
-                         <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
+            <span class="n">v_max</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)),</span>
             <span class="c1"># (int) Number of atoms in the support set of the</span>
             <span class="c1"># value distribution. Default to 51.</span>
-            <span class="n">n_atom</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span>
-                          <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+            <span class="n">n_atom</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">51</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
         <span class="p">),</span>
         <span class="c1"># (float) Reward&#39;s future discount factor, aka. gamma.</span>
-        <span class="n">discount_factor</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span>
-                               <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+        <span class="n">discount_factor</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
         <span class="c1"># (int) N-step reward for target q_value estimation</span>
-        <span class="n">nstep</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span>
-                     <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+        <span class="n">nstep</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
         <span class="n">learn</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
             <span class="c1"># (bool) Whether to use multi gpu</span>
             <span class="n">multi_gpu</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
             <span class="c1"># How many updates(iterations) to train after collector&#39;s one collection.</span>
             <span class="c1"># Bigger &quot;update_per_collect&quot; means bigger off-policy.</span>
             <span class="c1"># collect data -&gt; update policy-&gt; collect data -&gt; ...</span>
-            <span class="n">update_per_collect</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                                      <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
-            <span class="n">batch_size</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span>
-                              <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
-            <span class="n">learning_rate</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span>
-                                 <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+            <span class="n">update_per_collect</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+            <span class="n">learning_rate</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
             <span class="c1"># ==============================================================</span>
             <span class="c1"># The following configs are algorithm-specific</span>
             <span class="c1"># ==============================================================</span>
             <span class="c1"># (int) Frequence of target network update.</span>
-            <span class="n">target_update_freq</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span>
-                                      <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+            <span class="n">target_update_freq</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
             <span class="c1"># (bool) Whether ignore done(usually for max step termination env)</span>
             <span class="n">ignore_done</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">yesno</span><span class="p">()),</span>
         <span class="p">),</span>
@@ -394,8 +365,7 @@
             <span class="c1"># (int) Only one of [n_sample, n_episode] shoule be set</span>
             <span class="c1"># n_sample=cvalue(32, number() &gt;&gt; positive.int()),</span>
             <span class="c1"># (int) Cut trajectories into pieces with length &quot;unroll_len&quot;.</span>
-            <span class="n">unroll_len</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
-                              <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span> <span class="p">),</span>
+            <span class="n">unroll_len</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">())),</span>
         <span class="nb">eval</span><span class="o">=</span><span class="nb">dict</span><span class="p">(),</span>
         <span class="c1"># other config</span>
         <span class="n">other</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
@@ -404,29 +374,22 @@
                 <span class="c1"># (str) Decay type. Support [&#39;exp&#39;, &#39;linear&#39;].</span>
                 <span class="nb">type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;exp&#39;</span><span class="p">,</span> <span class="n">enum</span><span class="p">(</span><span class="n">EpsilonGreedyDecayType</span><span class="p">)),</span>
                 <span class="c1"># (float) End value for epsilon decay, in [0, 1]. It&#39;s equals to `end` because rainbow uses noisy net.</span>
-                <span class="n">start</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span>
-                             <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                <span class="n">start</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
                 <span class="c1"># (float) End value for epsilon decay, in [0, 1].</span>
-                <span class="n">end</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span>
-                           <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
                 <span class="c1"># (int) Env steps of epsilon decay.</span>
-                <span class="n">decay</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span>
-                             <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+                <span class="n">decay</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
             <span class="p">),</span>
             <span class="n">replay_buffer</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
                 <span class="c1"># (int) Max size of replay buffer.</span>
-                <span class="n">replay_buffer_size</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span>
-                                          <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
+                <span class="n">replay_buffer_size</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">positive</span><span class="o">.</span><span class="n">int</span><span class="p">()),</span>
                 <span class="c1"># (float) Prioritization exponent.</span>
-                <span class="n">alpha</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span>
-                             <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
                 <span class="c1"># (float) Importance sample soft coefficient.</span>
                 <span class="c1"># 0 means no correction, while 1 means full correction</span>
-                <span class="n">beta</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span>
-                            <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
+                <span class="n">beta</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">LR</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span>
                 <span class="c1"># (int) Anneal step for beta: 0 means no annealing. Defaults to 0</span>
-                <span class="n">anneal_step</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span>
-                                   <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
+                <span class="n">anneal_step</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="mi">100000</span><span class="p">,</span> <span class="n">number</span><span class="p">()</span> <span class="o">&gt;&gt;</span> <span class="n">is_type</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">interval</span><span class="o">.</span><span class="n">L</span><span class="p">(</span><span class="mi">0</span><span class="p">)),</span>
                 <span class="n">cfg_type</span><span class="o">=</span><span class="n">cvalue</span><span class="p">(</span><span class="s1">&#39;NaiveReplayBufferDict&#39;</span><span class="p">,</span>
                                 <span class="n">enum</span><span class="p">(</span><span class="n">ReplayBufferType</span><span class="p">)),</span>
             <span class="p">)),</span>
@@ -440,8 +403,7 @@
             <span class="p">},</span>
         <span class="p">},</span>
         <span class="s1">&#39;cuda&#39;</span><span class="p">:</span> <span class="s1">&#39;on&#39;</span><span class="p">,</span>
-    <span class="p">}),</span>
-           <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="p">}),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The result should be</p>

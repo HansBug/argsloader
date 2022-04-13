@@ -289,7 +289,9 @@
 <span class="normal">108</span>
 <span class="normal">109</span>
 <span class="normal">110</span>
-<span class="normal">111</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">unique</span>
 <span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
 
 <span class="kn">from</span> <span class="nn">argsloader.units</span> <span class="kn">import</span> <span class="n">cdict</span><span class="p">,</span> <span class="n">cvalue</span><span class="p">,</span> <span class="n">number</span><span class="p">,</span> <span class="n">enum</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">onoff</span><span class="p">,</span> <span class="n">positive</span><span class="p">,</span> <span class="n">interval</span>
@@ -299,10 +301,12 @@
 <span class="k">class</span> <span class="nc">PolicyType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">DDPG</span> <span class="o">=</span> <span class="mi">1</span>
 
+
 <span class="nd">@unique</span>
 <span class="k">class</span> <span class="nc">ActionSpaceType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">CONTINUOUS</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">HYBRID</span> <span class="o">=</span> <span class="mi">2</span>
+
 
 <span class="n">config_loader</span> <span class="o">=</span> <span class="n">cdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
     <span class="c1"># (str) RL policy register name (refer to function &quot;POLICY_REGISTRY&quot;).</span>
